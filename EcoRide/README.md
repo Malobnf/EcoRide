@@ -1,2 +1,0 @@
-# EcoRide
-Projet ECF studi
