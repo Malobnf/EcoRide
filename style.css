@@ -1,7 +1,105 @@
+html, body {
+  margin: 0;
+  border: 0;
+}
+
 body {
   font-family: "Josefin Sans", sans-serif;
 }
 
 header {
+  padding: 15px;
   background-color: #52B788;
+  text-align: center;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 35% 10% 10% 10% 35%;
+}
+
+footer {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  padding: 30px;
+  background-color: #52B788;
+  text-align: center;
+  font-size: 20px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100px 50px 200px;
+  padding: 100px;
+  font-size: 30px;
+  text-align: center;
+  align-items: center;
+  background-image: url("/Images/bg-img.jpg");
+}
+
+.input {
+  font-size: 30px;
+  border: black, solid;
+  border-radius: 25px;
+  padding: 5px 5px 5px 15px;
+  width: 500px;
+  height: 45px;  
+}
+
+.icone_menu {
+  grid-column: 1/2;
+  width: 60px;
+  height: 60px;
+}
+
+.about_us {
+  padding: 1%;
+  font-size: 40px;
+}
+
+.about_us p {
+  font-size: 30px;
+}
+
+.statistics {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  text-align: center;
+  margin-bottom: 200px;
+}
+
+h3 {
+  font-size: 40px;
+  text-align: center;
+}
+
+.statistics div {
+  font-size: 30px;
+}
+
+.statistics p {
+  font-size: 20px;
+}
+
+#co2 {
+  text-align: right;
+}
+
+#menu_burger {
+  text-align: left;
+}
+
+#profil {
+  text-align: right;
+}
+
+#trajets {
+  grid-column: 1;
+}
+
+#co {
+  grid-column: 2;
+}
+
+#argent {
+  grid-column: 3;
 }
