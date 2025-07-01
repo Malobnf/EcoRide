@@ -1,6 +1,20 @@
+/* CSS GÉNÉRAL */
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html, body {
   margin: 0;
   border: 0;
+}
+
+a {
+  text-decoration: none;
+  color: black;
 }
 
 body {
@@ -8,12 +22,13 @@ body {
 }
 
 header {
-  padding: 15px;
-  background-color: #52B788;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  display: grid;
-  grid-template-columns: 35% 10% 10% 10% 35%;
+  background-color: #52B788;
+  padding: 10px 20px;
+  color: white;
+  position: relative;
 }
 
 footer {
@@ -84,10 +99,6 @@ h3 {
   text-align: right;
 }
 
-#menu_burger {
-  text-align: left;
-}
-
 #profil {
   text-align: right;
 }
@@ -104,25 +115,69 @@ h3 {
   grid-column: 3;
 }
 
+/* HEADER */
+
+.marque {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.profile-icone {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: white;
+  cursor: pointer;
+}
+
+
+/* PAGE PROFIL */
+
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #ccc;
+  background-image: url('https://via.placeholder.com/150');
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 20px;
+}
 
 
 
 
 
 
+/* MENU DÉROULANT */
 
+.side-menu {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 200px;
+  background-color: white;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+  display: none;
+  flex-direction: column;
+  z-index: 1000;
+}
 
+.side-menu a {
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+}
 
-
-
-
-
-/* ZONE DE TEST */
+.deroulant {
+  font-size: 24px;
+  cursor: pointer;
+}
 
 nav {
   width: 100%;
   margin: 0 auto;
-
   position: sticky;
   top: 0px;
 }
@@ -155,38 +210,4 @@ nav a {
 nav a:hover {
   color: orange;
   border-bottom: 2px solid gold;
-}
-
-.sous {
-  display: none;
-  box-shadow: 0px 1px 2px #CCC;
-  background-color: white;
-  position: absolute;
-  width: 100%;
-  z-index: 1000;
-}
-
-nav > ul li:hover .sous {
-  display: block;
-}
-
-.sous li {
-  float: none;
-  width: 100%;
-  text-align: left;
-}
-
-.sous a {
-  padding: 10px;
-  border-bottom: none;
-}
-
-.sous a:hover {
-  border-bottom: none;
-  background-color: RGBa(200,200,200,0.1);
-}
-
-.deroulant > a:after {
-  content: "▼";
-  font-size: 12px;
 }

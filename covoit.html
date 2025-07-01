@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,20 +7,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  <script src="script.js"></script>
   <title>EcoRide</title>
 </head>
 
 <body>
 
   <header>
-    <div id="navigation" class="menu_burger">
-      <nav>
-        <img class="icone_menu" alt="icone de menu" src="/Images/menu_burger.png"/>
-        <a rel="accueil" href="accueil.html"><button>Accueil</button></a>
-        <a rel="covoiturage" href="covoit.html"><button>Les covoiturages</button></a>
-        <a rel="contact" href="contact.html"><button>Nous contacter</button></a>
-      </nav>
-    </div>
+  
+    <nav>
+      <ul>
+        <li class="deroulant"><a>Menu</a>
+          <ul class="sous">
+            <li><a href="accueil.html">Accueil</a></li>
+            <li><a href="contact.html">Nous contacter</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
 
     <div>
       <h1 id="marque">Eco</h1>
@@ -35,16 +39,18 @@
     </div>
 
     <div>
-      <h2 id="profil">Profil</h2>
+      <h2 id="profil"><a href="profil.html">Profil</a></h2>
     </div>
 
   </header>
 
   <div class="container">
-    <label for="search">On va où ?</label>
+    <label for="search">Trajet vers <p>INSERER INPUT PRECEDENT</p></label>
       <div>
         <input class="input" type="text" name="destination" id="destination" required checked placeholder="Rechercher une destination...">
       </div>
+
+      <div>Autre destination</div>
   </div>
 
   <div class="about_us">
@@ -74,7 +80,9 @@
 
   <footer>
     <div>Mentions légales</div>
-    <div>Contact</div>
+    <div>
+      <a rel="contact" href="contact.html">Contact</a>
+    </div>
     <div>Signaler un bug</div>
   </footer>
 
