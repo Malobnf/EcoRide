@@ -26,3 +26,24 @@ document.addEventListener('click', function (e) {
     menu.style.display = 'none';
   }
 });
+
+
+// Statistique incrémentale //
+
+var runCounter1 = function(m, n) {
+  var n = n || 0;
+
+  if (n < m) {
+    document.getElementById("item1").innerHTML = n;
+    window.setTimeout(function() {
+      runCounter1(m, ++n);
+    }, 10);
+  }
+};
+
+window.addEventListener("scroll", function scrollHandler1() {
+  if (window.scrollY + window.screen.height > 1000) {
+    runCounter1(1000);
+    window.removeEventListener("scroll", scrollHandler1);
+  }
+});
