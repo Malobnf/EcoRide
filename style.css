@@ -169,7 +169,7 @@ footer {
 
 /* SLIDER */
 
-
+/*
 .equipe {
   width: 800px;
   margin: 30px auto;
@@ -242,7 +242,101 @@ footer {
   -webkit-transform: translateX(-4000px);
           transform: translateX(-4000px);
 }
+*/
 
+
+/* Slider v2 */
+
+.arrow {
+  font-size: 2em;
+  color: #363f85;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.arrow#left-arrow {
+  -webkit-transform: translate(-11em, -50%);
+  -moz-transform: translate(-11em, -50%);
+  -ms-transform: translate(-11em, -50%);
+  -o-transform: translate(-11em, -50%);
+  transform: translate(-11em, -50%);
+}
+
+.arrow#right-arrow {
+  -webkit-transform: translate(10em, -50%);
+  -moz-transform: translate(10em, -50%);
+  -ms-transform: translate(10em, -50%);
+  -o-transform: translate(10em, -50%);
+  transform: translate(10em, -50%);
+}
+
+.arrow:hover {
+  color: #B3B2AD;
+}
+
+.slider {
+  position: relative;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 200px;
+}
+
+.slide {
+  float: left;
+  position: relative;
+  width: 33.33333%;
+  height: 100%;
+  overflow-x: hidden;
+  border-radius: 50%;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+}
+
+.slide#slide-center {
+  z-index: 1;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.75);
+  -webkit-transform: scale(1.3);
+  -moz-transform: scale(1.3);
+  -ms-transform: scale(1.3);
+  -o-transform: scale(1.3);
+  transform: scale(1.3);
+}
+
+.slide-holder {
+  width: 300%;
+  height: 100%;
+  display: block;
+  position: relative;
+  top: 0;
+  -webkit-transform: translateX(-33.3333333%);
+  -moz-transform: translateX(-33.3333333%);
+  -ms-transform: translateX(-33.3333333%);
+  -o-transform: translateX(-33.3333333%);
+  transform: translateX(-33.3333333%);
+}
+
+.slide-bg {
+  width: 33.3333333%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  margin: 0;
+}
+
+#slide-left .bg-previous {
+  background-image: url("/Images/photos-equipe/img01.jpg");
+}
 
 /* MENU DÉROULANT */
 
