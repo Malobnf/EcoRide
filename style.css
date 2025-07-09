@@ -156,145 +156,71 @@ footer {
   margin-bottom: 20px;
 }
 
-/* Slider V3 no JS */
+/* SLIDER */
 
-/* .slider_v3 {
-  height: 600px;
-  margin: 0;
-  display: grid;
-  grid-template-rows: 500px 100px;
-  grid-template-columns: 1fr 30px 30px 30px 30px 30px 1fr;
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  justify-items: center;
-} */
+  margin-bottom: -3rem;
+}
 
 .carousel {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  
-  /* grid-row: 1 / 2;
-  grid-column: 1 / 8;
-  width: 100vw;
-  height: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  transform-style: preserve-3d;
-  perspective: 600px;
-  --items: 5;
-  --middle: 3;
-  --position: 1;
-  pointer-events: none; */
+  position: relative;
+  width: 100%;
+  height: 90%;
 }
 
 .carousel-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 150px;
-  height: 100px;
-  object-fit: cover;
+  height: auto;
   cursor: pointer;
   opacity: 0.75;
-  transition: opacity 0.3s, transform 0.3s;
-  border: 2px solid transparent;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s, transform 0.5s ease;
   border-radius: 8px;
-/*  box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-  max-width: 100%;
-  max-height: 100%; */
+  z-index: 0;
 }
 
-.carousel-image.active {
+.carousel-image[data-position="0"] {
+  transform: translate(-50%, -50%) scale(1.2);
   opacity: 1;
-  transform: scale(1.05);
-  border-color: #007bff;
+  z-index: 3;
+}
+
+.carousel-image[data-position="-1"] {
+  transform: translate(calc(-50% - 170px), -50%) scale(1);
+  z-index: 2;
+}
+
+.carousel-image[data-position="-2"] {
+  transform: translate(calc(-50% - 340px), -50%) scale(0.95);
   z-index: 1;
 }
 
-/* .carousel.carousel-image {
-  position: absolute;
-  align-content: center;
-  width: 300px;
-  height: 400px;
-  cursor: pointer;
-  opacity: 0.75;
-  transition: opacity 0.3s, transform 0.3s;
-  /* --r: calc(var(--position) - var(--offset));  /* Variable CSS, calcule la différence entre les variables position et offset 
-   --abs: max(calc(var(--r) * -1), var(--r)); /* Variable, calcule la valeur absolue de --r, toujours positive 
-  transition: all 0.25s linear;
-  transform: rotateY(calc(-10deg * var(--r))) translateX(calc(-300px * var(--r)));
-  z-index: calc((var(--position)- var(--abs))); 
-} */
-
-
-/*
-img.item:nth-of-type(1) {
-  --offset: 1;
+.carousel-image[data-position="1"] {
+  transform: translate(calc(-50% + 170px), -50%) scale(1);
+  z-index: 2;
 }
 
-img.item:nth-of-type(2) {
-  --offset: 2;
-  opacity: 50%;
+.carousel-image[data-position="2"] {
+  transform: translate(calc(-50% + 340px), -50%) scale(0.95);
+  z-index: 1;
 }
 
-img.item:nth-of-type(3) {
-  --offset: 3;
-  opacity: 25%;
+.carousel-description {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  margin-top: 0.1rem;
 }
-
-img.item:nth-of-type(4) {
-  --offset: 4;
-}
-
-img.item:nth-of-type(5) {
-  --offset: 5;
-}
-
-input:nth-of-type(1) {
-  grid-column: 2 / 3;
-  grid-row: 2 / 3;
-}
-
-input:nth-of-type(1):checked ~ div#carousel {
-  --position: 1;
-}
-
-input:nth-of-type(2) {
-  grid-column: 3 / 4;
-  grid-row: 2 / 3;
-}
-
-input:nth-of-type(2):checked ~ div#carousel {
-  --position: 2;
-}
-
-input:nth-of-type(3) {
-  grid-column: 4 / 5;
-  grid-row: 2 / 3;
-}
-
-input:nth-of-type(3):checked ~ div#carousel {
-  --position: 3;
-}
-
-input:nth-of-type(4) {
-  grid-column: 5 / 6;
-  grid-row: 2 / 3;
-}
-
-input:nth-of-type(4):checked ~ div#carousel {
-  --position: 4;
-}
-
-input:nth-of-type(5) {
-  grid-column: 6 / 7;
-  grid-row: 2 / 3;
-}
-
-input:nth-of-type(5):checked ~ div#carousel {
-  --position: 5;
-}
-*/
 
 /* MENU DÉROULANT */
 

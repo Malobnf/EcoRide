@@ -40,12 +40,32 @@ window.addEventListener("scroll", function scrollHandler1() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const images = document.querySelectorAll('.carousel-image');
+  const description = document.getElementById('carouselDescription');
+  let currentIndex = 2;
+  
+  function updateCarousel(centerIndex) {
+    images.forEach((img, i) => {
+      const offset = i - centerIndex;
 
-  images.forEach((img) => {
+      if(Math.abs(offset) > 2) {    // Limite l'affichage aux deux images avant et après //
+        img.style.display = "none";
+      } else {
+        img.style.display = "block";
+        img.setAttribute("data-position", offset);
+      }
+
+      img.classList.toggle("active", offset === 0);
+    });
+
+    const activeImg = images[centerIndex];
+    description.textContent = activeImg.getAttribute('data-description');
+  }
+  
+  images.forEach((img, index) => {
     img.addEventListener('click', () => {
-      images.forEach((i) => i.classList.remove('active'));  // on click, retire la classe active de toutes les images //
-
-      img.classList.add('active'); // on click, ajoute la classe active à l'image cliquée //
+      updateCarousel(index);
     });
   });
+
+  updateCarousel(currentIndex);
 });
