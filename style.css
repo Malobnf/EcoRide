@@ -64,16 +64,6 @@ footer {
   background-image: url("/Images/bg-img.jpg");
 }
 
-.equipe {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 33% 33% 33%;
-  grid-template-rows: 250px 250px;
-  align-items: center;
-  text-align: center;
-  margin: 0px;
-}
-
 .input {
   font-size: 30px;
   border: black, solid;
@@ -168,7 +158,7 @@ footer {
 
 /* Slider V3 no JS */
 
-.slider_v3 {
+/* .slider_v3 {
   height: 600px;
   margin: 0;
   display: grid;
@@ -176,10 +166,15 @@ footer {
   grid-template-columns: 1fr 30px 30px 30px 30px 30px 1fr;
   align-items: center;
   justify-items: center;
-}
+} */
 
-main#carousel {
-  grid-row: 1 / 2;
+.carousel {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  
+  /* grid-row: 1 / 2;
   grid-column: 1 / 8;
   width: 100vw;
   height: 500px;
@@ -192,43 +187,66 @@ main#carousel {
   --items: 5;
   --middle: 3;
   --position: 1;
-  pointer-events: none;
+  pointer-events: none; */
 }
 
-main#carousel img {
+.carousel-image {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: opacity 0.3s, transform 0.3s;
+  border: 2px solid transparent;
+  border-radius: 8px;
+/*  box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
   max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  max-height: 100%; */
 }
-div.item {
+
+.carousel-image.active {
+  opacity: 1;
+  transform: scale(1.05);
+  border-color: #007bff;
+  z-index: 1;
+}
+
+/* .carousel.carousel-image {
   position: absolute;
+  align-content: center;
   width: 300px;
   height: 400px;
-  background-color: coral;
-  --r: calc(var(--position) - var(--offset));
-  --abs: max(calc(var(--r) * -1), var(--r));
+  cursor: pointer;
+  opacity: 0.75;
+  transition: opacity 0.3s, transform 0.3s;
+  /* --r: calc(var(--position) - var(--offset));  /* Variable CSS, calcule la différence entre les variables position et offset 
+   --abs: max(calc(var(--r) * -1), var(--r)); /* Variable, calcule la valeur absolue de --r, toujours positive 
   transition: all 0.25s linear;
   transform: rotateY(calc(-10deg * var(--r))) translateX(calc(-300px * var(--r)));
-  z-index: calc((var(--position)- var(--abs)));
-}
+  z-index: calc((var(--position)- var(--abs))); 
+} */
 
-div.item:nth-of-type(1) {
+
+/*
+img.item:nth-of-type(1) {
   --offset: 1;
 }
 
-div.item:nth-of-type(2) {
+img.item:nth-of-type(2) {
   --offset: 2;
+  opacity: 50%;
 }
 
-div.item:nth-of-type(3) {
+img.item:nth-of-type(3) {
   --offset: 3;
+  opacity: 25%;
 }
 
-div.item:nth-of-type(4) {
+img.item:nth-of-type(4) {
   --offset: 4;
 }
 
-div.item:nth-of-type(5) {
+img.item:nth-of-type(5) {
   --offset: 5;
 }
 
@@ -237,7 +255,7 @@ input:nth-of-type(1) {
   grid-row: 2 / 3;
 }
 
-input:nth-of-type(1):checked ~ main#carousel {
+input:nth-of-type(1):checked ~ div#carousel {
   --position: 1;
 }
 
@@ -246,7 +264,7 @@ input:nth-of-type(2) {
   grid-row: 2 / 3;
 }
 
-input:nth-of-type(2):checked ~ main#carousel {
+input:nth-of-type(2):checked ~ div#carousel {
   --position: 2;
 }
 
@@ -255,7 +273,7 @@ input:nth-of-type(3) {
   grid-row: 2 / 3;
 }
 
-input:nth-of-type(3):checked ~ main#carousel {
+input:nth-of-type(3):checked ~ div#carousel {
   --position: 3;
 }
 
@@ -264,7 +282,7 @@ input:nth-of-type(4) {
   grid-row: 2 / 3;
 }
 
-input:nth-of-type(4):checked ~ main#carousel {
+input:nth-of-type(4):checked ~ div#carousel {
   --position: 4;
 }
 
@@ -273,9 +291,11 @@ input:nth-of-type(5) {
   grid-row: 2 / 3;
 }
 
-input:nth-of-type(5):checked ~ main#carousel {
+input:nth-of-type(5):checked ~ div#carousel {
   --position: 5;
 }
+*/
+
 /* MENU DÉROULANT */
 
 .side-menu {
@@ -307,23 +327,6 @@ nav {
   margin: 0 auto;
   position: sticky;
   top: 0px;
-}
-
-nav ul {
-  list-style-type: none;
-}
-
-nav ul li {
-  float: left;
-  width: 25%;
-  text-align: center;
-  position: relative;
-}
-
-nav ul::after {
-  content: "";
-  display: table;
-  clear: both;
 }
 
 nav a {
