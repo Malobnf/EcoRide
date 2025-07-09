@@ -1,5 +1,6 @@
-var sidenav = document.querySelector(".deroulant");
+// Menu déroulant //
 
+var sidenav = document.querySelector(".deroulant");
 
 function toggleMenu() {
   const menu = document.getElementById('sideMenu');
@@ -69,3 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateCarousel(currentIndex);
 });
+
+// Recherche de trajet //
+
+document.addEventListener('click', () => {
+  const trajet = document.getElementById('destination');
+
+})

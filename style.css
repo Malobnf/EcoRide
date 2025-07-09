@@ -50,7 +50,17 @@ footer {
   font-size: 20px;
 }
 
-/* CLASSES */
+
+/* RECHERCHE DE TRAJET */
+
+.autre-destination {
+  font-size: 25px;
+  border: black, solid;
+  border-radius: 25px;
+  padding: 5px 5px 5px 15px;
+  width: 400px;
+  height: 45px;
+}
 
 .container {
   display: grid;
@@ -64,6 +74,8 @@ footer {
   background-image: url("/Images/bg-img.jpg");
 }
 
+/* CLASSES */
+
 .input {
   font-size: 30px;
   border: black, solid;
@@ -71,12 +83,6 @@ footer {
   padding: 5px 5px 5px 15px;
   width: 500px;
   height: 45px;  
-}
-
-.icone_menu {
-  grid-column: 1/2;
-  width: 60px;
-  height: 60px;
 }
 
 .about_us {
@@ -88,11 +94,13 @@ footer {
   font-size: 30px;
 }
 
+/* STATISTIQUES */
+
 .statistics {
   display: grid;
   grid-template-columns: 33% 33% 33%;
   text-align: center;
-  margin-bottom: 200px;
+  margin-bottom: 100px;
 }
 
 
@@ -142,20 +150,6 @@ footer {
   cursor: pointer;
 }
 
-
-/* PAGE PROFIL */
-
-.profile-photo {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background-color: #db9d9d;
-  background-image: url('https://via.placeholder.com/150');
-  background-size: cover;
-  background-position: center;
-  margin-bottom: 20px;
-}
-
 /* SLIDER */
 
 .carousel-container {
@@ -179,7 +173,7 @@ footer {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 150px;
+  width: 200px;
   height: auto;
   cursor: pointer;
   opacity: 0.75;
@@ -267,3 +261,17 @@ nav a:hover {
   color: orange;
   border-bottom: 2px solid gold;
 }
+
+/* PAGE PROFIL */
+
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #db9d9d;
+  background-image: url('https://via.placeholder.com/150');
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 20px;
+}
+
