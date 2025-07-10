@@ -1,4 +1,4 @@
-// Menu déroulant //
+// Menu déroulant
 
 var sidenav = document.querySelector(".deroulant");
 
@@ -17,7 +17,7 @@ document.addEventListener('click', function (e) {
 });
 
 
-// Statistique incrémentale //
+// Statistique incrémentale
 
 var runCounter1 = function(m, n) {
   var n = n || 0;
@@ -37,7 +37,7 @@ window.addEventListener("scroll", function scrollHandler1() {
   }
 });
 
-// Slider //
+// Slider
 
 document.addEventListener('DOMContentLoaded', () => {
   const images = document.querySelectorAll('.carousel-image');
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     images.forEach((img, i) => {
       const offset = i - centerIndex;
 
-      if(Math.abs(offset) > 2) {    // Limite l'affichage aux deux images avant et après //
+      if(Math.abs(offset) > 2) {    // Limite l'affichage aux deux images avant et après
         img.style.display = "none";
       } else {
         img.style.display = "block";
@@ -70,6 +70,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateCarousel(currentIndex);
 });
+
+// Bouton recherche
+
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('destination');
+  const button = document.getElementById('searchBtn');
+
+  function lancerRecherche() {
+    const destination = input.value.trim();
+    // Redirection vers covoit.html
+    if (destination) {
+      window.location.href = `covoit.html?destination=${encodeURIComponent(destination)}`;      // Uniform Ressource Identifier, transforme les caractères spéciaux ou espaces en code "URL"
+    }
+  }
+
+  button.addEventListener('click', lancerRecherche); //Bouton 
+
+  input.addEventListener('keydown', (e) => {  // Touche entrée
+    if (e.key === 'Enter') {
+      lancerRecherche();
+    }
+  });
+});
+
+
+if (window.location.pathname.includes('covoit.html')) {
+  const params = new URLSearchParams(window.location.search);
+  const destination = params.get('destination');
+
+  if (destination) {
+    const titre = document.getElementById('input-destination');
+    if (titre) {
+      titre.textContent = `Trajet vers ${destination}`;
+    }
+  }
+}
+
 
 // Recherche de trajet //
 

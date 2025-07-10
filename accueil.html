@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="Stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
@@ -14,8 +15,8 @@
 <body>
   <header>
     <div class="deroulant" onclick="toggleMenu()">☰</div>
-    <div class="marque">EcoRide</div>
-    <div class="profile-icone"></div>
+    <div class="marque"><a href="accueil.html">EcoRide</a></div>
+    <div class="profile-icone"><a rel="profil" href="profil.html"></a></div>
 
     <nav class="side-menu" id="sideMenu">
       <a href="covoit.html">Recherche</a>
@@ -26,8 +27,9 @@
 
   <div class="container">
     <label for="search">On va où ?</label>
-      <div>
+      <div class="search-bar">
         <input class="input" type="text" name="destination" id="destination" required checked placeholder="Rechercher une destination...">
+        <button id="searchBtn" class="searchBtn" type="button"><i class="fas fa-arrow-right"></i></button>
       </div>
   </div>
 
