@@ -20,15 +20,17 @@
 
     <nav class="side-menu" id="sideMenu">
       <a href="accueil.html">Accueil</a>
+      <a class="current-page"><p>Recherche</p></a>
       <a href="profil.html">Profil</a>
       <a href="contact.html">Contact</a>
     </nav>
    </header>
 
   <div class="container">
-    <label for="search"><h2 id="input-destination"></h2></label>
+    <label for="search"><h2 id="input-recherche"></h2></label>
+    <p>Ville de départ :</p>
       <div class="search-bar">
-        <input class="input" type="text" name="destination" id="destination" required checked placeholder="Rechercher une destination...">
+        <input class="input" type="text" name="depart" id="depart" required checked placeholder="Départ...">
         <button id="searchBtn" class="searchBtn" type="button"><i class="fa fa-arrow-right"></i></button>
       </div>
 
@@ -42,6 +44,9 @@
           <p class="date">Vendredi 15 août</p>
           <p><i class="fas fa-house"></i>Ville de départ<i class="fas fa-arrow-right-long"></i> Ville d'arrivée<i class="fas fa-city"></i></p>
           <p>15h (3h30) 18h30</p>
+        </div>
+        <div class="reservation">
+          <button id="resBtn" class="resBtn" type="button">Réserver<i class="fa fa-arrow-right"></i></button>
         </div>
       </div>
   </div>

@@ -74,6 +74,10 @@ footer {
   background-image: url("/Images/bg-img.jpg");
 }
 
+.container p {
+  margin-top: 100px;
+}
+
 .search-bar {
   display: flex;
   align-items: center;
@@ -110,14 +114,32 @@ footer {
   transition: background 0.3s ease;
 }
 
+.resBtn {
+    border: none;
+  background-color: #363f85;
+  color: white;
+  width: 150px;
+  height: 40px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
 .searchBtn:hover {
+  background-color: #2a3070;
+}
+
+.resBtn:hover {
   background-color: #2a3070;
 }
 
 .resultats {
   display: grid;
   grid-row: auto;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 20% 60% 20%;
   background-color: white;
   border-radius: 10px;
   height: auto;
@@ -290,6 +312,18 @@ footer {
   text-decoration: none;
   color: #333;
   border-bottom: 1px solid #ddd;
+}
+
+.current-page {
+  border-bottom: solid transparent;
+}
+
+.current-page p {
+  opacity: 0.5;
+}
+
+.current-page:hover {
+  color: black;
 }
 
 .deroulant {

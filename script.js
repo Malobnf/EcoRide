@@ -1,6 +1,5 @@
-// Menu déroulant
-
 var sidenav = document.querySelector(".deroulant");
+
 
 function toggleMenu() {
   const menu = document.getElementById('sideMenu');
@@ -17,7 +16,7 @@ document.addEventListener('click', function (e) {
 });
 
 
-// Statistique incrémentale
+// Statistique incrémentale //
 
 var runCounter1 = function(m, n) {
   var n = n || 0;
@@ -37,7 +36,7 @@ window.addEventListener("scroll", function scrollHandler1() {
   }
 });
 
-// Slider
+// Slider //
 
 document.addEventListener('DOMContentLoaded', () => {
   const images = document.querySelectorAll('.carousel-image');
@@ -48,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     images.forEach((img, i) => {
       const offset = i - centerIndex;
 
-      if(Math.abs(offset) > 2) {    // Limite l'affichage aux deux images avant et après
+      if(Math.abs(offset) > 2) {    // Limite l'affichage aux deux images avant et après //
         img.style.display = "none";
       } else {
         img.style.display = "block";
@@ -69,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   updateCarousel(currentIndex);
-});
+})
 
 // Bouton recherche
 
@@ -91,8 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Enter') {
       lancerRecherche();
     }
-  });
-});
+  })
+})
 
 
 if (window.location.pathname.includes('covoit.html')) {
@@ -100,17 +99,40 @@ if (window.location.pathname.includes('covoit.html')) {
   const destination = params.get('destination');
 
   if (destination) {
-    const titre = document.getElementById('input-destination');
+    const titre = document.getElementById('input-recherche');
     if (titre) {
       titre.textContent = `Trajet vers ${destination}`;
     }
   }
 }
 
+// Ville de départ 
 
-// Recherche de trajet //
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('depart');
+  const button = document.getElementById('searchBtn');
 
-document.addEventListener('click', () => {
-  const trajet = document.getElementById('destination');
-
+  function rechercheDepart() {
+    const depart = input.value.trim();
+    if (depart) {
+      window.location.href = `covoit.html?depart=${encodeURIComponent(depart)}`;
+    }
+  }
 })
+
+if (window.location.pathname.includes('covoit.html')) {
+  const params = new URLSearchParams(window.location.search);
+  const depart = params.get('depart');
+
+  if (depart) {
+    const titre = document.getElementById('input-recherche');
+    if (titre) {
+      titre.textContent = `Départ de ${depart}`;
+    }
+  }
+}
+
+// Covoiturages disponibles 
+
+
+// Fonction asynchrone pour charger les covoiturages seulement lorsque les deux villes sont renseignées ?
