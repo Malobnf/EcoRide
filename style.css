@@ -295,6 +295,11 @@ footer {
 
 /* MENU DÉROULANT */
 
+.deroulant {
+  font-size: 24px;
+  cursor: pointer;
+}
+
 .side-menu {
   position: absolute;
   top: 60px;
@@ -315,21 +320,24 @@ footer {
 }
 
 .current-page {
-  border-bottom: solid transparent;
-}
-
-.current-page p {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   opacity: 0.5;
 }
 
 .current-page:hover {
-  color: black;
+  all: initial;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  font-family: "Josefin Sans", sans-serif;
+  opacity: 0.5;
 }
 
-.deroulant {
-  font-size: 24px;
-  cursor: pointer;
-}
 
 nav {
   width: 100%;
