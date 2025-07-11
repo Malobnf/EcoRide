@@ -18,7 +18,7 @@ html, body {
 
 a {
   text-decoration: none;
-  color: black;
+  color: white;
 }
 
 body {
@@ -50,7 +50,17 @@ footer {
   font-size: 20px;
 }
 
-/* CLASSES */
+
+/* RECHERCHE DE TRAJET */
+
+.autre-destination {
+  font-size: 25px;
+  border: black, solid;
+  border-radius: 25px;
+  padding: 5px 5px 5px 15px;
+  width: 400px;
+  height: 45px;
+}
 
 .container {
   display: grid;
@@ -64,20 +74,93 @@ footer {
   background-image: url("/Images/bg-img.jpg");
 }
 
-.input {
-  font-size: 30px;
-  border: black, solid;
-  border-radius: 25px;
-  padding: 5px 5px 5px 15px;
-  width: 500px;
-  height: 45px;  
+.container p {
+  margin-top: 100px;
 }
 
-.icone_menu {
-  grid-column: 1/2;
-  width: 60px;
-  height: 60px;
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f1f1f1;
+  border-radius: 50px;
+  padding: 8px 12px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto ;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 16px;
+  font-size: 1rem;
+  border-radius: 50px;
+  outline: none;
+}
+
+.searchBtn {
+  border: none;
+  background-color: #363f85;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.resBtn {
+    border: none;
+  background-color: #363f85;
+  color: white;
+  width: 150px;
+  height: 40px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.searchBtn:hover {
+  background-color: #2a3070;
+}
+
+.resBtn:hover {
+  background-color: #2a3070;
+}
+
+.resultats {
+  display: grid;
+  grid-row: auto;
+  grid-template-columns: 20% 60% 20%;
+  background-color: white;
+  border-radius: 10px;
+  height: auto;
+  width: auto;
+  align-items: center;
+  text-align: center;
+  margin-top: 100px;
+  justify-content: space-between;
+}
+
+.resultats i {
+  margin: 10px;
+}
+
+.resultats p {
+  margin: 10px;
+}
+
+
+/* CLASSES */
+
 
 .about_us {
   padding: 1%;
@@ -88,11 +171,13 @@ footer {
   font-size: 30px;
 }
 
+/* STATISTIQUES */
+
 .statistics {
   display: grid;
   grid-template-columns: 33% 33% 33%;
   text-align: center;
-  margin-bottom: 200px;
+  margin-bottom: 100px;
 }
 
 
@@ -142,20 +227,6 @@ footer {
   cursor: pointer;
 }
 
-
-/* PAGE PROFIL */
-
-.profile-photo {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background-color: #db9d9d;
-  background-image: url('https://via.placeholder.com/150');
-  background-size: cover;
-  background-position: center;
-  margin-bottom: 20px;
-}
-
 /* SLIDER */
 
 .carousel-container {
@@ -179,7 +250,7 @@ footer {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 150px;
+  width: 200px;
   height: auto;
   cursor: pointer;
   opacity: 0.75;
@@ -224,6 +295,11 @@ footer {
 
 /* MENU DÉROULANT */
 
+.deroulant {
+  font-size: 24px;
+  cursor: pointer;
+}
+
 .side-menu {
   position: absolute;
   top: 60px;
@@ -243,10 +319,25 @@ footer {
   border-bottom: 1px solid #ddd;
 }
 
-.deroulant {
-  font-size: 24px;
-  cursor: pointer;
+.current-page {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  opacity: 0.5;
 }
+
+.current-page:hover {
+  all: initial;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  font-family: "Josefin Sans", sans-serif;
+  opacity: 0.5;
+}
+
 
 nav {
   width: 100%;
@@ -267,3 +358,17 @@ nav a:hover {
   color: orange;
   border-bottom: 2px solid gold;
 }
+
+/* PAGE PROFIL */
+
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #db9d9d;
+  background-image: url('https://via.placeholder.com/150');
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 20px;
+}
+

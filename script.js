@@ -68,4 +68,71 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   updateCarousel(currentIndex);
-});
+})
+
+// Bouton recherche
+
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('destination');
+  const button = document.getElementById('searchBtn');
+
+  function lancerRecherche() {
+    const destination = input.value.trim();
+    // Redirection vers covoit.html
+    if (destination) {
+      window.location.href = `covoit.html?destination=${encodeURIComponent(destination)}`;      // Uniform Ressource Identifier, transforme les caractères spéciaux ou espaces en code "URL"
+    }
+  }
+
+  button.addEventListener('click', lancerRecherche); //Bouton 
+
+  input.addEventListener('keydown', (e) => {  // Touche entrée
+    if (e.key === 'Enter') {
+      lancerRecherche();
+    }
+  })
+})
+
+
+if (window.location.pathname.includes('covoit.html')) {
+  const params = new URLSearchParams(window.location.search);
+  const destination = params.get('destination');
+
+  if (destination) {
+    const titre = document.getElementById('input-recherche');
+    if (titre) {
+      titre.textContent = `Trajet vers ${destination}`;
+    }
+  }
+}
+
+// Ville de départ 
+
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('depart');
+  const button = document.getElementById('searchBtn');
+
+  function rechercheDepart() {
+    const depart = input.value.trim();
+    if (depart) {
+      window.location.href = `covoit.html?depart=${encodeURIComponent(depart)}`;
+    }
+  }
+})
+
+if (window.location.pathname.includes('covoit.html')) {
+  const params = new URLSearchParams(window.location.search);
+  const depart = params.get('depart');
+
+  if (depart) {
+    const titre = document.getElementById('input-recherche');
+    if (titre) {
+      titre.textContent = `Départ de ${depart}`;
+    }
+  }
+}
+
+// Covoiturages disponibles 
+
+
+// Fonction asynchrone pour charger les covoiturages seulement lorsque les deux villes sont renseignées ?
