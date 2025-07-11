@@ -132,6 +132,32 @@ if (window.location.pathname.includes('covoit.html')) {
   }
 }
 
+// Connexion / Inscription --- Egalement possible de gérer cette interaction en PHP
+
+document.addEventListener('DOMContentLoaded', () => {
+  const profileIcon = document.getElementById('icone-profil');
+
+  profileIcon.addEventListener('click', (e) => {
+    e.preventDefault(); // Empêche le lien d'ouvrir 'profil.html' par défaut
+    const loggedIn = localStorage.getItem('userLoggedIn') === 'true';
+
+    if (loggedIn) {
+      window.location.href = 'profil.html';
+    }
+    else {
+      window.location.href = 'connexion.html';
+    }
+  })
+})
+
+    // Fait disparaître / apparaître le formulaire de connexion / inscription lors d'un click
+
+document.getElementById('sign-in-form').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('log-in').style.display = 'none';
+  document.getElementById('sign-in').style.display = 'block';
+});
+
 // Covoiturages disponibles 
 
 
