@@ -158,6 +158,9 @@ footer {
   margin: 10px;
 }
 
+#resultatsCovoit {
+  display: none;
+}
 
 /* CLASSES */
 
@@ -375,6 +378,52 @@ nav a:hover {
   background-size: cover;
   background-position: center;
   margin-bottom: 20px;
+}
+
+/* FILTRES DE RECHERCHER */
+
+.filtre {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 20px 0;
+  background-color: #f9f9f9;
+  max-width: 400px;
+}
+
+.filtre h3 {
+  margin-bottom: 10px;
+}
+
+.filtre label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.filtre input, .filtre select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+.filtreBtn {
+  margin-top: 15px;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 20px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.filtreBtn:hover {
+  background-color: #388e3c;
 }
 
 /* PAGE DE CONNEXION */

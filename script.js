@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Bouton recherche
 
 document.addEventListener('DOMContentLoaded', () => {
-  const input = document.getElementById('destination');
+  const input = document.getElementById('departVille');
   const button = document.getElementById('searchBtn');
 
   function lancerRecherche() {
@@ -97,40 +97,22 @@ document.addEventListener('DOMContentLoaded', () => {
 if (window.location.pathname.includes('covoit.html')) {
   const params = new URLSearchParams(window.location.search);
   const destination = params.get('destination');
-
-  if (destination) {
-    const titre = document.getElementById('input-recherche');
-    if (titre) {
-      titre.textContent = `Trajet vers ${destination}`;
-    }
-  }
-}
-
-// Ville de départ 
-
-document.addEventListener('DOMContentLoaded', () => {
-  const input = document.getElementById('depart');
-  const button = document.getElementById('searchBtn');
-
-  function rechercheDepart() {
-    const depart = input.value.trim();
-    if (depart) {
-      window.location.href = `covoit.html?depart=${encodeURIComponent(depart)}`;
-    }
-  }
-})
-
-if (window.location.pathname.includes('covoit.html')) {
-  const params = new URLSearchParams(window.location.search);
   const depart = params.get('depart');
 
-  if (depart) {
-    const titre = document.getElementById('input-recherche');
-    if (titre) {
-      titre.textContent = `Départ de ${depart}`;
-    }
+  const titre = document.getElementById('input-recherche');
+  const resultats = document.getElementById('resultatsCovoit');
+
+  if (destination && titre) {
+    titre.textContent = `Trajet vers ${destination}`;
+  }
+  if (depart && titre) {
+    titre.textContent = `Départ de ${depart}`;
+  }
+  if (resultats) {
+    resultats.style.display = 'grid'
   }
 }
+
 
 // Connexion / Inscription --- Egalement possible de gérer cette interaction en PHP
 
@@ -158,7 +140,37 @@ document.getElementById('sign-in-form').addEventListener('click', (e) => {
   document.getElementById('sign-in').style.display = 'block';
 });
 
-// Covoiturages disponibles 
+// Traitement des filtres
 
+document.getElementById('filtre').addEventListener('submit', function (e) {
+  e.preventDefault();
 
-// Fonction asynchrone pour charger les covoiturages seulement lorsque les deux villes sont renseignées ?
+  const type = document.getElementById('voiture').value;
+  const prix = document.getElementById('prix').value;
+  const duree = document.getElementById('duree').value;
+  const note = document.getElementById('note').value;
+
+  console.log("Filtres appliqués : ", {type, prix, duree, note});
+})
+
+// Covoiturages disponibles
+
+document.addEventListener("DOMContentLoaded", function () {
+  const searchBtn = document.getElementById("searchBtn");
+  const departVille = document.getElementById("departVille");
+  const departDate = document.getElementById("departDate");
+  const resultats = document.getElementById("resultatsCovoit");
+
+  searchBtn.addEventListener('click', function() {
+    const ville = departVille.value.trim();
+    const date = departDate.value.trim();
+
+    if (ville !== "" && date !== "") {
+      resultats.style.display = "block";
+    }
+    else {
+      alert("Veuillez renseigner la ville et la date de départ.");
+      resultats.style.display = "none";
+    }
+  });
+});

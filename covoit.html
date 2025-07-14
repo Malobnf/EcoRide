@@ -24,7 +24,7 @@
 
     <nav class="side-menu" id="sideMenu">
       <a href="accueil.html">Accueil</a>
-      <a class="current-page"><p>Recherche</p></a>
+      <a class="current-page">Recherche</a>
       <a href="profil.html">Profil</a>
       <a href="contact.html">Contact</a>
     </nav>
@@ -34,11 +34,45 @@
     <label for="search"><h2 id="input-recherche"></h2></label>
     <p>Ville de départ :</p>
       <div class="search-bar">
-        <input class="input" type="text" name="depart" id="depart" required checked placeholder="Départ...">
-        <button id="searchBtn" class="searchBtn" type="button"><i class="fa fa-arrow-right"></i></button>
+        <input class="input" type="text" name="depart" id="departVille" required placeholder="Départ...">
+      </div>
+      
+    <p>Date :</p>
+      <div class="search-bar">
+        <input class="input" type="date" name="date" id="departDate" required>
       </div>
 
-      <div class="resultats">
+    <button id="searchBtn" class="searchBtn" type="button"><i class="fa fa-arrow-right"></i></button>
+
+<!-- Filtres de recherche -->      
+      <form id="filtre" class="filtre">
+        <h3>Filtres</h3>
+
+<!-- Type de véhicule -->
+        <label for="voiture">Propulsion : </label>
+        <select id="voiture" name="voiture">
+          <option value="">Tous</option>
+          <option value="electrique">Electrique</option>
+          <option value="essence">Essence</option>
+        </select>
+
+<!-- Prix -->        
+        <label for="prix">Prix maximum : €</label>
+        <input type="number" id="prix" name="prix" min="0" placeholder="Entrez un prix maximum...">
+        
+<!-- Durée du voyage -->
+        <label for="duree">Durée maximum : H.</label>
+        <input type="number" id="duree" name="duree" min="0" placeholder="Entrez une durée maximum...">
+
+<!-- Note conducteur -->
+        <label for="note">Note minimum du conducteur : </label>
+        <input type="number" id="note" name="note" min="0" max="4" step="0.5" placeholder="Entrez une note minimum...">
+        
+        <button type="submit" class="filtreBtn">Appliquer les filtres</button>
+      </form>
+
+<!-- Résultats de la recherche -->
+      <div class="resultats" id="resultats">
         <div class="profil-conducteur">
           <i class="fas fa-circle-user fa-3x"></i>
           <p class="nom-conducteur">Jane Doe</p>
@@ -48,9 +82,12 @@
           <p class="date">Vendredi 15 août</p>
           <p><i class="fas fa-house"></i>Ville de départ<i class="fas fa-arrow-right-long"></i> Ville d'arrivée<i class="fas fa-city"></i></p>
           <p>15h (3h30) 18h30</p>
+          <p><i class="fas fa-users"></i>Places restantes : 3</p>
         </div>
         <div class="reservation">
-          <button id="resBtn" class="resBtn" type="button">Réserver<i class="fa fa-arrow-right"></i></button>
+          <p>Véhicule électrique <input type="radio"></p>
+          <p><i class="fas fa-euro"></i>Prix</p>
+          <button id="resBtn" class="resBtn" type="button">Détails<i class="fa fa-arrow-right"></i></button>
         </div>
       </div>
   </div>
