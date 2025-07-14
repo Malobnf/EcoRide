@@ -380,7 +380,7 @@ nav a:hover {
   margin-bottom: 20px;
 }
 
-/* FILTRES DE RECHERCHER */
+/* FILTRES DE RECHERCHE */
 
 .filtre {
   border: 1px solid #ccc;
@@ -424,6 +424,12 @@ nav a:hover {
 
 .filtreBtn:hover {
   background-color: #388e3c;
+}
+
+/* DETAILS DU COVOITURAGE */
+
+.popup-overlay {
+  display: none;
 }
 
 /* PAGE DE CONNEXION */
