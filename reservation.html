@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  <script src="/js/script.js"></script>
+  <title>EcoRide</title>
+</head>
+
+<body>
+  <header>
+    <div class="deroulant" onclick="toggleMenu()">☰</div>
+    <div class="marque"><a href="accueil.html">EcoRide</a></div>
+    <div class="profile-icone">
+      <a href="profil.html" id="icone-profil" rel= "profil">
+        <i class="fas fa-circle-user fa-2x"></i>
+      </a>
+    </div>
+
+    <nav class="side-menu" id="sideMenu">
+      <a href="accueil.html">Accueil</a>
+      <a href="covoit.html">Recherche</a>
+      <a href="profil.html">Profil</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+
+
+<!-- Popup détails du trajet -->
+
+<div class="res-container">
+  <h3>Détails du trajet</h3>
+  <p><strong>Conducteur :</strong> Jane Doe</p>
+</br>
+  <div class="profile-photo"></div>
+    <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i></div>
+    <div class="reviews">
+      <div class="review">Super conducteur, trajet agréable !</div>
+      <div class="review">Ponctuel et très sympathique.</div>
+      <div class="review">Je recommande sans hésiter.</div>
+    </div>
+    <div class="infos-covoit">
+      <p><i class="fas fa-house"></i>Ville de départ <i class="fas fa-arrow-right"></i>Ville d'arrivée <i class="fas fa-city"></i></p>      
+      <p><strong><i class="far fa-calendar"></i> Date : </strong> Vendredi 15 août</p>
+      <p><strong><i class="far fa-clock"></i> Horaire :</strong> 15h - 18h30 (3h30)</p>
+      <p><strong><i class="fas fa-car"></i> Véhicule :</strong> Marque, modèle, Electrique</p>
+      <p><strong><i class="fas fa-coins"></i> Prix :</strong> 4 crédits</p>
+    </br>
+    <p><strong>Préférences :</strong></p>
+    <p><i class="fas fa-smoking"></i> Non-fumeur</p>
+    <p><i class="fas fa-cat"></i> J'aime les animaux !</p>
+    <p><i class="fas fa-comments"></i> J'aime discuter</p>
+  </div>
+</br>
+  <p style="font-size:large" id="placesDispo"><strong>Places disponibles :</strong> 3</p>
+    <button class="reserver-btn" id="reserverBtn" data-id="123">Réserver</button>
+  </div>
+
+
+
+  <footer>
+    <div>Mentions légales</div>
+    <div>
+      <a rel="contact" href="contact.html">Contact</a>
+    </div>
+    <div>Signaler un bug</div>
+  </footer>
+
+</body>
+</html>

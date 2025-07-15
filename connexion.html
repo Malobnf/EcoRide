@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-  <script src="script.js"></script>
+  <script src="/js/script.js"></script>
   <title>EcoRide</title>
 </head>
-
 <body>
   <header>
     <div class="deroulant" onclick="toggleMenu()">☰</div>
@@ -31,16 +30,29 @@
   </header>
 
   <div class="container">
+
+<!-- Connexion -->
     <div id="log-in">
       <p>Connexion</p>
       <input class="log-input" type="text" name="user-name" id="user-name" required checked placeholder="Nom d'utilisateur">
       <input class="log-input" type="text" name="password" id="password" required checked placeholder="Mot de passe">
+      <button id="login-btn">Se connecter</button>
+      <p>Pas encore de compte ? <a href="#" id="sign-in-form">Créer un compte</a></p>
     </div>    
-    <div id="sign-in"></div>
-    <p>Pas encore de compte ?</p>
-    <a href="#" id="sign-in-form">Créer un compte</a>
+    
+<!-- Inscription -->
+    <div id="sign-in">
+      <p>Inscription</p>
+      <form id="form-inscription" action="inscription.php" method="POST">
+        <input class="log-input" type="text" name="nom" placeholder="Nom" required>
+        <input class="log-input" type="email" name="email" placeholder="Adresse mail" required>
+        <input class="log-input" type="password" name="password" placeholder="Mot de passe" required>
+        <input class="log-input" type="password" name="confirm_password" placeholder="Confirmer le mot de passe" required>
+        <button type="submit">S'inscrire</button>
+      </form>
+      <p>Déjà membre ? <a href="#" id="back-to-login">Se connecter</a></p>
+    </div>
   </div>
-
 
 
 

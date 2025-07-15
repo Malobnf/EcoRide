@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initFiltres();
   initResultatsCovoit();
   initRedirectionProfil();
+  initReservation();
+  initReserverCovoit();
 })
 
 
@@ -110,8 +112,20 @@ function initRecherche() {
   });
 };
 
-// Redirection si connexion
+// Bouton détails/réservation du trajet
 
+function initReservation() {
+  const button = document.getElementById('resBtn');
+
+  if (!button) return;
+
+  button.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = 'reservation.html';
+  })
+}
+
+// Redirection si connexion
 
 
 if (window.location.pathname.includes('covoit.html')) {
@@ -158,13 +172,20 @@ function initSwitchFormConnexion() {
   const signInBtn = document.getElementById('sign-in-form');
   const logInForm = document.getElementById('log-in');
   const signInForm = document.getElementById('sign-in');
+  const backToLogin = document.getElementById('back-to-login');
 
   if (!signInBtn || !logInForm || !signInForm) return;
 
   signInBtn.addEventListener('click', (e) => {
     e.preventDefault();
     logInForm.style.display = 'none';
-    signInForm.style.display = 'block';        // Fait disparaître / apparaître le formulaire de connexion / inscription lors d'un click
+    signInForm.style.display = 'block';
+  });
+
+  backToLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+    signInForm.style.display = 'none';
+    logInForm.style.display = 'block';
   });
 }
 
@@ -210,4 +231,84 @@ function initResultatsCovoit() {
 }
 
 
-// Détails du trajet / popup 
+// Détails du Trajet
+
+// Reserver
+/*
+function initReserverCovoit() {
+  const reserverBtn = document.getElementById('reserverBtn');
+  const placesText = document.getElementById('placesDispo');
+  const prixCovoit = 4; // ADAPTER DYNAMIQUEMENT 
+
+  reserverBtn.addEventListener('click', () => {
+    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+    const userCredits = parseInt(localStorage.getItem('userCredits'), 10);
+    const placesDispo = parseInt(placesText.textContent.match(/\d+/)[0], 10);
+
+    if (!isLoggedIn) {
+      alert("Vous devez être connecté pour réserver un covoiturage");
+      window.location.href = 'connexion.html';
+      return;
+    }
+  
+    if (placesDispo <= 0) {
+      alert("Il n'y a plus de places disponibles pour ce trajet");
+      return;
+    }
+    
+    if (userCredits < prixCovoit) {
+      alert("Vous n'avez pas assez de crédits pour réserver ce trajet");
+      return;
+    }
+
+    alert("Réservation confirmée, vous allez recevoir un mail de confirmation");
+
+    localStorage.setItem('userCredits', userCredits - prixCovoit);
+    placesText.innerHTML = `<strong>Places disponibles :</strong> ${placesDispo - 1}`;
+  });
+};
+*/
+
+// Script adapté PHP 
+
+function initReserverCovoit() {
+  const reserverBtn = document.getElementById('reserverBtn');
+  const placesText = document.getElementById('placesDispo');
+
+  if (!reserverBtn || !placesText) return;
+
+  const idTrajet = parseInt(reserverBtn.getAttribute('data-id'), 10);
+  const prixCovoit = 4; // Adapter dynamiquement
+
+  reserverBtn.addEventListener('click', async () => {
+    try {
+      const response = await fetch('reserver.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json'
+        },
+        credentials: 'include', // Envoyer le code PHPSESSID ou autre token 
+        body: JSON.stringify({ trajet_id: idTrajet, prix: prixCovoit })
+      });
+
+      const data = await response.json();
+
+      if (!data || !data.success) {
+        alert(data.message || 'Erreur lors de la réservation');
+        if (data.redirect) {
+          window.location.href = data.redirect;
+        }
+        return;
+      }
+
+      alert("Réservation confirmée ! Vous allez recevoir un mail de confirmation.");
+      if (data.remaining_places !== undefined) {
+        placesText.innerHTML = `<strong>Places disponibles :</strong> ${data.remaining_places}`;
+      }
+
+    } catch (error) {
+      console.error("Erreur de communication avec le serveur", error);
+      alert("Erreur technique, Veuillez réessayer.");
+    }
+  });
+};
