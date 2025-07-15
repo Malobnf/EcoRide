@@ -1,46 +1,62 @@
-var sidenav = document.querySelector(".deroulant");
+document.addEventListener('DOMContentLoaded', () => {
+  initMenuToggle()
+  initScrollStats();
+  initSlider();
+  initRecherche();
+  initSwitchFormConnexion();
+  initFiltres();
+  initResultatsCovoit();
+  initRedirectionProfil();
+})
 
 
-function toggleMenu() {
+function initMenuToggle() {
   const menu = document.getElementById('sideMenu');
-  menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
-}
+  const sidenav = document.querySelector(".deroulant");
+
+  if (!sidenav || !menu) return;
+
+  sidenav.addEventListener('click', () => {
+    menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+  });
+
 
 // Ferme le menu si on clique ailleurs
-document.addEventListener('click', function (e) {
-  const menu = document.getElementById('sideMenu');
-  const button = document.querySelector('.deroulant');
-  if (!menu.contains(e.target) && !button.contains(e.target)) {
-    menu.style.display = 'none';
-  }
-});
-
+  document.addEventListener('click', function (e) {
+    if (!menu.contains(e.target) && !sidenav.contains(e.target)) {
+      menu.style.display = 'none';
+    }
+  });
+}
 
 // Statistique incrémentale //
 
-var runCounter1 = function(m, n) {
-  var n = n || 0;
+function initScrollStats() {
+  const runCounter1 = function (m, n = 0) {
+    if (n < m) {
+      document.getElementById("item1").innerHTML = n;
+      window.setTimeout(() => runCounter1(m, ++n), 10);
+    }
+  };
 
-  if (n < m) {
-    document.getElementById("item1").innerHTML = n;
-    window.setTimeout(function() {
-      runCounter1(m, ++n);
-    }, 10);
-  }
-};
+  const item = document.getElementById("item1");
+  if (!item) return;
 
-window.addEventListener("scroll", function scrollHandler1() {
-  if (window.scrollY + window.screen.height > 1000) {
-    runCounter1(1000);
-    window.removeEventListener("scroll", scrollHandler1);
-  }
-});
+  window.addEventListener("scroll", function scrollHandler1() {
+    if (this.window.scrollY + this.window.screen.height > 1000) {
+      runCounter1(1000);
+      this.window.removeEventListener("scroll", scrollHandler1);
+    }
+  });
+}
 
 // Slider //
 
-document.addEventListener('DOMContentLoaded', () => {
+function initSlider() {
   const images = document.querySelectorAll('.carousel-image');
   const description = document.getElementById('carouselDescription');
+  if (!images.length || !description) return;
+
   let currentIndex = 2;
   
   function updateCarousel(centerIndex) {
@@ -58,23 +74,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const activeImg = images[centerIndex];
-    description.textContent = activeImg.getAttribute('data-description');
+    if (activeImg) {
+      description.textContent = activeImg.getAttribute('data-description');
   }
+}
   
   images.forEach((img, index) => {
-    img.addEventListener('click', () => {
-      updateCarousel(index);
+    img.addEventListener('click', () => updateCarousel(index));
     });
-  });
 
   updateCarousel(currentIndex);
-})
+};
 
 // Bouton recherche
 
-document.addEventListener('DOMContentLoaded', () => {
+function initRecherche() {
   const input = document.getElementById('departVille');
   const button = document.getElementById('searchBtn');
+
+  if(!input || !button) return;
 
   function lancerRecherche() {
     const destination = input.value.trim();
@@ -85,13 +103,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   button.addEventListener('click', lancerRecherche); //Bouton 
-
   input.addEventListener('keydown', (e) => {  // Touche entrée
     if (e.key === 'Enter') {
       lancerRecherche();
     }
-  })
-})
+  });
+};
+
+// Redirection si connexion
+
 
 
 if (window.location.pathname.includes('covoit.html')) {
@@ -111,13 +131,15 @@ if (window.location.pathname.includes('covoit.html')) {
   if (resultats) {
     resultats.style.display = 'grid'
   }
-}
+};
 
 
-// Connexion / Inscription --- Egalement possible de gérer cette interaction en PHP
+// Connexion / Inscription 
 
-document.addEventListener('DOMContentLoaded', () => {
+function initRedirectionProfil() {
   const profileIcon = document.getElementById('icone-profil');
+  if (!profileIcon) return;
+
 
   profileIcon.addEventListener('click', (e) => {
     e.preventDefault(); // Empêche le lien d'ouvrir 'profil.html' par défaut
@@ -129,48 +151,63 @@ document.addEventListener('DOMContentLoaded', () => {
     else {
       window.location.href = 'connexion.html';
     }
-  })
-})
+  });
+}
 
-    // Fait disparaître / apparaître le formulaire de connexion / inscription lors d'un click
+function initSwitchFormConnexion() {
+  const signInBtn = document.getElementById('sign-in-form');
+  const logInForm = document.getElementById('log-in');
+  const signInForm = document.getElementById('sign-in');
 
-document.getElementById('sign-in-form').addEventListener('click', (e) => {
-  e.preventDefault();
-  document.getElementById('log-in').style.display = 'none';
-  document.getElementById('sign-in').style.display = 'block';
-});
+  if (!signInBtn || !logInForm || !signInForm) return;
+
+  signInBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    logInForm.style.display = 'none';
+    signInForm.style.display = 'block';        // Fait disparaître / apparaître le formulaire de connexion / inscription lors d'un click
+  });
+}
+
+
 
 // Traitement des filtres
 
-document.getElementById('filtre').addEventListener('submit', function (e) {
-  e.preventDefault();
+function initFiltres() {
+  const filtreForm = document.getElementById('filtre');
+  if (!filtreForm) return;
 
-  const type = document.getElementById('voiture').value;
-  const prix = document.getElementById('prix').value;
-  const duree = document.getElementById('duree').value;
-  const note = document.getElementById('note').value;
+  filtreForm.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-  console.log("Filtres appliqués : ", {type, prix, duree, note});
-})
+    const type = document.getElementById('voiture').value;
+    const prix = document.getElementById('prix').value;
+    const duree = document.getElementById('duree').value;
+    const note = document.getElementById('note').value;
+
+    console.log("Filtres appliqués : ", { type, prix, duree, note });
+  });
+}
 
 // Covoiturages disponibles
 
-document.addEventListener("DOMContentLoaded", function () {
-  const searchBtn = document.getElementById("searchBtn");
-  const departVille = document.getElementById("departVille");
-  const departDate = document.getElementById("departDate");
+function initResultatsCovoit() {
+  if (!window.location.pathname.includes('covoit.html')) return;
+  
+  const params = new URLSearchParams(window.location.search);
+  const destination = params.get('destination');
+  const depart = params.get('depart');
+  const titre = document.getElementById('input-recherche');
   const resultats = document.getElementById("resultatsCovoit");
 
-  searchBtn.addEventListener('click', function() {
-    const ville = departVille.value.trim();
-    const date = departDate.value.trim();
+  if (titre) {
+    if (destination) titre.textContent = `Trajet vers ${destination}`;
+    if (depart) titre.textContent = `Départ de ${depart}`;
+  }
 
-    if (ville !== "" && date !== "") {
-      resultats.style.display = "block";
-    }
-    else {
-      alert("Veuillez renseigner la ville et la date de départ.");
-      resultats.style.display = "none";
-    }
-  });
-});
+  if (resultats) {
+    resultats.style.display = 'grid';
+  }
+}
+
+
+// Détails du trajet / popup 
