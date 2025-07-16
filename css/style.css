@@ -46,10 +46,21 @@
   background-color: white;
   padding: 2rem;
   border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
   text-align: center;
 }
 
-.popup.hidden {
+.popup .close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.hidden {
   display: none;
 }
 
@@ -148,6 +159,8 @@ footer {
 p i.fa-comments {
   text-decoration:line-through;
 }
+
+
 
 /* FILTRES DE RECHERCHE */
 

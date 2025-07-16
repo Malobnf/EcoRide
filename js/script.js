@@ -13,9 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initLogin();
   initLogout();
   initCredits();
-  initModInfo();
+  // initModInfo();
   initDepartTime();
   initProposerTrajet();
+  initAffichageRechercheCovoit()
 })
 
 function setDefaultDate() {
@@ -105,61 +106,148 @@ function initSlider() {
 // Bouton recherche
 
 function initRecherche() {
-  const input = document.getElementById('departVille');
+  const departInput = document.getElementById('departVille');
+  const destinationInput = document.getElementById('destinationVille');
+  const arriveeInput = document.getElementById('arriveeVille');
   const button = document.getElementById('searchBtn');
 
-  if(!input || !button) return;
+  if(!button) return;
 
   function lancerRecherche() {
-    const destination = input.value.trim();
-    // Redirection vers covoit.html
-    if (destination) {
-      window.location.href = `covoit.html?destination=${encodeURIComponent(destination)}`;      // Uniform Ressource Identifier, transforme les caractères spéciaux ou espaces en code "URL"
+    const params = new URLSearchParams();
+
+    if (destinationInput && destinationInput.value.trim()) {
+      params.append('destination', destinationInput.value.trim());
+    } else if (departInput && departInput.value.trim()) {
+      params.append('depart', departInput.value.trim());
+    
+
+    if (arriveeInput && arriveeInput.value.trim()) {
+      params.append('destination', arriveeInput.value.trim());
     }
+  }
+    window.location.href = `covoit.html?${params.toString()}`;
   }
 
   button.addEventListener('click', lancerRecherche); //Bouton 
-  input.addEventListener('keydown', (e) => {  // Touche entrée
-    if (e.key === 'Enter') {
-      lancerRecherche();
+ 
+  [departInput, destinationInput, arriveeInput].forEach(input => {
+    if (input) {
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') lancerRecherche();
+      });
     }
   });
-};
+}
 
 // Bouton détails/réservation du trajet
 
 function initReservation() {
   const button = document.getElementById('resBtn');
 
-  if (!button) return;
+  const popup = document.getElementById('popupReservation');
+  const closeBtn = document.getElementById('closePopup');
+  const popupDetails = document.getElementById('popupDetails');
+  const popupPlaces = document.getElementById('popupPlaces');
+  const reserverBtn = document.getElementById('popupReserverBtn');
 
-  button.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.location.href = 'reservation.html';
-  })
+  button.addEventListener('click', () => {
+    const conducteur = "DONNES DYNAMIQUES";
+    const depart = "DONNES DYNAMIQUES";
+    const arrivee = "DONNES DYNAMIQUES";
+    const date = "DONNES DYNAMIQUES";
+    const heure = "DONNES DYNAMIQUES";
+    const voiture = "DONNES DYNAMIQUES";
+    const prix = "DONNES DYNAMIQUES";
+    const places = "DONNES DYNAMIQUES";
+    const trajetId = "DONNES DYNAMIQUES";
+
+    // Renvoyer les infos dans le popup
+    popupDetails.innerHTML = `
+    <p><strong>Conducteur :</strong> ${conducteur}</p>
+    <p><strong>De :</strong> ${depart} <i class="fas fa-arrow-right"></i> ${arrivee}</p>
+    <p><strong>Date :</strong> ${date}</p>
+    <p><strong>Horaire :</strong> ${heure}</p>
+    <p><strong>Véhicule :</strong> ${voiture}</p>
+    <p><strong>Prix :</strong> ${prix}</p>`;
+    
+    popupPlaces.textContent = places;
+    reserverBtn.setAttribute('data-id', trajetId);
+
+    popup.classList.remove('hidden');
+  });
+
+  closeBtn.addEventListener('click', () => {
+    popup.classList.add('hidden');
+  });
+
+  reserverBtn.addEventListener('click', async () => {
+    const trajetId = reserverBtn.getAttribute('data-id');
+
+    try {
+      const response = await fetch('php/reserver.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ trajetId:parseInt(trajetId)})
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        alert("Réservation confirmée !"),
+        popupPlaces.textContent = data.remaining_places;
+      } else {
+        alert(data.message || "Erreur de réservation");
+      }
+    } catch (error) {
+      alert("Erreur technique.");
+      console.error(error);
+    }
+  });
 }
 
 // Redirection si connexion
+function initAffichageRechercheCovoit() {
+  if (window.location.pathname.includes('covoit.html')) {
+    const params = new URLSearchParams(window.location.search);
+    const destination = params.get('destination');
+    const depart = params.get('depart');
+    const titre = document.getElementById('input-recherche');
+    const searchArrivee = document.getElementById('searchArrivee');
 
-
-if (window.location.pathname.includes('covoit.html')) {
-  const params = new URLSearchParams(window.location.search);
-  const destination = params.get('destination');
-  const depart = params.get('depart');
-
-  const titre = document.getElementById('input-recherche');
-  const resultats = document.getElementById('resultatsCovoit');
-
-  if (destination && titre) {
-    titre.textContent = `Trajet vers ${destination}`;
+  if (titre) {
+    if (destination && !depart) {
+      titre.textContent = `Trajet vers ${destination}`;
+    } else if (depart && destination) {
+      titre.textContent = `De ${depart} vers ${destination}`;
+    } else if (depart) {
+      titre.textContent = `Départ de ${depart}`;
+    } else {
+      titre.textContent = `Rechercher un covoiturage`;
+    }
   }
-  if (depart && titre) {
-    titre.textContent = `Départ de ${depart}`;
+
+  if (searchArrivee) {
+    if (destination && !depart) {
+      searchArrivee.style.display = 'none';
+    } else {
+      searchArrivee.style.display = 'block';
+    }
   }
-  if (resultats) {
-    resultats.style.display = 'grid'
-  }
-};
+}
+
+// Pré-remplissage des champs si paramètres
+  const departInput = document.getElementById('departVille');
+  const arriveeInput = document.getElementById('arriveeVille');
+  
+  if (departInput && depart) departInput.value = depart;
+  if (arriveeInput && destination && depart) arriveeInput.value = destination;
+
+  const resultats = document.getElementById('resultats');
+  
+  if (resultats) resultats.style.display = 'grid';
+}
+
 
 
 // Connexion / Inscription 
@@ -458,10 +546,12 @@ function initProposerTrajet() {
       } else {
         alert('Erreur : ' + data.message);
       }
-    })
-
+    });
+  })};
 // Modification des informations personnelles
 
+
+/*
 function initModInfo() {
   const profilBtn = document.getElementById('profilBtn');
   const modInfo = document.getElementById('modInfo');
@@ -472,3 +562,4 @@ function initModInfo() {
     modInfo.style.display = 'block'
   })
 }
+*/

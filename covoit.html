@@ -34,10 +34,15 @@
   <div class="container">
     <label for="search"><h2 id="input-recherche"></h2></label>
     <p>Ville de départ :</p>
-      <div class="search-bar">
-        <input class="input" type="text" name="depart" id="departVille" required placeholder="Départ...">
-      </div>
+    <div class="search-bar" id="searchDepart">
+      <input class="input" type="text" name="depart" id="departVille" required placeholder="Départ...">
+    </div>
       
+    <div class="search-bar" id="searchArrivee">
+      <p>Ville d'arrivée :</p>
+      <input class="input" type="text" name="arrivee" id="arriveeVille" placeholder="Destination...">
+    </div>
+
     <p>Date :</p>
       <div class="search-bar">
         <input class="input" type="date" name="date" id="departDate" required>
@@ -91,6 +96,16 @@
           <button id="resBtn" class="resBtn" type="button">Détails<i class="fa fa-arrow-right"></i></button>
         </div>
       </div>
+  </div>
+
+  <div id="popupReservation" class="popup hidden">
+    <div class="popup-content">
+      <span class="close-btn" id="closePopup">$times;</span>
+      <h3>Détails du trajet</h3>
+      <div id="popupDetails"></div>
+      <p id="placesDispo"><strong>Places disponibles :</strong> <span id="popupPlaces">...</span></p>
+      <button class="reserver-btn" id="popupReserverBtn">Réserver</button>
+    </div>
   </div>
   
   <footer>
