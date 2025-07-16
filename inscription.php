@@ -4,8 +4,8 @@ session_start();
 // Connexion à la BDD
 $host = 'localhost';
 $dbname = 'ecoride';
-$user = 'nom_utilisateur';
-$password = 'mot_de_passe';
+$user = 'admin';
+$password = '30303030';
 
 try {
   $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Sécurité : clear entries
   $nom = htmlspecialchars(trim($nom));
-  $email = filter_var(trim(email), FILTER_VALIDATE_EMAIL);
+  $email = filter_var(trim($email), FILTER_VALIDATE_EMAIL);
   $mot_de_passe = trim($mot_de_passe);
   $confirm_password = trim($confirm_password);
 
@@ -49,14 +49,12 @@ $mot_de_passe_hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
 $stmt = $pdo->prepare("INSERT INTO utilisateurs (nom, email, mot_de_passe) VALUES (?, ?, ?)");
 $stmt->execute([$nom, $email, $mot_de_passe_hash]);
 
-/*
 // Connecter automatiquement l'utilisateur
 $_SESSION['user'] = [
   'id' => $pdo->lastInsertId(),
   'nom' => $nom,
   'email' => $email
 ];
-*/
 
 // Redirection après inscritpion
 header("Location: profil.html");

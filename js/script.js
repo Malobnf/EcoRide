@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initRedirectionProfil();
   initReservation();
   initReserverCovoit();
+  initLogin();
+  initLogout();
+  initCredits();
 })
 
 
@@ -189,7 +192,57 @@ function initSwitchFormConnexion() {
   });
 }
 
+function initLogin() {
+  const loginBtn = document.getElementById('login-btn');
+  if (!loginBtn) return;
 
+  loginBtn.addEventListener('click', async () => {
+    const username = document.getElementById('user-name').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!username || !password) {
+      alert("Veuillez remplir tous les champs.");
+      return;
+    }
+
+    try {
+      const response = await fetch('php/connexion.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({ username, password })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        localStorage.setItem('userLoggedIn', 'true');
+        window.location.href = 'profil.html'; 
+      } else {
+        alert(result.message || "Identifiants incorrects.")
+      }
+    } catch (err) {
+      console.error("Erreur de connexion : ", err);
+      alert("Erreur serveur.");
+    }
+  });
+}
+
+// Déconnexion
+
+function initLogout() {
+  const logoutBtn = document.getElementById('logout-btn');
+  if (!logoutBtn) return;
+
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('userLoggedIn');
+    localStorage.removeItem('userCredits')
+    
+    window.location.href = 'deconnexion.php';
+  })
+}
 
 // Traitement des filtres
 
@@ -234,42 +287,6 @@ function initResultatsCovoit() {
 // Détails du Trajet
 
 // Reserver
-/*
-function initReserverCovoit() {
-  const reserverBtn = document.getElementById('reserverBtn');
-  const placesText = document.getElementById('placesDispo');
-  const prixCovoit = 4; // ADAPTER DYNAMIQUEMENT 
-
-  reserverBtn.addEventListener('click', () => {
-    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-    const userCredits = parseInt(localStorage.getItem('userCredits'), 10);
-    const placesDispo = parseInt(placesText.textContent.match(/\d+/)[0], 10);
-
-    if (!isLoggedIn) {
-      alert("Vous devez être connecté pour réserver un covoiturage");
-      window.location.href = 'connexion.html';
-      return;
-    }
-  
-    if (placesDispo <= 0) {
-      alert("Il n'y a plus de places disponibles pour ce trajet");
-      return;
-    }
-    
-    if (userCredits < prixCovoit) {
-      alert("Vous n'avez pas assez de crédits pour réserver ce trajet");
-      return;
-    }
-
-    alert("Réservation confirmée, vous allez recevoir un mail de confirmation");
-
-    localStorage.setItem('userCredits', userCredits - prixCovoit);
-    placesText.innerHTML = `<strong>Places disponibles :</strong> ${placesDispo - 1}`;
-  });
-};
-*/
-
-// Script adapté PHP 
 
 function initReserverCovoit() {
   const reserverBtn = document.getElementById('reserverBtn');
@@ -282,7 +299,7 @@ function initReserverCovoit() {
 
   reserverBtn.addEventListener('click', async () => {
     try {
-      const response = await fetch('reserver.php', {
+      const response = await fetch('php/reserver.php', {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json'
@@ -312,3 +329,30 @@ function initReserverCovoit() {
     }
   });
 };
+
+// Affichage dynamique des crédits de l'utilisateur (connecté)
+
+function initCredits() {
+  const creditSpan = document.getElementById('userCredits');
+  if (!creditSpan) return;
+
+  fetch('credits.php', {
+    credentials: 'include'
+  })
+
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        creditSpan.textContent = data.credits;
+      } else {
+        creditSpan.textContent = 'N/A';
+        console.error(data.message);
+      }
+    })
+
+    .catch(error => {
+      creditSpan.textContent = 'Erreur';
+      console.error("Erreur de récupération des crédits :", error)
+    });
+}
+
