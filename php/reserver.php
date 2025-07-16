@@ -4,7 +4,7 @@ session_start();
 header('Content-Type: application/json');
 
 // Vérifie la connexion de l'utilisateur
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['utilisateur_id'])) {
   echo json_encode(['status' => 'not_logged_in']);
   exit;
 }
@@ -12,12 +12,12 @@ if (!isset($_SESSION['user_id'])) {
 // Récupération des données JSON envoyées depuis JS
 $data = json_decode(file_get_contents('php://input'), true);
 $trajetId = intval($data['trajetId']);
-$userId = $_SESSION['user_id'];
+$userId = $_SESSION['utilisateur_id'];
 
 // Connexion BDD
 // PDO = PHP Data Object, permet d'interagir avec la BDD de manière sécurisée.
 try {
-  $pdo = new PDO('mysql:host=localhost; dbname=ecoride', "root", "");
+  $pdo = new PDO('mysql:host=localhost; dbname=ecoride', "admin", "30303030");
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  // Permet d'afficher une erreur plutôt que retourner 'false'
 } catch (PDOException $e) {
     echo json_encode(['status' => 'error', 'message' => 'Erreur de connexion BDD']);
@@ -25,11 +25,11 @@ try {
 }
 
 // Vérifie le trajet
-$stmt = $pdo->prepare("SELECT places, prix FROM trajets WHERE id = ?");
+$stmt = $pdo->prepare("SELECT places_disponibles, prix FROM trajets WHERE id = ?");
 $stmt->execute([$trajetId]);
 $trajet = $stmt->fetch();
 
-if (!$trajet || $trajet['places'] <= 0) {
+if (!$trajet || $trajet['places_disponibles'] <= 0) {
   echo json_encode(['status' => 'no_places']);
   exit;
 }
@@ -57,17 +57,17 @@ $stmt = $pdo->prepare("UPDATE utilisateurs SET credits = credits - ? WHERE id = 
 $stmt->execute([$trajet['prix'], $userId]);
 
 // Réduire le nombre de places
-$stmt = $pdo->prepare("UPDATE trajets SET places = places - 1 WHERE id = ?");
+$stmt = $pdo->prepare("UPDATE trajets SET places_disponibles = places_disponibles - 1 WHERE id = ?");
 $stmt->execute([$trajetId]);
 
 // Valider la transaction
 $pdo->commit();
 
 // Retourner le nombre de places restantes
-$newPlaces = $trajet['places'] - 1;
-echo json_encode(['status' => 'success', 'remaining_places' => $newPlaces]);
+$newPlaces = $trajet['places_disponibles'] - 1;
+echo json_encode(['success' => true, 'remaining_places' => $newPlaces]);
 
 } catch (PDOException $e) {
   $pdo->rollBack();
-  echo json_encode(['status' => 'error', 'message' => 'Erreur de réservation', 'error_info' => $e->getMessage()]);
+  echo json_encode(['success' => false, 'message' => 'Erreur de réservation', 'error_info' => $e->getMessage()]);
 }

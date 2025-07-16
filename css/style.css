@@ -86,7 +86,7 @@ footer {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.search-bar input {
+.container input {
   flex: 1;
   border: none;
   background: transparent;
@@ -341,8 +341,50 @@ nav a:hover {
 
 /* PAGE PROFIL */
 
+.profil-main {
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
 #icone-profil {
   cursor: pointer;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #ccc;
+  background-image: url('https://via.placeholder.com/150');
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 20px;
+}
+
+.rating {
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: gold;
+}
+
+.reviews {
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+.review {
+  background-color: white;
+  padding: 15px;
+  margin: 10px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.user-info p {
+  margin: 5px 0;
 }
 
 .profile-photo {
@@ -352,6 +394,22 @@ nav a:hover {
   background-color: #db9d9d;
   margin: 0 auto;
 }
+
+.mod-info {
+  display: none;
+}
+
+#profilBtn, #logoutBtn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
 
 /* FILTRES DE RECHERCHE */
 

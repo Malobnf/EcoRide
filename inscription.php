@@ -56,6 +56,10 @@ $_SESSION['user'] = [
   'email' => $email
 ];
 
+// ID utilisateur access to all .php file
+
+$_SESSION['utilisateur_id'] = $_SESSION['user']['id'];
+
 // Redirection après inscritpion
 header("Location: profil.html");
 exit;

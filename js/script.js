@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  initMenuToggle()
+  setDefaultDate();
+  initMenuToggle();
   initScrollStats();
   initSlider();
   initRecherche();
@@ -12,8 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
   initLogin();
   initLogout();
   initCredits();
+  initModInfo();
+  initDepartTime();
+  initProposerTrajet();
 })
 
+function setDefaultDate() {
+  const dateInput = document.getElementById('departDate');
+  if (!dateInput) return;
+
+  const today = new Date().toISOString().slice(0, 10);
+  dateInput.value = today;
+}
 
 function initMenuToggle() {
   const menu = document.getElementById('sideMenu');
@@ -233,7 +244,7 @@ function initLogin() {
 // Déconnexion
 
 function initLogout() {
-  const logoutBtn = document.getElementById('logout-btn');
+  const logoutBtn = document.getElementById('logoutBtn');
   if (!logoutBtn) return;
 
   logoutBtn.addEventListener('click', () => {
@@ -305,7 +316,7 @@ function initReserverCovoit() {
           'Content-Type' : 'application/json'
         },
         credentials: 'include', // Envoyer le code PHPSESSID ou autre token 
-        body: JSON.stringify({ trajet_id: idTrajet, prix: prixCovoit })
+        body: JSON.stringify({ trajetId: idTrajet })
       });
 
       const data = await response.json();
@@ -356,3 +367,119 @@ function initCredits() {
     });
 }
 
+// CREER UN TRAJET
+
+// Set heure de départ de base
+/*
+function initDepartTime() {
+  const timeControl = document.getElementById('departHeure');
+  if (!timeControl) return;
+
+  const now = new Date();
+  let minutes = now.getMinutes();
+  let hours = now.getHours();
+
+  minutes = Math.ceil(minutes / 15) * 15;
+  if (minutes === 60) {
+    minutes = 0;
+    hours = (hours + 1) % 24;
+  }
+
+  const formatted = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+  timeControl.value = formatted;
+}
+*/
+
+function initDepartTime() {
+  const timeControl = document.getElementById('departHeure');
+  if (!timeControl) return;
+
+  for (let h = 0; h < 24; h++) {
+    for (let m = 0; m < 60; m += 15) {
+      const hh = h.toString().padStart(2, '0');
+      const mm = m.toString().padStart(2, '0');
+      const option = document.createElement('option');
+      option.value = `${hh}:${mm}`;
+      option.textContent = `${hh}:${mm}`;
+      timeControl.appendChild(option);
+    }
+  }
+
+  // Heure arrondie au quart d'heure supérieur
+  const now = new Date();
+  let minutes = now.getMinutes();
+  let hours = now.getHours();
+
+  minutes = Math.ceil(minutes/15) * 15;
+
+  if (minutes === 60) {
+    minutes = 0;
+    hours = (hours + 1) % 24;
+  }
+  
+  const formatted = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+  timeControl.value = formatted;
+}
+
+// Confirmer la création du trajet
+function initProposerTrajet() {
+  const btn = document.getElementById('confBtn');
+  if (!btn) return;
+
+  btn.addEventListener('click', () => {
+    const depart = document.getElementById('departVille').value.trim();
+    const arrivee = document.getElementById('arriveeVille').value.trim();
+    const date = document.getElementById('departDate').value.trim();
+    const heure = document.getElementById('departHeure').value.trim();
+    const prix = document.getElementById('setPrixTrajet').value.trim();
+    const passagers = document.getElementById('setNbPassagers').value.trim();
+    const voitureRadio = document.querySelector('input[name="voiture"]:checked');
+
+    if (!depart || !arrivee || !date || !heure || !prix || !passagers || !voitureRadio) {
+      alert("Veuillez remplir tous les champs du trajet");
+      return;
+    }
+
+    const voiture = voitureRadio.value;
+
+    const formData = new FormData();
+    formData.append('depart', depart);
+    formData.append('arrivee', arrivee);
+    formData.append('date', date);
+    formData.append('heure', heure);
+    formData.append('prix', prix);
+    formData.append('passagers', passagers);
+    formData.append('voiture', voiture);
+
+    fetch('creer-trajet.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert("Trajet proposé avec succès !");
+        window.location.href = "confirmation-trajet.html";
+      } else {
+        alert('Erreur : ' + data.message);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Erreur lors de l\'enregistrement du trajet.")
+    });
+  });
+}
+
+// Modification des informations personnelles
+
+function initModInfo() {
+  const profilBtn = document.getElementById('profilBtn');
+  const modInfo = document.getElementById('modInfo');
+
+  if (!profilBtn || !modInfo) return;
+
+  profilBtn.addEventListener('click', () => {
+    modInfo.style.display = 'block'
+  })
+}
