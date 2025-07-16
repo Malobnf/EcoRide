@@ -370,25 +370,6 @@ function initCredits() {
 // CREER UN TRAJET
 
 // Set heure de départ de base
-/*
-function initDepartTime() {
-  const timeControl = document.getElementById('departHeure');
-  if (!timeControl) return;
-
-  const now = new Date();
-  let minutes = now.getMinutes();
-  let hours = now.getHours();
-
-  minutes = Math.ceil(minutes / 15) * 15;
-  if (minutes === 60) {
-    minutes = 0;
-    hours = (hours + 1) % 24;
-  }
-
-  const formatted = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-  timeControl.value = formatted;
-}
-*/
 
 function initDepartTime() {
   const timeControl = document.getElementById('departHeure');
@@ -458,18 +439,26 @@ function initProposerTrajet() {
     .then(res => res.json())
     .then(data => {
       if (data.success) {
-        alert("Trajet proposé avec succès !");
-        window.location.href = "confirmation-trajet.html";
+        const resumeText = `
+        <strong>Départ : </strong>${depart}<br>
+        <strong>Arrivée : </strong>${arrivee}<br>
+        <strong>Date : </strong>${date}<br>
+        <strong>Heure : </strong>${heure}<br>
+        <strong>Prix : </strong>${prix}<br>
+        <strong>Places disponibles : </strong>${passagers}<br>
+        <strong>Véhicule : </strong>${voiture}<br>`;
+
+        document.getElementById('resume-content').innerHTML = resumeText;
+        document.getElementById('confTrajet'.classList.remove('hidden'));
+
+        // Fermer le popup
+        document.getElementById('closePopupBtn').addEventListener('click', () => {
+          document.getElementById('confTrajet').classList.add('hidden');
+        });
       } else {
         alert('Erreur : ' + data.message);
       }
     })
-    .catch(err => {
-      console.error(err);
-      alert("Erreur lors de l\'enregistrement du trajet.")
-    });
-  });
-}
 
 // Modification des informations personnelles
 
