@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-  <script src="js/script.js"></script>
+  <script src="js/script.js" defer></script>
   <title>EcoRide</title>
 </head>
 
@@ -49,6 +49,31 @@
         <p><strong>Téléphone :</strong> 06 12 34 56 78</p>
         <p><strong>Véhicule :</strong> Peugeot 208, Bleu, 4 places</p>
         <p><strong>À propos :</strong> Conducteur depuis 5 ans, j'adore partager mes trajets et rencontrer de nouvelles personnes.</p>
+        <h4>Préférences :</h4>
+          <form id="preferencesForm">
+            <p>Choisissez vos préférences :</p>
+
+            <label for="pref_non_fumeur">
+              <input type="checkbox" id="pref_non_fumeur" name="preferences[]" value="non_fumeur">Non-fumeur
+            </label><br>
+
+            <label for="pref_animaux_ok">
+              <input type="checkbox" id="pref_animaux_ok" name="preferences[]" value="animaux_ok">J'aime les animaux !
+            </label><br>
+
+            <label for="pref_musique">
+              <input type="checkbox" id="pref_musique" name="preferences[]" value="musique">J'aime écouter de la musique !
+            </label><br>
+
+            <label for="pref_discussion">
+              <input type="checkbox" id="pref_discussion" name="preferences[]" value="discussion">Je suis ouvert à la discussion !
+            </label><br>
+            
+            <button type="submit">Enregistrer les préférences</button>
+          </form>
+
+          <div id="prefMessage"></div>
+        </p>
       </div>
 
     <button id="profilBtn">Modifier le profil</button>
@@ -64,9 +89,9 @@
         <input type="tel" id="telephone" name="telephone" required>
 
         <label for="apropos">A propos :</label>
-        <textarea id="userDescription" name="description"></textarea>
+        <textarea id="apropos" name="description"></textarea>
 
-        <button type="submit">Enregistrer</button>
+        <button type="cancelModif">Enregistrer</button>
         <button type="button" id="cancelModif">Annuler</button>
       </form>
     </div>
