@@ -462,7 +462,6 @@ nav a:hover {
 }
 
 .resultats {
-  display: grid;
   grid-row: auto;
   grid-template-columns: 20% 60% 20%;
   background-color: white;
@@ -483,7 +482,7 @@ nav a:hover {
   margin: 10px;
 }
 
-#resultatsCovoit {
+.r-hidden {
   display: none;
 }
 

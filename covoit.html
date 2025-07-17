@@ -32,9 +32,9 @@
    </header>
 
   <div class="container">
-    <label for="search"><h2 id="input-recherche"></h2></label>
-    <p>Ville de départ :</p>
+    <h2 id="input-recherche"></h2>
     <div class="search-bar" id="searchDepart">
+      <p>Ville de départ :</p>
       <input class="input" type="text" name="depart" id="departVille" required placeholder="Départ...">
     </div>
       
@@ -78,7 +78,7 @@
       </form>
 
 <!-- Résultats de la recherche -->
-      <div class="resultats" id="resultats">
+      <div class="hidden" id="resultats">
         <div class="profil-conducteur">
           <i class="fas fa-circle-user fa-3x"></i>
           <p class="nom-conducteur">Jane Doe</p>
@@ -90,6 +90,7 @@
           <p>15h (3h30) 18h30</p>
           <p><i class="fas fa-users"></i>Places restantes : 3</p>
         </div>
+        <div id="message"></div>
         <div class="reservation">
           <p>Véhicule électrique <input type="radio"></p>
           <p><i class="fas fa-euro"></i>Prix</p>

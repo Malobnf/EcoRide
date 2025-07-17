@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initMenuToggle();
   initScrollStats();
   initSlider();
-  initRecherche();
   initSwitchFormConnexion();
   initFiltres();
   initResultatsCovoit();
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // initModInfo();
   initDepartTime();
   initProposerTrajet();
-  initAffichageRechercheCovoit()
+  initRechercheCovoitPage();
 })
 
 function setDefaultDate() {
@@ -103,42 +102,7 @@ function initSlider() {
   updateCarousel(currentIndex);
 };
 
-// Bouton recherche
 
-function initRecherche() {
-  const departInput = document.getElementById('departVille');
-  const destinationInput = document.getElementById('destinationVille');
-  const arriveeInput = document.getElementById('arriveeVille');
-  const button = document.getElementById('searchBtn');
-
-  if(!button) return;
-
-  function lancerRecherche() {
-    const params = new URLSearchParams();
-
-    if (destinationInput && destinationInput.value.trim()) {
-      params.append('destination', destinationInput.value.trim());
-    } else if (departInput && departInput.value.trim()) {
-      params.append('depart', departInput.value.trim());
-    
-
-    if (arriveeInput && arriveeInput.value.trim()) {
-      params.append('destination', arriveeInput.value.trim());
-    }
-  }
-    window.location.href = `covoit.html?${params.toString()}`;
-  }
-
-  button.addEventListener('click', lancerRecherche); //Bouton 
- 
-  [departInput, destinationInput, arriveeInput].forEach(input => {
-    if (input) {
-      input.addEventListener('keydown', e => {
-        if (e.key === 'Enter') lancerRecherche();
-      });
-    }
-  });
-}
 
 // Bouton détails/réservation du trajet
 
@@ -205,50 +169,6 @@ function initReservation() {
     }
   });
 }
-
-// Redirection si connexion
-function initAffichageRechercheCovoit() {
-  if (window.location.pathname.includes('covoit.html')) {
-    const params = new URLSearchParams(window.location.search);
-    const destination = params.get('destination');
-    const depart = params.get('depart');
-    const titre = document.getElementById('input-recherche');
-    const searchArrivee = document.getElementById('searchArrivee');
-
-  if (titre) {
-    if (destination && !depart) {
-      titre.textContent = `Trajet vers ${destination}`;
-    } else if (depart && destination) {
-      titre.textContent = `De ${depart} vers ${destination}`;
-    } else if (depart) {
-      titre.textContent = `Départ de ${depart}`;
-    } else {
-      titre.textContent = `Rechercher un covoiturage`;
-    }
-  }
-
-  if (searchArrivee) {
-    if (destination && !depart) {
-      searchArrivee.style.display = 'none';
-    } else {
-      searchArrivee.style.display = 'block';
-    }
-  }
-}
-
-// Pré-remplissage des champs si paramètres
-  const departInput = document.getElementById('departVille');
-  const arriveeInput = document.getElementById('arriveeVille');
-  
-  if (departInput && depart) departInput.value = depart;
-  if (arriveeInput && destination && depart) arriveeInput.value = destination;
-
-  const resultats = document.getElementById('resultats');
-  
-  if (resultats) resultats.style.display = 'grid';
-}
-
-
 
 // Connexion / Inscription 
 
@@ -369,19 +289,53 @@ function initResultatsCovoit() {
   const params = new URLSearchParams(window.location.search);
   const destination = params.get('destination');
   const depart = params.get('depart');
+  const date = params.get('date');
   const titre = document.getElementById('input-recherche');
-  const resultats = document.getElementById("resultatsCovoit");
+  const resultats = document.getElementById('resultats');
+  const searchDepart = document.getElementById('searchDepart')
+  const searchArrivee = document.getElementById('searchArrivee')
+  const searchBtn = document.getElementById('searchBtn')
+  const departInput = document.getElementById('departVille');
+  const arriveeInput = document.getElementById('arriveeVille');
+  const dateInput = document.getElementById('departDate');
 
+
+  // Pré-remplissage
+  if (departInput && depart) departInput.value = depart;
+  if (arriveeInput && destination && depart) arriveeInput.value = destination;
+  if (dateInput && date) dateInput.value = date;
+
+  // Maj titre
   if (titre) {
-    if (destination) titre.textContent = `Trajet vers ${destination}`;
-    if (depart) titre.textContent = `Départ de ${depart}`;
+    if (depart && destination) {
+      titre.textContent = `Trajet de ${depart} à ${destination}`
+    } else if (destination) {
+      titre.textContent = `Trajet vers ${destination}`;
+    } else if (depart) {
+      titre.textContent = `Départ de ${depart}`;
+    } else {
+      titre.textContent = `Rechercher un covoiturage`;
+    }
   }
 
+  // Cacher recherche si elle est effectuée
+  if (depart && destination && date) {
+    if (searchDepart) searchDepart.style.display = 'none';
+    if (searchArrivee) searchArrivee.style.display = 'none';
+    if (searchBtn) searchBtn.style.display = 'none';
+  }
+
+// Afficher les résultats seulement si toutes les infos sont là
   if (resultats) {
-    resultats.style.display = 'grid';
+    if (depart && destination && date) {
+      resultats.classList.remove('hidden');
+    } else {
+      resultats.classList.add('hidden');
+    }
   }
-}
 
+
+}
 
 // Détails du Trajet
 
@@ -537,7 +491,7 @@ function initProposerTrajet() {
         <strong>Véhicule : </strong>${voiture}<br>`;
 
         document.getElementById('resume-content').innerHTML = resumeText;
-        document.getElementById('confTrajet'.classList.remove('hidden'));
+        document.getElementById('confTrajet').classList.remove('hidden');
 
         // Fermer le popup
         document.getElementById('closePopupBtn').addEventListener('click', () => {
@@ -548,6 +502,64 @@ function initProposerTrajet() {
       }
     });
   })};
+
+
+
+function initRechercheCovoitPage() {
+  const departInput = document.getElementById('departVille');
+  const arriveeInput = document.getElementById('arriveeVille');
+  const dateInput = document.getElementById('departDate');
+  const searchBtn = document.getElementById('searchBtn');
+  const resultatsDiv = document.getElementById('resultats');
+  const messageDiv = document.getElementById('message');
+
+  if (!searchBtn) return;
+
+  searchBtn.addEventListener('click', async () => {
+    const depart = departInput.value.trim();
+    const arrivee = arriveeInput.value.trim();
+    const date = dateInput.value;
+
+    if (!depart || !arrivee || !date) {
+      messageDiv.textContent = "Veuillez remplir tous les champs.";
+      resultatsDiv.classList.add('hidden');
+      return;
+    }
+
+    // Requête AJAX vers PHP
+    try {
+      const response = await fetch('rechercher_trajets.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({depart, arrivee, date})
+      });
+
+      const data = await response.json();
+
+    // Résultats trouvés
+      if (data.success && data.trajets.length > 0) {
+        resultatsDiv.innerHTML = data.trajets.map(trajet => `
+          <div class="trajet-card">
+          <p><strong>${trajet.conducteur}</strong> - ${trajet.date} à ${trajet.heure}</p>
+          <p>De <strong>${trajet.depart}</strong> à <strong>${trajet.arrivee}</strong></p>
+          <p>Prix : ${trajet.prix} crédits - Places disponibles : ${trajet.places}</p>
+          </div>
+        `).join('');
+        resultatsDiv.classList.remove('hidden');
+        messageDiv.textContent = "";
+      } else {
+        resultatsDiv.classList.add('hidden');
+        messageDiv.textContent = "Aucun trajet disponible.";
+      }
+
+    } catch (error) {
+      console.error("Erreur réseau", error);
+      messageDiv.textContent = "Erreur lors de la recherche.";
+      resultatsDiv.classList.add('hidden');
+    }
+  });
+}
+
 // Modification des informations personnelles
 
 
