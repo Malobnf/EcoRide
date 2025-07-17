@@ -12,10 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initLogin();
   initLogout();
   initCredits();
-  // initModInfo();
+  initModInfo();
   initDepartTime();
   initProposerTrajet();
   initRechercheCovoitPage();
+  initPage();
 })
 
 function setDefaultDate() {
@@ -108,6 +109,7 @@ function initSlider() {
 
 function initReservation() {
   const button = document.getElementById('resBtn');
+  if (!button) return;
 
   const popup = document.getElementById('popupReservation');
   const closeBtn = document.getElementById('closePopup');
@@ -149,7 +151,7 @@ function initReservation() {
     const trajetId = reserverBtn.getAttribute('data-id');
 
     try {
-      const response = await fetch('php/reserver.php', {
+      const response = await fetch('reserver.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -180,11 +182,11 @@ function initRedirectionProfil() {
   profileIcon.addEventListener('click', (e) => {
     e.preventDefault(); // Empêche le lien d'ouvrir 'profil.html' par défaut
     const loggedIn = localStorage.getItem('userLoggedIn') === 'true';
+    const currentPage = window.location.pathname;
 
-    if (loggedIn) {
+    if (loggedIn && !currentPage.includes('profil.html')) {
       window.location.href = 'profil.html';
-    }
-    else {
+    } else if (!loggedIn && !currentPage.includes('connexion.html') ){
       window.location.href = 'connexion.html';
     }
   });
@@ -216,6 +218,7 @@ function initLogin() {
   if (!loginBtn) return;
 
   loginBtn.addEventListener('click', async () => {
+    console.log("Tentative de connexion");
     const username = document.getElementById('user-name').value.trim();
     const password = document.getElementById('password').value;
 
@@ -225,7 +228,7 @@ function initLogin() {
     }
 
     try {
-      const response = await fetch('php/connexion.php', {
+      const response = await fetch('connexion.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -235,6 +238,7 @@ function initLogin() {
       });
 
       const result = await response.json();
+      console.log("réponse JSON", result);
 
       if (result.success) {
         localStorage.setItem('userLoggedIn', 'true');
@@ -352,7 +356,7 @@ function initReserverCovoit() {
 
   reserverBtn.addEventListener('click', async () => {
     try {
-      const response = await fetch('php/reserver.php', {
+      const response = await fetch('reserver.php', {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json'
@@ -561,17 +565,109 @@ function initRechercheCovoitPage() {
 }
 
 // Modification des informations personnelles
-
-
-/*
 function initModInfo() {
   const profilBtn = document.getElementById('profilBtn');
   const modInfo = document.getElementById('modInfo');
 
   if (!profilBtn || !modInfo) return;
 
+  // Clic pour formulaire
   profilBtn.addEventListener('click', () => {
-    modInfo.style.display = 'block'
-  })
+    remplirFormulaire();
+    modInfo.style.display = 'block';
+  });
+
+  // Récup et pré-remplissage des infos
+  function remplirFormulaire() {
+    modInfo.innerHTML = ''; // Permet de nettoyer le formulaire à chaque ouverture
+    const userInfo = document.querySelectorAll('.user-info p');
+
+    let formHTML = `<form id="modifProfilForm">`
+
+    userInfo.forEach(p => {
+      const label = p.querySelector('strong');
+      if (!label) return;
+
+      const fieldName = label.textContent.trim().replace(':', '');
+      const value = p.textContent.replace(label.textContent, '').trim();
+
+      let inputHTML = '';
+
+      switch (fieldName) {
+        case 'Nom':
+          inputHTML = `<label>Nom : <input type="text" name="nom" value="${value}"></label>`;
+          break;
+        case 'Email':
+          inputHTML = `<label>Email : <input type="email" name="email" value="${value}"></label>`;
+          break;
+        case 'Téléphone':
+          inputHTML = `<label>Téléphone : <input type="text" name="telephone" value="${value}"></label>`;
+          break;
+        case 'A propos':
+          inputHTML = `<label>A propos : <textarea name="apropos">${value}></textarea></label>`;
+          break;          
+      }
+    });
+
+    formHTML += inputHTML;`
+    <button type="submit">Enregistrer</button>
+    <button type="button" id="cancelModif">Annuler</button>
+    </form>
+    `;
+
+    modInfo.innerHTML = formHTML;
+
+    document.getElementById('cancelModif').addEventListener('click', () => {
+      modInfo.style.display = 'none';
+    });
+
+    const form = document.getElementById('modifProfilForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch('modifier_profil.php', {
+          method: 'POST',
+          body: formData,
+          credentials: 'include'
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          document.querySelector('.user-info p:nth-child(2)').innerHTML = `<strong>Nom :</strong> ${formData.get('nom')}`;
+          document.querySelector('.user-info p:nth-child(3)').innerHTML = `<strong>Email :</strong> ${formData.get('email')}`;
+          document.querySelector('.user-info p:nth-child(4)').innerHTML = `<strong>Téléphone :</strong> ${formData.get('telephone')}`;
+          document.querySelector('.user-info p:nth-child(6)').innerHTML = `<strong>À propos :</strong> ${formData.get('description')}`;
+
+          alert("Profil mis à jour !");
+          modInfo.style.display = 'none';
+        } else {
+          alert(data.message || "Erreur lors de la mise à jour.");
+        }
+
+      } catch (err) {
+        console.error(err);
+        alert("Erreur réseau ou serveur");
+      }
+    });
+  }
 }
-*/
+
+function initPage() {
+  async function chargerNomPrenom() {
+    try {
+      const res = await fetch('infos_utilisateur.php');
+      const data = await res.json();
+
+      if (data.success) {
+        document.getElementById('userFullName').textContent = `${data.prenom} ${data.nom}`;
+      } else {
+        document.getElementById('userFullName').textContent = "Utilisateur";
+      }
+    } catch (err) {
+      console.error("Erreur lors du chargement des informations.", err);
+    }
+  }
+}

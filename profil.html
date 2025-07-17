@@ -33,6 +33,7 @@
   
   <main class="profil-main">
     <div class="profile-pic"></div>
+    <div class="user-full-name" id="userFullName"></div>
     <div class="rating">★★★★</div>
     <div class="reviews">
       <div class="review">Super conducteur, trajet agréable !</div>
@@ -52,8 +53,26 @@
 
     <button id="profilBtn">Modifier le profil</button>
     <div class="mod-info" id="modInfo">
+      <form id="modifProfilForm">
+        <label for="nom">Nom :</label>
+        <input type="text" id="nom" name="nom" required>
+        
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" required>
 
+        <label for="telephone">Téléphone :</label>
+        <input type="tel" id="telephone" name="telephone" required>
+
+        <label for="apropos">A propos :</label>
+        <textarea id="userDescription" name="description"></textarea>
+
+        <button type="submit">Enregistrer</button>
+        <button type="button" id="cancelModif">Annuler</button>
+      </form>
     </div>
+
+    <button id="vehiculeBtn"><a href="ajout-vehicule.html">Ajouter un véhicule</a></button>
+
     <button id="logoutBtn" onclick="window.location.href='deconnexion.php'">Déconnexion</button>
 
   </main>

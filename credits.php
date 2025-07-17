@@ -1,6 +1,6 @@
 <?php
 session_start();
-header('Content-Type: application.json');
+header('Content-Type: application/json');
 
 if (!isset($_SESSION['utilisateur_id'])) {
   echo json_encode(['success' => false, 'message' => "Non connecté"]);
@@ -10,7 +10,7 @@ if (!isset($_SESSION['utilisateur_id'])) {
 $userId = $_SESSION['utilisateur_id'];
 
 try {
-  $pdo = new PDO("mysql:host=localhost;dbname=ecoride", "admin", "30303030");
+  $pdo = new PDO("mysql:host=localhost;dbname=ecoride", "root", "");
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
   $stmt = $pdo->prepare("SELECT credits FROM utilisateurs WHERE id = ?");
@@ -24,6 +24,6 @@ try {
   }
 
 } catch (PDOException $e) {
-  echo json_encode(['success' => false, 'message' => "Erreur base de données."]);
+  echo json_encode(['success' => false, 'message' => "Erreur base de données." . $e->getMessage()]);
   exit;
 }

@@ -28,7 +28,7 @@ $type = htmlspecialchars(trim($_POST['voiture']));
 
 // Connexion BDD
 try {
-  $pdo = new PDO('mysql:host=localhost;dbname=ecoride;charset=utf8', "admin", "30303030");
+  $pdo = new PDO('mysql:host=localhost;dbname=ecoride;charset=utf8', "root", "");
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
   echo json_encode(['success' => false, 'message' => 'Erreur de connexion BDD' . $e->getMessage()]);

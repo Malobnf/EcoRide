@@ -8,13 +8,14 @@
 * HEADER
 * IDs
 * MENU DEROULANT
+* MODIFIER PROFIL
 * PAGE DE CONNEXION
 * PAGE PROFIL
 * RECHERCHE DE TRAJET
 * SLIDER
 * STATISTIQUES
 
-/*
+*/
 
 /* CLASSES */
 
@@ -302,6 +303,12 @@ nav a {
 nav a:hover {
   color: orange;
   border-bottom: 2px solid gold;
+}
+
+/* MODIFIER PROFIL */
+
+#modInfo {
+  display: none;
 }
 
 /* PAGE DE CONNEXION */

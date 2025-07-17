@@ -8,6 +8,8 @@ $data = json_decode(file_get_contents("php://input"), true);
 $username = $data['username'] ?? '';
 $password = $data['password'] ?? '';
 
+error_log("Données reçues : username=$username");
+
 if (empty($username) || empty($password)) {
   echo json_encode(['success' => false, 'message' => "Champs vides"]);
   exit;
@@ -15,9 +17,11 @@ if (empty($username) || empty($password)) {
 
 // Connexion BDD
 try {
-  $pdo = new PDO("mysql:host=localhost;dbname=ecoride", "admin", "30303030");
+  $pdo = new PDO("mysql:host=localhost;dbname=ecoride", "root", "");
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  error_log("Connexion BDD OK");
 } catch (PDOException $e) {
+  error_log("Erreur BDD" . $e->getMessage());
   echo json_encode(['success' => false, 'message' => "Erreur de connexion à la base de données"]);
   exit;
 }
@@ -30,11 +34,12 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 if ($user && password_verify($password, $user['mot_de_passe'])) {
   $_SESSION['utilisateur_id'] = $user['id'];
   echo json_encode(['success' => true]);
-  exit;
+  error_log("connexion réussie");
 } else {
   echo json_encode(['success' => false, 'message' => "Identifiants incorrects"]);
-  exit;
+  error_log("id incorrects");
 }
+exit;
 
 // Déconnexion
 
