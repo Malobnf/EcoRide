@@ -392,9 +392,7 @@ nav a:hover {
 }
 
 .container {
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 100px 50px 200px;
+  display: block;
   padding: 100px;
   font-size: 30px;
   text-align: center;
@@ -426,17 +424,20 @@ nav a:hover {
 }
 
 .searchBtn {
-  border: none;
-  background-color: #363f85;
-  color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
+  font-family: "Josefin Sans", sans-serif;
   align-items: center;
-  justify-content: center;
+  text-align: center;
+  font-size: 23px;
+  margin-top: 15px;
+  padding: 10px;
+  width: 400px;
+  border: none;
+  border-radius: 20px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s;
 }
 
 .resBtn {
