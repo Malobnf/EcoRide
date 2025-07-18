@@ -1,34 +1,26 @@
 <?php
 session_start();
 header('Content-Type: application/json');
+require 'db.php'; // Connexion PDO
 
-
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['utilisateur_id'])) {
   echo json_encode(['success' => false, 'message' => "Utilisateur non connecté"]);
   exit;
 }
 
-$nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_STRING);
-$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-$telephone = filter_input(INPUT_POST, 'telephone', FILTER_SANITIZE_STRING);
-$apropos = filter_input(INPUT_POST, 'apropos', FILTER_SANITIZE_STRING);
+$utilisateur_id = $_SESSION['utilisateur_id'];
+$nom = $_POST['nom'] ?? '';
+$prenom = $_POST['prenom'] ?? '';
+$email = $_POST['email'] ?? '';
+$telephone = $_POST['telephone'] ?? '';
+$description = $_POST['description'] ?? '';
 
-if (!$nom || $email) {
-  echo json_encode(['success' => false, 'message' => "Nom et email obligatoires"]);
-  exit;
-}
-
-// Connexion BDD
 try {
-  $pdo = new PDO("mysql:host=localhost;dbname=ecoride", "utilisateur", "motdepasse");
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-  $stmt = $pdo->prepare("UPDATE utilisateurs SET nom = ?, email = ?, telephone = ?, apropos = ? WHERE id = ?");
-  $stmt->execute([$nom, $email, $telephone, $apropos, $_SESSION['user_id']]);
+  $stmt = $pdo->prepare("UPDATE utilisateurs SET nom = ?, prenom = ?, email = ?, telephone = ?, description = ? WHERE id = ?");
+  $stmt->execute([$nom, $prenom, $email, $telephone, $description, $utilisateur_id]);
 
   echo json_encode(['success' => true]);
-
-} catch (Exception $e) {
-  error_log($e->getMessage());
-  echo json_encode(['success' => false, 'message' => "Erreur serveur."]);
+} catch (PDOException $e) {
+  echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
+

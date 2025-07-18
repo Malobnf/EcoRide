@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  initModInfo();
   
   //Gérer ouverture et fermeture du popup trajets
   const openBtn = document.getElementById('openTrajetsModal');
@@ -20,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === modalOverlay) {
       modalOverlay.classList.add('hidden');
     }
-  })  
+  });  
 
   // Navigation entre onglets dans le popup
   document.querySelectorAll('.tab-button').forEach(button => {
@@ -86,6 +87,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let reservationASupprimer = null;
 
+document.getElementById('confirmerAnnulation').addEventListener('click', async () => {
+  if (!reservationASupprimer) return;
+
+  const res = await fetch('annuler_reservation.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({trajet_id: reservationASupprimer})
+  });
+
+  const result = await res.json();
+  if (result.success) {
+    const trajet = document.querySelector(`.trajet[data-reservation-id="${reservationASupprimer}"]`);
+    if (trajet) trajet.remove();
+  } else {
+    alert("Erreur : " + result.message);
+  }
+
+  document.getElementById('popupConfirm').classList.add('hidden');
+  reservationASupprimer = null;
+});
+
+  document.getElementById('annulerAnnulation').addEventListener('click', () => {
+    document.getElementById('popupConfirm').classList.add('hidden');
+    reservationASupprimer = null;
+  });
+
+  if (userRole === 'admin') {
+    const adminBtn = document.getElementById('adminTabBtn');
+    if (adminBtn) {
+      adminBtn.style.display = 'block';
+      adminBtn.addEventListener('click', () => {
+        window.location.href = 'creer_employe.php';
+      });
+    }
+  }
+});
+
 async function chargerMesTrajets() {
   const response = await fetch('mes_trajets.php');
   const data = await response.json();
@@ -106,16 +144,44 @@ async function chargerMesTrajets() {
     }
 
     trajets.forEach(trajet => {
+      console.log(trajet);
       const dateTrajet = new Date(trajet.date_trajet);
       const role = trajet.role === 'conducteur' ? 'Conducteur' : 'Passager';
+      
+      if (trajet.etat === 'en cours') {
+        actionBtn = `<button class="terminer-btn" data-id="${trajet.id}">Terminer</button>`;
+      } else {
+        actionBtn = `<span>Trajet terminé</span>`;
+      }
+
+      console.log(`ID: ${trajet.id}, état: ${trajet.etat}, rôle: ${trajet.role}`);
+
       const contenu = `
-        <div class="trajet" ${trajet.reservation_id ? `data-reservation-id="${trajet.reservation_id}"` : ''}>
+        <div class="trajet" 
+          ${trajet.reservation_id ? `data-reservation-id="${trajet.reservation_id}"` : ''}
+          ${trajet.id ? `data-trajet-id="${trajet.id}"` : ''}>
+          
           <p>${trajet.ville_depart} → ${trajet.ville_arrivee} (${trajet.date_trajet})</p>
           <p>Conducteur : ${trajet.conducteur} | Rôle : ${role} | Prix : ${trajet.prix ?? 'N/A'} crédits</p>
+          
           ${trajet.role === 'passager' && trajet.reservation_id ? 
-          `<button class="annuler-btn" data-id="${trajet.reservation_id}">Annuler</button>` : ''}
+            `<button class="annuler-btn" data-id="${trajet.reservation_id}">Annuler</button>` : ''
+          }
+
+          ${trajet.role === 'conducteur' && trajet.etat === 'à venir' ?
+            `<button class="demarrer-btn" data-id="${trajet.id}">Démarrer</button>` : ''
+          }
+
+          ${trajet.role === 'conducteur' && trajet.etat === 'en cours' ?
+            `<button class="terminer-btn" data-id="${trajet.id}" style="background:red;color:white">Terminer</button>` : ''
+          }
+
+          ${trajet.etat === 'terminé' ?
+            `<span>Trajet terminé</span>` : ''
+          }
         </div>
       `;
+
 
       if (dateTrajet > now) {
         futursContainers.innerHTML += contenu;
@@ -123,6 +189,44 @@ async function chargerMesTrajets() {
         passesContainers.innerHTML += contenu;
       }        
     });
+
+    // Bouton démarrer covoit
+    document.querySelectorAll('.demarrer-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const trajetId = e.target.dataset.id;
+        const res = await fetch('changer_etat_trajet.php', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({id: trajetId, etat: 'en cours'})
+        });
+        const data = await res.json();
+        if (data.success) {
+          // Actualisation de la liste
+          chargerMesTrajets();
+        } else {
+          alert("Erreur : " + data.message)
+        }
+      });
+    });
+
+    // Bouton terminer covoit
+    document.querySelectorAll('.terminer-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const trajetId = e.target.dataset.id;
+        const res = await fetch('changer_etat_trajet.php', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({id: trajetId, etat: 'terminé'})
+        });
+        const data = await res.json();
+        if (data.success) {
+          // Actualisation de la liste
+          chargerMesTrajets();
+        } else {
+          alert("Erreur : " + data.message)
+        }
+      });
+    });    
 
     // Bouton annuler
     document.querySelectorAll('.annuler-btn').forEach(btn => {
@@ -136,32 +240,62 @@ async function chargerMesTrajets() {
     futursContainers.innerHTML = "<p>Erreur : " + data.message + "</p>";
   }
 }
-      
 
-document.getElementById('confirmerAnnulation').addEventListener('click', async () => {
-  if (!reservationASupprimer) return;
+function initModInfo() {
+  const profilBtn = document.getElementById('profilBtn');
+  const editPopup = document.getElementById('editProfilePopup');
+  const closeProfilBtn = document.getElementById('closeEditProfile');
 
-  const res = await fetch('annuler_reservation.php', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({trajet_id: reservationASupprimer})
+  // Affichage du popup
+  profilBtn.addEventListener('click', () => {
+    editPopup.classList.remove('hidden');
   });
 
-  const result = await res.json();
-  if (result.success) {
-    alert("Réservation annulée.");
-    const trajet = document.querySelector(`.trajet[data-reservation-id="${reservationASupprimer}"]`);
-    if (trajet) trajet.remove();
-  } else {
-    alert("Erreur : " + result.message);
+  // Fermeture du popup
+  closeProfilBtn.addEventListener('click', () => {
+    editPopup.classList.add('hidden');
+  });
+
+  // Activer les champs de modification
+  document.querySelectorAll('.edit-icon').forEach(icon => {
+    icon.addEventListener('click', () => {
+      const target = icon.dataset.target;
+      const span = document.getElementById(`${target}Text`);
+      const input = document.getElementById(`${target}Input`);
+
+      // Remplir le champ "input" avec le texte actuel
+      input.value = span.textContent.trim();
+
+      span.classList.add('hidden');
+      input.classList.remove('hidden');
+      input.focus();
+        });
+      });
+    }
+
+  // Sauvegarde AJAX
+  const editForm = document.getElementById('editProfileForm');
+  if(editForm) {
+    editForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(editForm);
+
+      try {
+        const response = await fetch('modifier_profil.php', {
+          method: 'POST',
+          body: formData
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          alert("Profil mis à jour !");
+          window.location.reload();
+        } else {
+          alert(result.message || "Erreur lors de la mise à jour.");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Erreur réseau.");
+      }
+    })
   }
-
-  document.getElementById('popupConfirm').classList.add('hidden');
-  reservationASupprimer = null;
-});
-
-  document.getElementById('annulerAnnulation').addEventListener('click', () => {
-    document.getElementById('popupConfirm').classList.add('hidden');
-    reservationASupprimer = null;
-  });
-});
