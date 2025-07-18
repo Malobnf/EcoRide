@@ -71,6 +71,18 @@ function initRechercheCovoitPage() {
             document.getElementById('trajetModal').classList.remove('hidden');
 
             const reserverBtn = document.getElementById('reserverBtn');
+            const alerteBtn = document.getElementById('demanderAlerteBtn');
+            const alerteMsg = document.getElementById('alerteMessage');
+            alerteMsg.textContent = '';
+
+            if (parseInt(trajet.places_disponibles) === 0) {
+              alerteBtn.style.display = 'inline-block';
+              reserverBtn.style.display = 'none';
+            } else {
+              alerteBtn.style.display = 'none';
+              reserverBtn.style.display = 'inline-block';
+            }
+
             reserverBtn.onclick = async () => {
               if (!trajetSelectionne) return;
 
@@ -91,6 +103,34 @@ function initRechercheCovoitPage() {
               }
             } catch (err) {
               console.error("Erreur lors de la réservation", err);
+            }
+          };
+
+          // Demander alerte
+          alerteBtn.onclick = async () => {
+            if (!trajetSelectionne) return;
+
+            alerteMsg.textContent = '';
+            try {
+              const response = await fetch('alerte_trajet.php', {
+                method: 'POST',
+                headers: {'Content-Type' : 'application/x-www-form-urlencoded'}, // Type MIME (Multipurpose Internet Mail Extensions, permet d'assurer l'encodage des données sous un format compréhensible par le serveur)
+                body: `action=demander_alerte&trajet_id=${encodeURIComponent(trajetSelectionne.id)}`
+              });
+
+              const data = await response.json();
+
+              if(data.success) {
+                alerteMsg.style.color = 'green';
+                alerteMsg.textContent = data.message;
+                alerteBtn.disabled = true;
+              } else {
+                alerteMsg.style.color = 'red';
+                alerteMsg.textContent = data.message;
+              }
+            } catch (error) {
+              alerteMsg.style.color = 'red';
+              alerteMsg.textContent = "Erreur réseau.";
             }
           };
         });

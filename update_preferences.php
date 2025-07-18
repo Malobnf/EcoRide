@@ -1,6 +1,6 @@
 <?php
-header('Content-Type: application/json');
 session_start();
+header('Content-Type: application/json');
 require 'db.php'; 
 
 
@@ -13,12 +13,12 @@ if (!$utilisateur_id) {
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-if (!isset($data['preferences']) || !is_array($data)['preferences']) {
+if (!isset($data['preferences']) || !is_array($data['preferences'])) {
   echo json_encode(['success' => false, 'message' => "Préférences non fournies"]);
   exit;
 }
-$preferences = $data['preferences'] ?? '';
 
+$preferences = $data['preferences'];
 $validPrefs = ['non_fumeur', 'animaux_ok', 'musique', 'discussion'];
 $filteredPrefs = array_values(array_intersect($preferences, $validPrefs));
 

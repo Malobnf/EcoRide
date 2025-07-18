@@ -160,6 +160,15 @@ footer {
   border-radius: 50%;
 }
 
+#demanderAlerteBtn {
+  display: none
+}
+
+#alerteMessage {
+  color: green;
+  margin-top: 10px;
+}
+
 /* FILTRES DE RECHERCHE */
 
 .filtre {

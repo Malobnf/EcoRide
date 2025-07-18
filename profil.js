@@ -46,10 +46,15 @@ let reservationASupprimer = null;
 async function chargerMesTrajets() {
   const response = await fetch('mes_trajets.php');
   const data = await response.json();
+  const container = document.getElementById('listeTrajets');
+  container.innerHTML = '';
 
   if(data.success) {
-    const container = document.getElementById('listeTrajets');
-    
+    if (data.trajets.length === 0) {    
+      container.innerHTML = `<p>Vous n'avez aucun trajet de prévu.</p>`;
+      return;
+    }
+
     container.innerHTML = data.trajets.map(trajet => {
       // Affichage rôle conducteur ou passager
       const role = trajet.role === 'conducteur' ? 'Conducteur' : 'Passager';

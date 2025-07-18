@@ -115,8 +115,8 @@ function initRedirectionProfil() {
     const loggedIn = localStorage.getItem('userLoggedIn') === 'true';
     const currentPage = window.location.pathname;
 
-    if (loggedIn && !currentPage.includes('profil.html')) {
-      window.location.href = 'profil.html';
+    if (loggedIn && !currentPage.includes('profil.php')) {
+      window.location.href = 'profil.php';
     } else if (!loggedIn && !currentPage.includes('connexion.html') ){
       window.location.href = 'connexion.html';
     }
@@ -170,7 +170,7 @@ function initLogin() {
       
       if (result.success) {
         localStorage.setItem('userLoggedIn', 'true');
-        window.location.href = 'profil.html'; 
+        window.location.href = 'profil.php'; 
       } else {
         alert(result.message || "Identifiants incorrects.")
       }

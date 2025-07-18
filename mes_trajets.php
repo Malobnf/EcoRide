@@ -10,7 +10,12 @@ if (!isset($_SESSION['utilisateur_id'])) {
 $idUtilisateur = $_SESSION['utilisateur_id'];
 
 try {
-  $stmt = $pdo->prepare("
+    // Connexion BDD
+    $pdo = new PDO("mysql:host=localhost;dbname=ecoride;charset=utf8", "root", "");
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Conducteur OU passager
+    $stmt = $pdo->prepare("
     (
       SELECT 
         t.id AS trajet_id,
@@ -47,8 +52,15 @@ try {
   $stmt->execute([':uid' => $idUtilisateur]);
   $trajets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-  echo json_encode(['success' => true, 'trajets' => $trajets]);
+  if(empty($trajets)) {
+    echo json_encode([
+      'success' => true,
+      'trajets' => [],
+      'message' => "Aucun trajet réservé ou créé."
+    ]);
+  } else {
+    echo json_encode(['success' => true, 'trajets' => $trajets]);
+  }
 } catch (Exception $e) {
   echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
-?>

@@ -16,7 +16,7 @@
     <div class="deroulant">☰</div>
     <div class="marque"><a href="accueil.html">EcoRide</a></div>
     <div class="profile-icone">
-      <a href="profil.html" id="icone-profil" rel= "profil">
+      <a href="profil.php" id="icone-profil" rel= "profil">
         <i class="fas fa-circle-user fa-2x"></i>
       </a>
     </div>
@@ -25,7 +25,7 @@
       <a href="accueil.html">Accueil</a>
       <a href="covoit.html">Recherche</a>
       <a href="creer-trajet.html">Proposer un trajet</a>
-      <a href="profil.html">Profil</a>
+      <a href="profil.php">Profil</a>
       <a href="contact.html">Contact</a>
     </nav>
   </header>
@@ -46,6 +46,7 @@
       <p>Inscription</p>
       <form id="form-inscription" action="inscription.php" method="POST">
         <input class="log-input" type="text" name="nom" placeholder="Nom" required>
+        <input class="log-input" type="text" name="prenom" placeholder="Prénom" required>
         <input class="log-input" type="email" name="email" placeholder="Adresse mail" required>
         <input class="log-input" type="password" name="password" placeholder="Mot de passe" required>
         <input class="log-input" type="password" name="confirm_password" placeholder="Confirmer le mot de passe" required>
