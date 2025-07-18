@@ -1,7 +1,51 @@
 document.addEventListener('DOMContentLoaded', () => {
+  
+  //Gérer ouverture et fermeture du popup trajets
+  const openBtn = document.getElementById('openTrajetsModal');
+  const closeBtn = document.getElementById('closeTrajetsModal');
+  const modalOverlay = document.getElementById('trajetsModalOverlay');
+
+  openBtn.addEventListener('click', () => {
+    modalOverlay.classList.remove('hidden');
+    chargerMesTrajets();
+  });
+
+  closeBtn.addEventListener('click', () => {
+    console.log("fermeture");
+    modalOverlay.classList.add('hidden');
+  });
+
+  // Fermer si on clique en dehors du modal
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) {
+      modalOverlay.classList.add('hidden');
+    }
+  })  
+
+  // Navigation entre onglets dans le popup
+  document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', () => {
+      
+      // Retirer l'état actif des onglets
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.modal-tab-content').forEach(tab => tab.style.display = 'none');
+
+      //Activer l'onglet sélectionné
+      button.classList.add('active');
+      const tabId = button.dataset.tab;
+      document.getElementById(tabId).style.display = 'block';
+    });
+  });
+
+  // Afficher le premier onglet par défaut
+  document.getElementById('futurs').style.display= 'block';
+  document.getElementById('passes').style.display= 'none';
+
+  // Préférences utilisateur
   const form = document.getElementById('preferencesForm');
   const checkboxes = form.querySelectorAll('input[type="checkbox"]');
   const messageDiv = document.getElementById('prefMessage');
+
 
   // Charger préférences existantes
   fetch('get_user_preferences.php')
@@ -39,51 +83,60 @@ document.addEventListener('DOMContentLoaded', () => {
       messageDiv.textContent = "Erreur lors de la mise à jour des préférences";
     });
   });
-});
 
 let reservationASupprimer = null;
 
 async function chargerMesTrajets() {
   const response = await fetch('mes_trajets.php');
   const data = await response.json();
-  const container = document.getElementById('listeTrajets');
-  container.innerHTML = '';
+
+  const futursContainers = document.getElementById('listeTrajetsFuturs');
+  const passesContainers = document.getElementById('listeTrajetsPasses');
+  futursContainers.innerHTML = '';
+  passesContainers.innerHTML = '';
 
   if(data.success) {
-    if (data.trajets.length === 0) {    
-      container.innerHTML = `<p>Vous n'avez aucun trajet de prévu.</p>`;
+    const now = new Date();
+    const trajets = data.trajets;
+
+    if (trajets.length === 0) {    
+      futursContainers.innerHTML = `<p>Vous n'avez aucun trajet de prévu.</p>`;
+      passesContainers.innerHTML = `<p>Aucun trajet passé.</p>`;
       return;
     }
 
-    container.innerHTML = data.trajets.map(trajet => {
-      // Affichage rôle conducteur ou passager
+    trajets.forEach(trajet => {
+      const dateTrajet = new Date(trajet.date_trajet);
       const role = trajet.role === 'conducteur' ? 'Conducteur' : 'Passager';
-
-      // Bouton annuler uniquement si c’est une réservation (passager)
-      const btnAnnuler = trajet.trajet_id 
-        ? `<button class="annuler-btn" data-id="${trajet.trajet_id}">Annuler</button>`
-        : '';
-
-      return `
-        <div class="trajet" ${trajet.trajet_id ? `data-reservation-id="${trajet.trajet_id}"` : ''}>
-          <p>${trajet.ville_depart} vers ${trajet.ville_arrivee}, le ${trajet.date_trajet}</p>
+      const contenu = `
+        <div class="trajet" ${trajet.reservation_id ? `data-reservation-id="${trajet.reservation_id}"` : ''}>
+          <p>${trajet.ville_depart} → ${trajet.ville_arrivee} (${trajet.date_trajet})</p>
           <p>Conducteur : ${trajet.conducteur} | Rôle : ${role} | Prix : ${trajet.prix ?? 'N/A'} crédits</p>
-          ${btnAnnuler}
+          ${trajet.role === 'passager' && trajet.reservation_id ? 
+          `<button class="annuler-btn" data-id="${trajet.reservation_id}">Annuler</button>` : ''}
         </div>
       `;
-    }).join('');
 
-    // Gestion du clic annuler
+      if (dateTrajet > now) {
+        futursContainers.innerHTML += contenu;
+      } else {
+        passesContainers.innerHTML += contenu;
+      }        
+    });
+
+    // Bouton annuler
     document.querySelectorAll('.annuler-btn').forEach(btn => {
       btn.addEventListener('click', e => {
         reservationASupprimer = e.target.dataset.id;
         document.getElementById('popupConfirm').classList.remove('hidden');
       });
     });
+
   } else {
-    alert("Erreur : " + data.message);
+    futursContainers.innerHTML = "<p>Erreur : " + data.message + "</p>";
   }
 }
+      
 
 document.getElementById('confirmerAnnulation').addEventListener('click', async () => {
   if (!reservationASupprimer) return;
@@ -97,10 +150,8 @@ document.getElementById('confirmerAnnulation').addEventListener('click', async (
   const result = await res.json();
   if (result.success) {
     alert("Réservation annulée.");
-    console.log("Suppression du trajet avec ID:", reservationASupprimer);
-    console.log(document.querySelector(`.trajet[data-reservation-id="${reservationASupprimer}"]`));
-    const trajetDiv = document.querySelector(`.trajet[data-reservation-id="${reservationASupprimer}"]`);
-    if (trajetDiv) trajetDiv.remove();
+    const trajet = document.querySelector(`.trajet[data-reservation-id="${reservationASupprimer}"]`);
+    if (trajet) trajet.remove();
   } else {
     alert("Erreur : " + result.message);
   }
@@ -112,11 +163,5 @@ document.getElementById('confirmerAnnulation').addEventListener('click', async (
   document.getElementById('annulerAnnulation').addEventListener('click', () => {
     document.getElementById('popupConfirm').classList.add('hidden');
     reservationASupprimer = null;
+  });
 });
-
-document.getElementById('mesTrajetsTab').addEventListener('click', () => {
-  document.getElementById('mesTrajetsContent').classList.toggle('hidden');
-});
-
-
-chargerMesTrajets();

@@ -60,10 +60,24 @@ if (!$user) {
     </nav>
   </header>
 
-  <div id="mesTrajets">
-    <h2 id="mesTrajetsTab">Mes trajets réservés</h2>
-    <div id="mesTrajetsContent" class="hidden">
-      <div id="listeTrajets"></div>
+  <button id="openTrajetsModal" type="button">Mes trajets</button>
+
+  <div id="trajetsModalOverlay" class="modal-overlay hidden">
+    <div id="trajetsModal" class="modal-content-trajets">
+      <span class="close-modal" id="closeTrajetsModal"><i class="fas fa-circle-xmark"></i></span>
+
+      <div class="modal-tabs">
+        <button class="tab-button active" data-tab="futurs">Trajets à venir</button>
+        <button class="tab-button" data-tab="passes">Trajets passés</button>
+      </div>
+
+      <div class="modal-tab-content" id="futurs">
+        <div id="listeTrajetsFuturs"></div>
+      </div>
+
+      <div class="modal-tab-content" id="passes">
+        <div id="listeTrajetsPasses"></div>
+      </div>
     </div>
   </div>
 
@@ -120,29 +134,12 @@ if (!$user) {
       </p>
     </div>
 
-  <button id="profilBtn">Modifier le profil</button>
-  <div class="mod-info" id="modInfo">
-    <form id="modifProfilForm">
-      <label for="nom">Nom :</label>
-      <input type="text" id="nom" name="nom" required>
-      
-      <label for="email">Email :</label>
-      <input type="email" id="email" name="email" required>
+    <!-- Modification du profil -->
+    
 
-      <label for="telephone">Téléphone :</label>
-      <input type="tel" id="telephone" name="telephone" required>
+    <button id="vehiculeBtn"><a href="ajout-vehicule.html">Ajouter un véhicule</a></button>
 
-      <label for="apropos">A propos :</label>
-      <textarea id="apropos" name="description"></textarea>
-
-      <button type="cancelModif">Enregistrer</button>
-      <button type="button" id="cancelModif">Annuler</button>
-    </form>
-  </div>
-
-  <button id="vehiculeBtn"><a href="ajout-vehicule.html">Ajouter un véhicule</a></button>
-
-  <button id="logoutBtn" onclick="window.location.href='deconnexion.php'">Déconnexion</button>
+    <button id="logoutBtn" onclick="window.location.href='deconnexion.php'">Déconnexion</button>
 
   </main>
 
