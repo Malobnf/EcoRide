@@ -1,73 +1,89 @@
 <?php
-
 session_start();
 header('Content-Type: application/json');
+require 'db.php'; // Connexion PDO
 
-// Vérifie la connexion de l'utilisateur
-if (!isset($_SESSION['utilisateur_id'])) {
-  echo json_encode(['status' => 'not_logged_in']);
+$input = json_decode(file_get_contents('php://input'), true);
+
+$idUtilisateur = $_SESSION['utilisateur_id'] ?? null;
+$idTrajet = $input['id_trajet'] ?? null;
+
+if (!$idUtilisateur) {
+  echo json_encode(['success' => false, 'message' => "Utilisateur non connecté."]);
   exit;
 }
 
-// Récupération des données JSON envoyées depuis JS
-$data = json_decode(file_get_contents('php://input'), true);
-$trajetId = intval($data['trajetId']);
-$userId = $_SESSION['utilisateur_id'];
+if (!$idTrajet) {
+  echo json_encode(['success' => false, 'message' => "Trajet introuvable."]);
+  exit;
+}
 
-// Connexion BDD
-// PDO = PHP Data Object, permet d'interagir avec la BDD de manière sécurisée.
+$commission = 2;
+
+// Maj crédits utilisateur
 try {
-  $pdo = new PDO('mysql:host=localhost; dbname=ecoride', "admin", "30303030");
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  // Permet d'afficher une erreur plutôt que retourner 'false'
-} catch (PDOException $e) {
-    echo json_encode(['status' => 'error', 'message' => 'Erreur de connexion BDD']);
-    exit;
-}
+  $pdo->beginTransaction();
 
-// Vérifie le trajet
-$stmt = $pdo->prepare("SELECT places_disponibles, prix FROM trajets WHERE id = ?");
-$stmt->execute([$trajetId]);
-$trajet = $stmt->fetch();
+  $stmt = $pdo->prepare("SELECT prix, places_disponibles FROM trajets WHERE id = :id FOR UPDATE");
+  $stmt->execute([':id' => $idTrajet]);
+  $trajet = $stmt->fetch(PDO::FETCH_ASSOC);
+  
+  if (!$trajet) {
+    throw new Exception("Trajet introuvable.");
+  }
 
-if (!$trajet || $trajet['places_disponibles'] <= 0) {
-  echo json_encode(['status' => 'no_places']);
-  exit;
-}
+  if ($trajet['places_disponibles'] <= 0) {
+    throw new Exception("Aucune place disponible.");
+  }
 
-// Vérifie les crédits de l'utilisateur
-$stmt = $pdo->prepare("SELECT credits FROM utilisateurs WHERE id = ?");
-$stmt->execute([$userId]);
-$user = $stmt->fetch();
+  $stmt = $pdo->prepare("SELECT credits FROM utilisateurs WHERE id = :id FOR UPDATE");
+  $stmt->execute([':id' => $idUtilisateur]);
+  $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if($user['credits'] < $trajet['prix']) {
-  echo json_encode(['status' => 'not_enough_credits']);
-  exit;
-}
+  if ($user['credits'] < $trajet['prix']) {
+    throw new Exception("Crédits insuffisants.");
+  }
 
-try {
-// Si tout est validé, commencer la réservation
-$pdo->beginTransaction();
+// Calcul des crédits pour le conducteur
+  $montantConducteur = max(0, $trajet['prix'] - $commission); // Empêche un montant négatif
 
-// Enregistrer la réservation
-$stmt = $pdo->prepare("INSERT INTO reservations (utilisateur_id, trajet_id) VALUES (?, ?)");
-$stmt->execute([$userId, $trajetId]);
+//Insertion dans la table "reservations"
+  $stmt = $pdo->prepare("INSERT INTO reservations (utilisateur_id, trajet_id, date_reservation) VALUES (:uid, :tid, NOW())");
+  $stmt->execute([
+    ':uid' => $idUtilisateur,
+    ':tid' => $idTrajet
+  ]);
 
-// Réduire le nombre de crédits
-$stmt = $pdo->prepare("UPDATE utilisateurs SET credits = credits - ? WHERE id = ?");
-$stmt->execute([$trajet['prix'], $userId]);
+// Réduire places disponibleq
+$stmt = $pdo->prepare("UPDATE trajets SET places_disponibles = places_disponibles - 1 WHERE id = :id");
+$stmt->execute([':id' => $idTrajet]);
 
-// Réduire le nombre de places
-$stmt = $pdo->prepare("UPDATE trajets SET places_disponibles = places_disponibles - 1 WHERE id = ?");
-$stmt->execute([$trajetId]);
+// Déduire les crédits
+$stmt = $pdo->prepare("UPDATE utilisateurs SET credits = credits - :prix WHERE id = :id");
+$stmt->execute([
+  ':prix' => $trajet['prix'],
+  ':id' => $idUtilisateur
+]);
 
-// Valider la transaction
+// Ajout des crédits au conducteur : 
+$stmt = $pdo->prepare("UPDATE utilisateurs SET credits = credits + :montant WHERE id = :id");
+$stmt->execute([
+  ':montant' => $montantConducteur,
+  ':id' => $trajet['conducteur_id']
+]);
+
+// Enregistrer la commission pour l'entreprise
+$stmt = $pdo->prepare("INSERT INTO entreprise_credits (montant, trajet_id, utilisateur_id) VALUES (:montant, :trajet_id, :utilisateur_id");
+$stmt->execute([
+  ':montant' => $commission,
+  ':trajet_id' => $idTrajet,
+  ':utilisateur_id' => $idUtilisateur
+]);
+
+// Valider transaction
 $pdo->commit();
-
-// Retourner le nombre de places restantes
-$newPlaces = $trajet['places_disponibles'] - 1;
-echo json_encode(['success' => true, 'remaining_places' => $newPlaces]);
-
-} catch (PDOException $e) {
-  $pdo->rollBack();
-  echo json_encode(['success' => false, 'message' => 'Erreur de réservation', 'error_info' => $e->getMessage()]);
+echo json_encode(['success' => true]);
+} catch (Exception $e) {
+  $pdo->rollback();
+  echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }

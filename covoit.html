@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
   <script src="js/script.js" defer></script>
+  <script src="rechercheCovoit.js" defer></script>
   <title>EcoRide</title>
 </head>
 
@@ -78,34 +79,27 @@
       </form>
 
 <!-- Résultats de la recherche -->
-      <div class="hidden" id="resultats">
-        <div class="profil-conducteur">
-          <i class="fas fa-circle-user fa-3x"></i>
-          <p class="nom-conducteur">Jane Doe</p>
-          <div class="rating"><i class="fas fa-star fa-xs"></i><i class="fas fa-star fa-xs"></i><i class="fas fa-star fa-xs"></i><i class="fas fa-star-half-stroke fa-xs"></i></div>
-        </div>
-        <div class="date-trajet">
-          <p class="date">Vendredi 15 août</p>
-          <p><i class="fas fa-house"></i>Ville de départ<i class="fas fa-arrow-right-long"></i> Ville d'arrivée<i class="fas fa-city"></i></p>
-          <p>15h (3h30) 18h30</p>
-          <p><i class="fas fa-users"></i>Places restantes : 3</p>
-        </div>
-        <div id="message"></div>
-        <div class="reservation">
-          <p>Véhicule électrique <input type="radio"></p>
-          <p><i class="fas fa-euro"></i>Prix</p>
-          <button id="resBtn" class="resBtn" type="button">Détails<i class="fa fa-arrow-right"></i></button>
-        </div>
-      </div>
+      <div id="message"></div>
+      <div class="hidden" id="resultats"></div>
   </div>
 
-  <div id="popupReservation" class="popup hidden">
-    <div class="popup-content">
-      <span class="close-btn" id="closePopup">$times;</span>
-      <h3>Détails du trajet</h3>
-      <div id="popupDetails"></div>
-      <p id="placesDispo"><strong>Places disponibles :</strong> <span id="popupPlaces">...</span></p>
-      <button class="reserver-btn" id="popupReserverBtn">Réserver</button>
+  <div id="trajetModal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn" id="closeModal"><i class="fa-solid fa-circle-xmark fa-2x"></i></span>
+      <div class="conducteur-info">
+        <img id="modalPhoto" src="Images/default-user.png" alt="Photo de profil"/>
+        <h2 id="modalNom">Nom du conducteur</h2>
+        <p id="modalRating">⭐⭐⭐☆</p>
+      </div>
+      <div class="trajet-info">
+        <p><strong>Date :</strong> <span id="modalDate"></span></p>
+        <p><strong>Heure :</strong> <span id="modalHeure"></span></p>
+        <p><strong>De :</strong> <span id="modalDepart"></span></p>
+        <p><strong>A :</strong> <span id="modalArrivee"></span></p>
+        <p><strong>Prix :</strong> <span id="modalPrix"></span> crédits</p>
+        <p><strong>Places disponibles :</strong> <span id="modalPlaces"></span></p>
+      </div>
+      <button id="reserverBtn">Réserver</button>
     </div>
   </div>
   

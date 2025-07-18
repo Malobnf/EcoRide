@@ -12,6 +12,11 @@ if (!$utilisateur_id) {
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
+
+if (!isset($data['preferences']) || !is_array($data)['preferences']) {
+  echo json_encode(['success' => false, 'message' => "Préférences non fournies"]);
+  exit;
+}
 $preferences = $data['preferences'] ?? '';
 
 $validPrefs = ['non_fumeur', 'animaux_ok', 'musique', 'discussion'];
