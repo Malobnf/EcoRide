@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initFiltres();
   initRedirectionProfil();
   initReservation();
-  initReserverCovoit();
   initLogin();
   initLogout();
   initCredits();
@@ -103,72 +102,6 @@ function initSlider() {
 
 
 
-// Bouton détails/réservation du trajet
-
-function initReservation() {
-  const button = document.getElementById('resBtn');
-  if (!button) return;
-
-  const popup = document.getElementById('popupReservation');
-  const closeBtn = document.getElementById('closePopup');
-  const popupDetails = document.getElementById('popupDetails');
-  const popupPlaces = document.getElementById('popupPlaces');
-  const reserverBtn = document.getElementById('popupReserverBtn');
-
-  button.addEventListener('click', () => {
-    const conducteur = "DONNES DYNAMIQUES";
-    const depart = "DONNES DYNAMIQUES";
-    const arrivee = "DONNES DYNAMIQUES";
-    const date = "DONNES DYNAMIQUES";
-    const heure = "DONNES DYNAMIQUES";
-    const voiture = "DONNES DYNAMIQUES";
-    const prix = "DONNES DYNAMIQUES";
-    const places = "DONNES DYNAMIQUES";
-    const trajetId = "DONNES DYNAMIQUES";
-
-    // Renvoyer les infos dans le popup
-    popupDetails.innerHTML = `
-    <p><strong>Conducteur :</strong> ${conducteur}</p>
-    <p><strong>De :</strong> ${depart} <i class="fas fa-arrow-right"></i> ${arrivee}</p>
-    <p><strong>Date :</strong> ${date}</p>
-    <p><strong>Horaire :</strong> ${heure}</p>
-    <p><strong>Véhicule :</strong> ${voiture}</p>
-    <p><strong>Prix :</strong> ${prix}</p>`;
-    
-    popupPlaces.textContent = places;
-    reserverBtn.setAttribute('data-id', trajetId);
-
-    popup.classList.remove('hidden');
-  });
-
-  closeBtn.addEventListener('click', () => {
-    popup.classList.add('hidden');
-  });
-
-  reserverBtn.addEventListener('click', async () => {
-    const trajetId = reserverBtn.getAttribute('data-id');
-
-    try {
-      const response = await fetch('reserver.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ trajetId:parseInt(trajetId)})
-      });
-
-      const data = await response.json();
-      if (data.success) {
-        alert("Réservation confirmée !"),
-        popupPlaces.textContent = data.remaining_places;
-      } else {
-        alert(data.message || "Erreur de réservation");
-      }
-    } catch (error) {
-      alert("Erreur technique.");
-      console.error(error);
-    }
-  });
-}
 
 // Connexion / Inscription 
 
@@ -216,7 +149,6 @@ function initLogin() {
   if (!loginBtn) return;
 
   loginBtn.addEventListener('click', async () => {
-    console.log("Tentative de connexion");
     const username = document.getElementById('user-name').value.trim();
     const password = document.getElementById('password').value;
 
@@ -234,10 +166,8 @@ function initLogin() {
         credentials: 'include',
         body: JSON.stringify({ username, password })
       });
-
       const result = await response.json();
-      console.log("réponse JSON", result);
-
+      
       if (result.success) {
         localStorage.setItem('userLoggedIn', 'true');
         window.location.href = 'profil.html'; 
@@ -289,7 +219,7 @@ function initFiltres() {
 
 // Reserver
 
-function initReserverCovoit() {
+function initReservation() {
   const reserverBtn = document.getElementById('reserverBtn');
   const placesText = document.getElementById('placesDispo');
 
@@ -451,103 +381,26 @@ function initProposerTrajet() {
     });
   })};
 
-
-
-
-
 // Modification des informations personnelles
 function initModInfo() {
-  const profilBtn = document.getElementById('profilBtn');
-  const modInfo = document.getElementById('modInfo');
+  const formModif = document.getElementById('form-modif');
+  if (!formModif) return;
 
-  if (!profilBtn || !modInfo) return;
+  // Fix ajout input HTML — on crée un seul input et on l'ajoute une seule fois
+  const inputHTML = document.createElement('input');
+  inputHTML.setAttribute('type', 'text');
+  inputHTML.setAttribute('name', 'modifInput');
+  inputHTML.setAttribute('placeholder', 'Modifiez le champ');
 
-  // Clic pour formulaire
-  profilBtn.addEventListener('click', () => {
-    remplirFormulaire();
-    modInfo.style.display = 'block';
+  formModif.appendChild(inputHTML);
+
+  formModif.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert("Formulaire soumis");
   });
-
-  // Récup et pré-remplissage des infos
-  function remplirFormulaire() {
-    modInfo.innerHTML = ''; // Permet de nettoyer le formulaire à chaque ouverture
-    const userInfo = document.querySelectorAll('.user-info p');
-
-    let formHTML = `<form id="modifProfilForm">`
-
-    userInfo.forEach(p => {
-      const label = p.querySelector('strong');
-      if (!label) return;
-
-      const fieldName = label.textContent.trim().replace(':', '');
-      const value = p.textContent.replace(label.textContent, '').trim();
-
-      let inputHTML = '';
-
-      switch (fieldName) {
-        case 'Nom':
-          inputHTML = `<label>Nom : <input type="text" name="nom" value="${value}"></label>`;
-          break;
-        case 'Email':
-          inputHTML = `<label>Email : <input type="email" name="email" value="${value}"></label>`;
-          break;
-        case 'Téléphone':
-          inputHTML = `<label>Téléphone : <input type="text" name="telephone" value="${value}"></label>`;
-          break;
-        case 'A propos':
-          inputHTML = `<label>A propos : <textarea name="apropos">${value}></textarea></label>`;
-          break;          
-      }
-    });
-
-    formHTML += inputHTML;`
-    <button type="submit">Enregistrer</button>
-    <button type="button" id="cancelModif">Annuler</button>
-    </form>
-    `;
-
-    modInfo.innerHTML = formHTML;
-
-    document.getElementById('cancelModif').addEventListener('click', () => {
-      modInfo.style.display = 'none';
-    });
-
-    const form = document.getElementById('modifProfilForm');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(form);
-
-      try {
-        const response = await fetch('modifier_profil.php', {
-          method: 'POST',
-          body: formData,
-          credentials: 'include'
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-          document.querySelector('.user-info p:nth-child(2)').innerHTML = `<strong>Nom :</strong> ${formData.get('nom')}`;
-          document.querySelector('.user-info p:nth-child(3)').innerHTML = `<strong>Email :</strong> ${formData.get('email')}`;
-          document.querySelector('.user-info p:nth-child(4)').innerHTML = `<strong>Téléphone :</strong> ${formData.get('telephone')}`;
-          document.querySelector('.user-info p:nth-child(6)').innerHTML = `<strong>À propos :</strong> ${formData.get('description')}`;
-
-          alert("Profil mis à jour !");
-          modInfo.style.display = 'none';
-        } else {
-          alert(data.message || "Erreur lors de la mise à jour.");
-        }
-
-      } catch (err) {
-        console.error(err);
-        alert("Erreur réseau ou serveur");
-      }
-    });
-  }
 }
 
-function initPage() {
-  async function chargerNomPrenom() {
+async function initPage() {
     try {
       const res = await fetch('infos_utilisateur.php');
       const data = await res.json();
@@ -561,4 +414,3 @@ function initPage() {
       console.error("Erreur lors du chargement des informations.", err);
     }
   }
-}

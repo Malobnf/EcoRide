@@ -73,12 +73,8 @@ $stmt->execute([
 ]);
 
 // Enregistrer la commission pour l'entreprise
-$stmt = $pdo->prepare("INSERT INTO entreprise_credits (montant, trajet_id, utilisateur_id) VALUES (:montant, :trajet_id, :utilisateur_id");
-$stmt->execute([
-  ':montant' => $commission,
-  ':trajet_id' => $idTrajet,
-  ':utilisateur_id' => $idUtilisateur
-]);
+$stmt = $pdo->prepare("UPDATE entreprise_credits SET total_credits = total_credits + :commission WHERE id = 1");
+$stmt->execute([':commission' => $commission]);
 
 // Valider transaction
 $pdo->commit();

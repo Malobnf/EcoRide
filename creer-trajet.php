@@ -38,7 +38,7 @@ try {
 // Insertion du trajet dans BDD
 
 try {
-  $stmt = $pdo->prepare("INSERT INTO trajets (utilisateur_id, ville_depart, ville_arrivee, date_depart, heure_depart, prix, places_disponibles, type_voiture) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+  $stmt = $pdo->prepare("INSERT INTO trajets (conducteur_id , ville_depart, ville_arrivee, date_trajet, heure_depart, prix, places_disponibles, type_voiture) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
   $stmt->execute([$userId, $depart, $arrivee, $date, $heure, $prix, $places, $type]);
 
   echo json_encode(['success' => true]);

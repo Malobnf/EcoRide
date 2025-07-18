@@ -2,31 +2,7 @@ let trajetSelectionne = null;
 document.addEventListener('DOMContentLoaded', () => {
   initRechercheCovoitPage();
   initResultatsCovoit();
-
-
-  document.getElementById('reserverBtn').addEventListener('click', async () => {
-        if (!trajetSelectionne) return;
-
-        try {
-          const response = await fetch('reserver.php', {
-            method: 'POST',
-            headers: {'Content-Type' : 'application/json'},
-            credentials: 'include',
-            body: JSON.stringify({id_trajet: trajetSelectionne.id})
-          });
-
-          const result = await response.json();
-          if (result.success) {
-            alert("Réservation confirmée !");
-            document.getElementById('trajetModal').classList.add('hidden');
-          } else {
-            alert("Erreur : " + result.message);
-          }
-        } catch (err) {
-          console.error("Erreur lors de la réservation", err);
-        }
-      });
-    });
+  });
 
 function initRechercheCovoitPage() {
 
@@ -93,15 +69,38 @@ function initRechercheCovoitPage() {
             document.getElementById('modalRating').textContent = '⭐⭐⭐☆';
 
             document.getElementById('trajetModal').classList.remove('hidden');
-          });
+
+            const reserverBtn = document.getElementById('reserverBtn');
+            reserverBtn.onclick = async () => {
+              if (!trajetSelectionne) return;
+
+              try {
+              const response = await fetch('reserver.php', {
+                method: 'POST',
+                headers: {'Content-Type' : 'application/json'},
+                credentials: 'include',
+                body: JSON.stringify({id_trajet: trajetSelectionne.id})
+            });
+
+              const result = await response.json();
+              if (result.success) {
+                alert("Réservation confirmée !");
+                document.getElementById('trajetModal').classList.add('hidden');
+              } else {
+                alert("Erreur : " + result.message);
+              }
+            } catch (err) {
+              console.error("Erreur lors de la réservation", err);
+            }
+          };
         });
-        messageDiv.textContent = "";
+      });
+          
+      messageDiv.textContent = "";
       } else {
         resultatsDiv.classList.add('hidden');
         messageDiv.textContent = "Aucun trajet disponible.";
-      }
-
-      
+      }      
 
     } catch (error) {
       console.error("Erreur réseau", error);

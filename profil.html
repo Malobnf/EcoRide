@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  <script src="profil.js" defer></script>
   <script src="js/script.js" defer></script>
   <script src="rechercheCovoit.js" defer></script>
   <title>EcoRide</title>
@@ -31,6 +32,19 @@
     </nav>
   </header>
 
+  <div id="mesTrajets">
+    <h2 id="mesTrajetsTab">Mes trajets réservés</h2>
+    <div id="mesTrajetsContent" class="hidden">
+      <div id="listeTrajets"></div>
+    </div>
+  </div>
+
+  <!-- Popup de confirmation de l'annulation -->
+   <div id="popupConfirm" class="hidden">
+    <p>Souhaitez-vous vraiment annuler ce trajet ?</p>
+    <button id="confirmerAnnulation">Oui</button>
+    <button id="annulerAnnulation">Non</button>
+   </div>
   
   <main class="profil-main">
     <div class="profile-pic"></div>

@@ -8,8 +8,6 @@ $data = json_decode(file_get_contents("php://input"), true);
 $username = $data['username'] ?? '';
 $password = $data['password'] ?? '';
 
-error_log("Données reçues : username=$username");
-
 if (empty($username) || empty($password)) {
   echo json_encode(['success' => false, 'message' => "Champs vides"]);
   exit;
@@ -34,10 +32,8 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 if ($user && password_verify($password, $user['mot_de_passe'])) {
   $_SESSION['utilisateur_id'] = $user['id'];
   echo json_encode(['success' => true]);
-  error_log("connexion réussie");
 } else {
   echo json_encode(['success' => false, 'message' => "Identifiants incorrects"]);
-  error_log("id incorrects");
 }
 exit;
 

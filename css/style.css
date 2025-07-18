@@ -8,6 +8,7 @@
 * HEADER
 * IDs
 * MENU DEROULANT
+* MES TRAJETS
 * MODIFIER PROFIL
 * PAGE DE CONNEXION
 * PAGE PROFIL
@@ -280,7 +281,6 @@ footer {
   opacity: 0.5;
 }
 
-
 nav {
   width: 100%;
   margin: 0 auto;
@@ -299,6 +299,13 @@ nav a {
 nav a:hover {
   color: orange;
   border-bottom: 2px solid gold;
+}
+
+/* MES TRAJETS */
+
+#mesTrajetsTab {
+  cursor: pointer;
+  color: #007BFF;
 }
 
 /* MODIFIER PROFIL */
@@ -332,7 +339,7 @@ nav a:hover {
   height: 150px;
   border-radius: 50%;
   background-color: #ccc;
-  background-image: url('https://via.placeholder.com/150');
+  background-image: url('../Images/default-user.png');
   background-size: cover;
   background-position: center;
   margin-bottom: 20px;
