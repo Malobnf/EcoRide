@@ -6,22 +6,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeBtn = document.getElementById('closeTrajetsModal');
   const modalOverlay = document.getElementById('trajetsModalOverlay');
 
-  openBtn.addEventListener('click', () => {
-    modalOverlay.classList.remove('hidden');
-    chargerMesTrajets();
-  });
+  if (openBtn && closeBtn && modalOverlay) {
+    openBtn.addEventListener('click', () => {
+      modalOverlay.classList.remove('hidden');
+      chargerMesTrajets();
+    });
 
-  closeBtn.addEventListener('click', () => {
-    console.log("fermeture");
-    modalOverlay.classList.add('hidden');
-  });
-
-  // Fermer si on clique en dehors du modal
-  modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) {
+    closeBtn.addEventListener('click', () => {
+      console.log("fermeture");
       modalOverlay.classList.add('hidden');
-    }
-  });  
+    });
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        modalOverlay.classList.add('hidden');
+      }
+    });
+  } else {
+    console.warn("Un ou plusieurs éléments modaux sont absents.");
+  }  
 
   // Navigation entre onglets dans le popup
   document.querySelectorAll('.tab-button').forEach(button => {
@@ -41,6 +44,149 @@ document.addEventListener('DOMContentLoaded', () => {
   // Afficher le premier onglet par défaut
   document.getElementById('futurs').style.display= 'block';
   document.getElementById('passes').style.display= 'none';
+
+
+  // Onglet véhicules
+  const vehiculeBtn = document.getElementById("vehiculeBtn");
+  const vehiculeModal = document.getElementById("vehiculeModalOverlay");
+  const closeVehiculeModal = document.getElementById("closeVehiculeModal");
+  const listeVehicules = document.getElementById("listeVehicules");
+  const formAjoutVehicule = document.getElementById("formAjoutVehicule");
+  const ajouterVehiculeBtn = document.getElementById("ajouterVehiculeBtn");
+  const formModifVehicule = document.getElementById("formModifVehicule");
+
+  if (vehiculeBtn) {
+    vehiculeBtn.addEventListener('click', () => {
+    vehiculeModal.classList.remove('hidden');
+    chargerVehicules();
+  });
+    } else {
+      console.warn("vehiculeBtn non trouvé");
+    }
+
+  if (closeVehiculeModal) {
+    closeVehiculeModal.addEventListener('click', () => {
+      vehiculeModal.classList.add('hidden');
+  });
+    } else {
+      console.warn("closeVehiculeModal non trouvé");
+    }
+
+  if (ajouterVehiculeBtn) {
+    ajouterVehiculeBtn.addEventListener('click', () => {
+      formAjoutVehicule.classList.toggle('hidden');
+  });
+    } else {
+      console.warn("ajouterVehiculeBtn non trouvé");
+    }
+
+  if (formAjoutVehicule) {
+    formAjoutVehicule.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(formAjoutVehicule);
+      const res = await fetch('api/ajouter_vehicule.php', {
+        method: 'POST',
+        body: data
+      });
+
+      if (res.ok) {
+        formAjoutVehicule.reset();
+        formAjoutVehicule.classList.add('hidden');
+        chargerVehicules();
+      }
+    });
+  } else {
+    console.warn("formAjoutVehicule non trouvé");
+  }
+
+  if (formModifVehicule) {
+    formModifVehicule.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(formModifVehicule);
+
+      try {
+        const res = await fetch('api/modifier_vehicule.php', {
+          method: 'POST',
+          body: formData
+        });
+
+
+        const text = await res.text();
+        console.log("Réponse brute reçue :", text);
+
+        const result = JSON.parse(text);
+
+        if (result.success) {
+          alert("Modifications enregistrées.");
+          console.log("Masquage du formulaire de modification...");
+          formModifVehicule.classList.add("hidden");
+          formModifVehicule.reset();
+          chargerVehicules(); // Rafraîchir la liste des véhicules
+        } else {
+          alert(result.message || "Erreur lors de la modification");
+        }
+
+      } catch (error) {
+        console.error("Erreur attrapée lors du fetch:", error);
+        alert("Erreur réseau");      
+      }
+    });
+  }
+
+  async function chargerVehicules() {
+    try {
+      const res = await fetch ('api/mes_vehicules.php');
+      const vehicules = await res.json();
+      listeVehicules.innerHTML = "";
+
+      vehicules.forEach(v => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+          <p><strong>${v.marque} ${v.modele}</strong> - ${v.plaque} (${v.couleur})</p>
+          <button class="modifierVehiculeBtn" data-id="${v.id}">Modifier</button>
+          <button class="supprimer-vehicule-btn" data-id="${v.id}">Supprimer</button>
+        `;
+        listeVehicules.appendChild(div);
+      });
+
+    // Supprimer véhicule
+    document.querySelectorAll(".supprimer-vehicule-btn").forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if(confirm("Supprimer ce véhicule ?")) {
+          await fetch('api/supprimer_vehicule.php?id=' + btn.dataset.id);
+          chargerVehicules();
+        }
+      });
+    });
+
+    // Modifier véhicule
+    document.querySelectorAll(".modifierVehiculeBtn").forEach(btn => {
+      btn.addEventListener('click', async () => {
+      const id = btn.dataset.id;
+      const res = await fetch('api/get_vehicule.php?id=' + id);
+      const data = await res.json();
+
+      if (data.success && data.vehicule) {
+        if (formModifVehicule) {
+          formModifVehicule.querySelector('[name="id"]').value = data.vehicule.id;
+          formModifVehicule.querySelector('[name="marque"]').value = data.vehicule.marque;
+          formModifVehicule.querySelector('[name="modele"]').value = data.vehicule.modele;
+          formModifVehicule.querySelector('[name="plaque"]').value = data.vehicule.plaque;
+          formModifVehicule.querySelector('[name="couleur"]').value = data.vehicule.couleur;
+          formModifVehicule.classList.remove('hidden');
+          formModifVehicule.scrollIntoView({behavior: 'smooth'});
+        }
+    } else {
+      alert("Erreur : " + (data.message || "Impossible de charger le véhicule."));
+    }
+  });
+});
+
+  } catch (error) {
+    console.error(error);
+    listeVehicules.innerHTML = '<p>Impossible de charger les véhicules.</p>';
+  }
 
   // Préférences utilisateur
   const form = document.getElementById('preferencesForm');
@@ -85,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+// Supprimer réservation
 let reservationASupprimer = null;
 
 document.getElementById('confirmerAnnulation').addEventListener('click', async () => {
@@ -122,7 +269,7 @@ document.getElementById('confirmerAnnulation').addEventListener('click', async (
       });
     }
   }
-});
+};
 
 async function chargerMesTrajets() {
   const response = await fetch('mes_trajets.php');
@@ -241,11 +388,44 @@ async function chargerMesTrajets() {
   }
 }
 
+
+// Sauvegarde AJAX
+const editForm = document.getElementById('editProfileForm');
+if(editForm) {
+  editForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+      const formData = new FormData(editForm);
+      
+      try {
+        const response = await fetch('modifier_profil.php', {
+          method: 'POST',
+          body: formData
+        });
+        const result = await response.json();
+        
+        if (result.success) {
+          alert("Profil mis à jour !");
+          window.location.reload();
+        } else {
+          alert(result.message || "Erreur lors de la mise à jour.");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Erreur réseau.");
+      }
+    })
+  }
+});
+
 function initModInfo() {
   const profilBtn = document.getElementById('profilBtn');
   const editPopup = document.getElementById('editProfilePopup');
   const closeProfilBtn = document.getElementById('closeEditProfile');
 
+  if (!profilBtn || !editPopup || !closeProfilBtn) {
+    console.warn("Un ou plusieurs éléments sont absents.")
+    return;
+  }
   // Affichage du popup
   profilBtn.addEventListener('click', () => {
     editPopup.classList.remove('hidden');
@@ -272,30 +452,3 @@ function initModInfo() {
         });
       });
     }
-
-  // Sauvegarde AJAX
-  const editForm = document.getElementById('editProfileForm');
-  if(editForm) {
-    editForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(editForm);
-
-      try {
-        const response = await fetch('modifier_profil.php', {
-          method: 'POST',
-          body: formData
-        });
-        const result = await response.json();
-
-        if (result.success) {
-          alert("Profil mis à jour !");
-          window.location.reload();
-        } else {
-          alert(result.message || "Erreur lors de la mise à jour.");
-        }
-      } catch (error) {
-        console.error(error);
-        alert("Erreur réseau.");
-      }
-    })
-  }

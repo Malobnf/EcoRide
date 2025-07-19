@@ -1,6 +1,5 @@
 /* Styles classés par fonctionnalité en ordre alphabétique :
 
-* ADMIN
 * CLASSES
 * CONFIRMATION CREATION TRAJET
 * CSS GENERAL
@@ -18,22 +17,6 @@
 * STATISTIQUES
 
 */
-
-/* ADMIN */
-
-.action-admin {
-  color: black;
-}
-
-#chartTrajets {
-  width: 600px;
-  height: 300px;
-}
-
-#chartCredits {
-  width: 600px;
-  height: 300px;
-}
 
 /* CLASSES */
 
@@ -409,42 +392,11 @@ nav a:hover {
   display: none;
 }
 
-.terminer-btn {
-  background-color: red;
-  color: white;
-}
 
 /* MODIFIER PROFIL */
 
-.edit-field {
-  margin-bottom: 15px;
-  position: relative;
-}
-
-.edit-field .edit-icon {
-  margin-left: 10px;
-  cursor: pointer;
-  color: #555;
-}
-
-.edit-field input, 
-.edit-field textarea {
-  width: 100%;
-  padding: 5px;
-  margin-top: 5px;
-}
-
-.validate-btn {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.validate-btn:hover {
-  background-color: #218838;
+#modInfo {
+  display: none;
 }
 
 /* PAGE DE CONNEXION */
