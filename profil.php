@@ -18,6 +18,10 @@ $stmt = $pdo->prepare('SELECT nom, prenom, email, telephone, vehicule, descripti
 $stmt->execute([$_SESSION['utilisateur_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+$stmtVehicules = $pdo->prepare('SELECT id, marque, modele, couleur, places FROM vehicules WHERE utilisateur_id = ?');
+$stmtVehicules->execute([$_SESSION['utilisateur_id']]);
+$vehicules = $stmtVehicules->fetchAll(PDO::FETCH_ASSOC);
+
 if (!$user) {
     echo "Utilisateur non trouvé.";
     exit;
@@ -38,6 +42,7 @@ if (!$user) {
     const userRole = <?= json_encode($user['role']) ?>;
   </script>
   <script src="profil.js" defer></script>
+  <script src="gestionCovoit.js" defer></script>
   <script src="js/script.js" defer></script>
   <script src="rechercheCovoit.js" defer></script>
   <title>EcoRide</title>
@@ -62,8 +67,32 @@ if (!$user) {
     </nav>
   </header>
 
+  <!-- Onglet de gestion des covoiturages (admin + employe) -->
+  <div id="gestionCovoitModalOverlay" class="modal-overlay hidden">
+    <div class="modal-content-trajets">
+      <span class="close-modal" id="closeGestionCovoitModal"><i class="fas fa-circle-xmark"></i></span>
+      <h3>Gestion covoiturages</h3>
+      <div class="modal-tabs">
+        <button class="tab-button active" data-tab="avis">Avis</button>
+        <button class="tab-button" data-tab="conflits">Conflits</button>
+      </div>
+      <div class="modal-tab-content" id="avis">
+        <div id="listeAvis"></div>
+      </div>
+      <div class="modal-tab-content hidden" id="conflits">
+        <div id="listeConflits"></div>
+      </div>
+    </div>
+  </div>
+
   <button id="openTrajetsModal" type="button">Mes trajets</button>
+  <button id="vehiculeBtn">Mes véhicules</button>
+  
   <button id="adminTabBtn" style="display:none;">Gestion admin</button>
+
+  <?php if (in_array($user['role'], ['admin', 'employe'])): ?>
+    <button id="gestionCovoitBtn">Gestion covoiturages</button>
+  <?php endif; ?>
 
   <div id="trajetsModalOverlay" class="modal-overlay hidden">
     <div id="trajetsModal" class="modal-content-trajets">
@@ -83,6 +112,36 @@ if (!$user) {
       </div>
     </div>
   </div>
+
+  <div id="vehiculeModalOverlay" class="modal-overlay hidden">
+    <div class="modal-content-trajets">
+      <span class="close-modal" id="closeVehiculeModal"><i class="fas fa-circle-xmark"></i></span>
+      <h3>Mes véhicules</h3>
+
+      <div id="listeVehicules"></div>
+      <button id="ajouterVehiculeBtn">Ajouter un véhicule</button>
+      <form id="formModifVehicule" class="hidden">
+        <input type="hidden" name="id" id="vehiculeInput" value="">
+        <input type="text" name="marque">
+        <input type="text" name="modele">
+        <input type="text" name="plaque">
+        <input type="text" name="couleur">
+        <button type="submit">Enregistrer</button>
+      </form>
+
+      
+  <!-- Formulaire ajout véhicule -->
+      <form id="formAjoutVehicule" class="hidden">
+        <input type="text" name="marque" placeholder="Marque" required>
+        <input type="text" name="modele" placeholder="Modele" required>
+        <input type="text" name="plaque" placeholder="Plaque" required>
+        <input type="text" name="date-immat" placeholder="Date de première immatriculation" required>
+        <input type="text" name="couleur" placeholder="Couleur" required>
+        <input type="text" name="places" placeholder="Nombre de places passager" required>
+        <button type="submit">Enregistrer</button>
+      </form>
+    </div>
+  </div> 
 
   <!-- Popup de confirmation de l'annulation -->
    <div id="popupConfirm" class="hidden">
@@ -109,7 +168,20 @@ if (!$user) {
       <p><strong>Prénom :</strong> <?= htmlspecialchars($user['prenom']) ?></p>
       <p><strong>Email :</strong> <?= htmlspecialchars($user['email']) ?></p>
       <p><strong>Téléphone :</strong> <?= htmlspecialchars($user['telephone']) ?></p>
-      <p><strong>Véhicule :</strong> <?= htmlspecialchars($user['vehicule']) ?></p>
+      <div><strong>Véhicule :</strong></div>
+      <?php if (count($vehicules) > 0): ?>
+        <ul>
+          <?php foreach ($vehicules as $v): ?>
+            <li>
+              <?= htmlspecialchars($v['marque']) ?> <?= htmlspecialchars($v['modele']) ?>,
+              <?= htmlspecialchars($v['couleur']) ?>
+              <a href="api/modifier_vehicule.php?id=<?=$v['id'] ?>" class="modifier-btn"></a>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      <?php else: ?>
+        <p>Aucun véhicule enregistré.</p>
+      <?php endif; ?>
       <p><strong>À propos :</strong> <?= nl2br(htmlspecialchars($user['description'])) ?></p>
       <h4>Préférences :</h4>
         <form id="preferencesForm">
@@ -135,7 +207,6 @@ if (!$user) {
         </form>
 
         <div id="prefMessage"></div>
-      </p>
     </div>
 
     <!-- Modification du profil -->
@@ -186,8 +257,7 @@ if (!$user) {
           
         
       </main>
-      <button id="vehiculeBtn"><a href="ajout-vehicule.html">Ajouter un véhicule</a></button>
-  
+
       <button id="logoutBtn" onclick="window.location.href='deconnexion.php'">Déconnexion</button>
 
   </body>

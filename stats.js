@@ -1,6 +1,6 @@
 let chartTrajets, chartCredits;
 
-async function chargerStats(period) {
+async function chargerStats(periode) {
   try {
     const res = await fetch('stats.php');
     const data = await res.json();
@@ -9,7 +9,7 @@ async function chargerStats(period) {
     const creditsData = data.credits[periode];
 
     const labelsTrajets = trajetsData.map(e => e.periode);
-    const valuesTrajets = trajetsData.map(e => e.credits);
+    const valuesTrajets = trajetsData.map(e => e.total);
   
     const labelsCredits = creditsData.map(e => e.periode);
     const valuesCredits = creditsData.map(e => e.credits);

@@ -47,7 +47,7 @@ try {
 
   // Crédits par an
   $creditsAnnee = $pdo->query("
-    SELECT YEAR(date_trajet) AS periode, COUNT(*) AS total
+    SELECT YEAR(date_trajet) AS periode, COUNT(*) AS credits
     FROM trajets
     GROUP BY YEAR(date_trajet)
     ORDER BY periode ASC

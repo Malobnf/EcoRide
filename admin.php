@@ -27,10 +27,10 @@ $employes = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <script>
     const userRole = <?= json_encode($user['role']) ?>;
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="profil.js" defer></script>
   <script src="js/script.js" defer></script>
   <script src="stats.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
   <title>Gestion Admin</title>
 </head>
 

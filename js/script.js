@@ -10,10 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initLogin();
   initLogout();
   initCredits();
-  initModInfo();
   initDepartTime();
   initProposerTrajet();
-  initPage();
 })
 
 function setDefaultDate() {
