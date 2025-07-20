@@ -1,5 +1,68 @@
-/* CSS GÉNÉRAL */
+/* Styles classés par fonctionnalité en ordre alphabétique :
 
+* CLASSES
+* CONFIRMATION CREATION TRAJET
+* CSS GENERAL
+* DETAILS DU COVOITURAGE
+* FILTRES DE RECHERCHE
+* HEADER
+* IDs
+* MENU DEROULANT
+* MES TRAJETS
+* MODIFIER PROFIL
+* PAGE DE CONNEXION
+* PAGE PROFIL
+* RECHERCHE DE TRAJET
+* SLIDER
+* STATISTIQUES
+
+*/
+
+/* CLASSES */
+
+.about_us {
+  padding: 1%;
+  font-size: 40px;
+}
+
+.about_us p {
+  font-size: 30px;
+}
+
+/* CONFIRMATION CREATION TRAJET */
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  text-align: center;
+}
+
+.popup .close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* CSS GÉNÉRAL */
 
 * {
   margin: 0;
@@ -50,6 +113,367 @@ footer {
   font-size: 20px;
 }
 
+.hidden {
+  display: none !important;
+}
+
+/* DETAILS DU COVOITURAGE */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.close-btn {
+  cursor: pointer;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+}
+
+.conducteur-info {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.conducteur-info img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+#demanderAlerteBtn {
+  display: none
+}
+
+#alerteMessage {
+  color: green;
+  margin-top: 10px;
+}
+
+/* FILTRES DE RECHERCHE */
+
+.filtre {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 20px 0;
+  background-color: #f9f9f9;
+  max-width: 400px;
+}
+
+.filtre h3 {
+  margin-bottom: 10px;
+}
+
+.filtre label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.filtre input, .filtre select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+.filtreBtn {
+  margin-top: 15px;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 20px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.filtreBtn:hover {
+  background-color: #388e3c;
+}
+
+/* HEADER */
+
+.marque {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* IDs */
+
+#co2 {
+  text-align: right;
+}
+
+#profil {
+  text-align: right;
+}
+
+#trajets {
+  grid-column: 1;
+}
+
+#co {
+  grid-column: 2;
+}
+
+#argent {
+  grid-column: 3;
+}
+
+
+/* MENU DÉROULANT */
+
+.deroulant {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.side-menu {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 200px;
+  background-color: white;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+  display: none;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.side-menu a {
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+}
+
+.current-page {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  opacity: 0.5;
+}
+
+.current-page:hover {
+  all: initial;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  font-family: "Josefin Sans", sans-serif;
+  opacity: 0.5;
+}
+
+nav {
+  width: 100%;
+  margin: 0 auto;
+  position: sticky;
+  top: 0px;
+}
+
+nav a {
+  display: block;
+  text-decoration: none;
+  color:black;
+  border-bottom: 2px solid transparent;
+  padding: 10px 0px;
+}
+
+nav a:hover {
+  color: orange;
+  border-bottom: 2px solid gold;
+}
+
+/* MES TRAJETS */
+
+#popupConfirm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  z-index: 1001;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#futurs {
+  display: block;
+}
+
+#passes {
+  display: none;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-overlay.hidden {
+  display: none !important;
+}
+
+.modal-content-trajets {
+  background: white;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  background: #f0f0f0;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.tab-button.active {
+  background: #007bff;
+  color: white;
+}
+
+.modal-tab-content {
+  display: none;
+}
+
+
+/* MODIFIER PROFIL */
+
+#modInfo {
+  display: none;
+}
+
+/* PAGE DE CONNEXION */
+
+#sign-in {
+  display: none;
+}
+
+/* PAGE PROFIL */
+
+.profil-main {
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+#icone-profil {
+  cursor: pointer;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #ccc;
+  background-image: url('../Images/default-user.png');
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 20px;
+}
+
+.rating {
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: gold;
+}
+
+.reviews {
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+.review {
+  background-color: white;
+  padding: 15px;
+  margin: 10px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.user-info p {
+  margin: 5px 0;
+}
+
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #db9d9d;
+  margin: 0 auto;
+}
+
+.mod-info {
+  display: none;
+}
+
+#profilBtn, #logoutBtn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
 /* RECHERCHE DE TRAJET */
 
@@ -63,9 +487,7 @@ footer {
 }
 
 .container {
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 100px 50px 200px;
+  display: block;
   padding: 100px;
   font-size: 30px;
   text-align: center;
@@ -86,7 +508,7 @@ footer {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.search-bar input {
+.container input {
   flex: 1;
   border: none;
   background: transparent;
@@ -97,17 +519,20 @@ footer {
 }
 
 .searchBtn {
-  border: none;
-  background-color: #363f85;
-  color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
+  font-family: "Josefin Sans", sans-serif;
   align-items: center;
-  justify-content: center;
+  text-align: center;
+  font-size: 23px;
+  margin-top: 15px;
+  padding: 10px;
+  width: 400px;
+  border: none;
+  border-radius: 20px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s;
 }
 
 .resBtn {
@@ -133,7 +558,6 @@ footer {
 }
 
 .resultats {
-  display: grid;
   grid-row: auto;
   grid-template-columns: 20% 60% 20%;
   background-color: white;
@@ -154,68 +578,18 @@ footer {
   margin: 10px;
 }
 
-#resultatsCovoit {
+.r-hidden {
   display: none;
 }
 
-/* CLASSES */
-
-
-.about_us {
-  padding: 1%;
-  font-size: 40px;
-}
-
-.about_us p {
-  font-size: 30px;
-}
-
-/* STATISTIQUES */
-
-.statistics {
-  display: grid;
-  grid-template-columns: 33% 33% 33%;
-  text-align: center;
-  margin-bottom: 100px;
-}
-
-
-.statistics div {
-  font-size: 30px;
-}
-
-.statistics p {
-  font-size: 20px;
-}
-
-
-/* IDs */
-
-#co2 {
-  text-align: right;
-}
-
-#profil {
-  text-align: right;
-}
-
-#trajets {
-  grid-column: 1;
-}
-
-#co {
-  grid-column: 2;
-}
-
-#argent {
-  grid-column: 3;
-}
-
-/* HEADER */
-
-.marque {
-  font-size: 20px;
-  font-weight: bold;
+.trajet-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  background-color: #f9f9f9;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
 }
 
 /* SLIDER */
@@ -273,179 +647,20 @@ footer {
   margin-top: 7.5rem;
 }
 
-/* MENU DÉROULANT */
+/* STATISTIQUES */
 
-.deroulant {
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.side-menu {
-  position: absolute;
-  top: 60px;
-  left: 0;
-  width: 200px;
-  background-color: white;
-  box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
-  display: none;
-  flex-direction: column;
-  z-index: 1000;
-}
-
-.side-menu a {
-  padding: 12px 20px;
-  text-decoration: none;
-  color: #333;
-  border-bottom: 1px solid #ddd;
-}
-
-.current-page {
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  opacity: 0.5;
-}
-
-.current-page:hover {
-  all: initial;
-  padding: 12px 20px;
-  text-decoration: none;
-  color: #333;
-  border-bottom: 1px solid #ddd;
-  font-family: "Josefin Sans", sans-serif;
-  opacity: 0.5;
-}
-
-
-nav {
-  width: 100%;
-  margin: 0 auto;
-  position: sticky;
-  top: 0px;
-}
-
-nav a {
-  display: block;
-  text-decoration: none;
-  color:black;
-  border-bottom: 2px solid transparent;
-  padding: 10px 0px;
-}
-
-nav a:hover {
-  color: orange;
-  border-bottom: 2px solid gold;
-}
-
-/* PAGE PROFIL */
-
-#icone-profil {
-  cursor: pointer;
-}
-
-.profile-photo {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background-color: #db9d9d;
-  margin: 0 auto;
-}
-
-/* FILTRES DE RECHERCHE */
-
-.filtre {
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  padding: 15px;
-  margin: 20px 0;
-  background-color: #f9f9f9;
-  max-width: 400px;
-}
-
-.filtre h3 {
-  margin-bottom: 10px;
-}
-
-.filtre label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-.filtre input, .filtre select {
-  width: 100%;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin-top: 5px;
-}
-
-.filtreBtn {
-  margin-top: 15px;
-  padding: 10px;
-  width: 100%;
-  border: none;
-  border-radius: 20px;
-  background-color: #4caf50;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.filtreBtn:hover {
-  background-color: #388e3c;
-}
-
-/* DETAILS DU COVOITURAGE */
-
-.res-container {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 15px;
-  width: 90%;
-  max-width: 400px;
-  position: relative;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
-  display: block;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%);
+.statistics {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
   text-align: center;
-  }
-
-.reserver-btn {
-  margin-top: 15px;
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  margin-bottom: 100px;
 }
 
-.reserver-btn:hover {
-  background-color: #388e3c;
+
+.statistics div {
+  font-size: 30px;
 }
 
-.review {
-  border: 0.5px solid #388e3c;
-  border-radius: 15px;
-  padding: 10px;
-}
-
-.infos-covoit p {
-  padding: 5px;
-}
-
-p i.fa-comments {
-  text-decoration:line-through;
-}
-
-/* PAGE DE CONNEXION */
-
-#sign-in {
-  display: none;
+.statistics p {
+  font-size: 20px;
 }

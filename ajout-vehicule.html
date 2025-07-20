@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-  <script src="js/script.js"></script>
+  <script src="ajoutVehicule.js" defer></script>
   <title>EcoRide</title>
 </head>
 
@@ -16,18 +16,26 @@
   <header>
     <div class="deroulant" onclick="toggleMenu()">☰</div>
     <div class="marque"><a href="accueil.html">EcoRide</a></div>
-    <div class="profile-icone"><a rel="profil" href="profil.html"></a></div>
+    <div class="profile-icone"><a rel="profil" href="profil.php"></a></div>
 
     <nav class="side-menu" id="sideMenu">
       <a href="covoit.html">Recherche</a>
-      <a href="profil.html">Profil</a>
+      <a href="creer-trajet.html">Proposer un trajet</a>
+      <a href="profil.php">Profil</a>
       <a href="contact.html">Contact</a>
     </nav>
   </header>
 
-
-<!-- Cliquer sur icône de profil, si pas connecté, renvoie vers page d'inscription -->
-
+  <form id="ajoutVehiculeForm">
+    <label>Plaque d'immatriculation : <input type="text" name="plaque" required></label><br>
+    <label>Date de première immatriculation : <input type="date" name="date_immat" required></label><br>
+    <label>Marque : <input type="text" name="marque" required></label><br>
+    <label>Modèle : <input type="text" name="modele" required></label><br>
+    <label>Couleur : <input type="text" name="couleur" required></label><br>
+    <label>Places disponibles : <input type="number" name="places" min="1" required></label><br>
+    <button type="submit">Ajouter le véhicule</button>    
+  </form>
+  <div id="message"></div>
 
 
 

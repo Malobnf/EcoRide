@@ -4,8 +4,8 @@ session_start();
 // Connexion à la BDD
 $host = 'localhost';
 $dbname = 'ecoride';
-$user = 'admin';
-$password = '30303030';
+$user = 'root';
+$password = '';
 
 try {
   $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
@@ -17,17 +17,19 @@ try {
 // Vérification des champs 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $nom = $_POST['nom'] ?? '';
+  $prenom = $_POST['prenom'] ?? '';
   $email = $_POST['email'] ?? '';
   $mot_de_passe = $_POST['password'] ?? '';
   $confirm_password = $_POST['confirm_password'] ?? '';
 
 // Sécurité : clear entries
   $nom = htmlspecialchars(trim($nom));
+  $prenom = htmlspecialchars(trim($prenom));
   $email = filter_var(trim($email), FILTER_VALIDATE_EMAIL);
   $mot_de_passe = trim($mot_de_passe);
   $confirm_password = trim($confirm_password);
 
-  if (!$email || !$mot_de_passe || !$confirm_password || !$nom) {
+  if (!$email || !$mot_de_passe || !$confirm_password || !$nom || !$prenom) {
     die("Tous les champs sont obligatoires.");
   }
 
@@ -46,8 +48,8 @@ if ($check->fetch()) {
 $mot_de_passe_hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
 
 // Insertion du nouveau compte dans la table utilisateur avec 20 crédits
-$stmt = $pdo->prepare("INSERT INTO utilisateurs (nom, email, mot_de_passe, credits) VALUES (?, ?, ?, 20)");
-$stmt->execute([$nom, $email, $mot_de_passe_hash]);
+$stmt = $pdo->prepare("INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, credits) VALUES (?, ?, ?, ?, 20)");
+$stmt->execute([$nom, $prenom, $email, $mot_de_passe_hash]);
 
 // Connecter automatiquement l'utilisateur
 $_SESSION['user'] = [
@@ -56,7 +58,11 @@ $_SESSION['user'] = [
   'email' => $email
 ];
 
+// ID utilisateur access to all .php file
+
+$_SESSION['utilisateur_id'] = $_SESSION['user']['id'];
+
 // Redirection après inscritpion
-header("Location: profil.html");
+header("Location: profil.php");
 exit;
 }

@@ -15,9 +15,11 @@ if (empty($username) || empty($password)) {
 
 // Connexion BDD
 try {
-  $pdo = new PDO("mysql:host=localhost;dbname=ecoride", "admin", "30303030");
+  $pdo = new PDO("mysql:host=localhost;dbname=ecoride", "root", "");
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  error_log("Connexion BDD OK");
 } catch (PDOException $e) {
+  error_log("Erreur BDD" . $e->getMessage());
   echo json_encode(['success' => false, 'message' => "Erreur de connexion à la base de données"]);
   exit;
 }
@@ -28,13 +30,12 @@ $stmt->execute([$username]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user && password_verify($password, $user['mot_de_passe'])) {
-  $_SESSION['user_id'] = $user['id'];
+  $_SESSION['utilisateur_id'] = $user['id'];
   echo json_encode(['success' => true]);
-  exit;
 } else {
   echo json_encode(['success' => false, 'message' => "Identifiants incorrects"]);
-  exit;
 }
+exit;
 
 // Déconnexion
 
