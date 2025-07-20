@@ -1,0 +1,7 @@
+{
+    "name": "malo/ecoride",
+    "description": "Projet EcoRide pour déploiement sur Heroku",
+    "require": {
+        "php": "^8.0"
+    }
+}
