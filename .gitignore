@@ -17,7 +17,6 @@ Thumbs.db
 
 # Fichiers PHP générés ou sensibles
 *.sqlite
-composer.lock
 
 # Node.js (si utilisé plus tard)
 node_modules/
