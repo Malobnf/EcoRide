@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $nom = $_POST['nom'] ?? '';
   $prenom = $_POST['prenom'] ?? '';
   $email = $_POST['email'] ?? '';
+  $telephone = $_POST['telephone'] ?? '';
   $mot_de_passe = $_POST['password'] ?? '';
   $confirm_password = $_POST['confirm_password'] ?? '';
 
@@ -26,10 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $nom = htmlspecialchars(trim($nom));
   $prenom = htmlspecialchars(trim($prenom));
   $email = filter_var(trim($email), FILTER_VALIDATE_EMAIL);
+  $telephone = trim($telephone);
   $mot_de_passe = trim($mot_de_passe);
   $confirm_password = trim($confirm_password);
 
-  if (!$email || !$mot_de_passe || !$confirm_password || !$nom || !$prenom) {
+  if (!$email || !$telephone || !$mot_de_passe || !$confirm_password || !$nom || !$prenom) {
     die("Tous les champs sont obligatoires.");
   }
 

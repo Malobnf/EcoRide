@@ -18,10 +18,11 @@ try {
     $stmt = $pdo->prepare("
     (
       SELECT 
-        t.id AS trajet_id,
+        t.id AS id,
         t.ville_depart,
         t.ville_arrivee,
         t.date_trajet,
+        t.etat,
         u.nom AS conducteur,
         t.prix,
         NULL AS reservation_id,
@@ -33,10 +34,11 @@ try {
     UNION ALL
     (
       SELECT 
-        t.id AS trajet_id,
+        t.id AS id,
         t.ville_depart,
         t.ville_arrivee,
         t.date_trajet,
+        t.etat,
         u.nom AS conducteur,
         t.prix,
         r.id AS reservation_id,
