@@ -26,12 +26,6 @@ Figma : charte graphique, wireframe, maquette...
 
 https://www.figma.com/design/VnJZ6HkcJZLh6RYoAyiRCs/EcoRide?node-id=0-1&t=qDRVPmCDtbOu5gqA-1
 
-## Remerciements
-Je remercie ma famille et ma compagne pour leur soutien et leurs encouragements, leur capacité à entendre mes doutes et les rassurer, leur bonne volonté d'essayer de comprendre ne serait-ce qu'un seul mot lorsque j'essayais d'expliquer comment on construit un site.
-Je remercie le discord Développeurs web et applications pour leur aide et leur patience...
-
-
-
 
 
 
