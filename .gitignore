@@ -1,0 +1,32 @@
+# Fichiers de configuration sensibles
+db.php
+.env
+config.php
+secrets.txt
+
+# Répertoires système / IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Sauvegardes temporaires ou fichiers de logs
+*.log
+*.bak
+*.tmp
+
+# Fichiers PHP générés ou sensibles
+*.sqlite
+composer.lock
+
+# Node.js (si utilisé plus tard)
+node_modules/
+package-lock.json
+
+# Dossiers compilés
+/dist/
+/build/
+
+# Fichiers cachés des systèmes UNIX
+*.swp
+*.swo
