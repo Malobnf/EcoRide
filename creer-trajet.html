@@ -49,27 +49,32 @@
         <input class="input" type="date" name="date" id="departDate" required>
       </div>
 
-    <p>Horaire du départ:</p>
+      
+      <p>Horaire du départ:</p>
       <select id="departHeure" name="heure" required></select>
       <!-- <input type="time" id="departHeure" name="heure" step="900" required></input> -->
-
-    <p>Quelle voiture ?</p>
-      <div class="voiture-choix" id="voitureChoix">
-        <input type="radio" name="voiture" id="choixVoiture" required>
+      
+      <div class="section-vehicule">
+        <p>Quelle voiture utiliser ?</p>
+        
+        <div class="voiture-choix" id="voitureChoix">
+          <input type="radio" name="voiture" id="choixVoiture" required>
+        </div>
+        
+        <p>Combien de passagers ?</p>
+        <div class="set-passagers" id="setPassagers">
+          <input type="number" id="setNbPassagers">
+        </div>
+        
+        <p>Quel prix ? (Un minimum de 2 crédits est requis pour EcoRide et son fonctionnement)</p>
+        <div class="set-prix" id="setPrix">
+          <input type="number" id="setPrixTrajet">
+        </div>
+        
+        <button id="confBtn" class="confBtn" type="button"><i class="fa fa-arrow-right"></i>Proposer un trajet</button>
       </div>
-
-    <p>Combien de passagers ?</p>
-      <div class="set-passagers" id="setPassagers">
-        <input type="number" id="setNbPassagers">
-      </div>
-
-    <p>Quel prix ? (Un minimum de 2 crédits est requis pour EcoRide et son fonctionnement)</p>
-      <div class="set-prix" id="setPrix">
-        <input type="number" id="setPrixTrajet">
-      </div>
-
-    <button id="confBtn" class="confBtn" type="button"><i class="fa fa-arrow-right"></i>Proposer un trajet</button>
-  
+  </div>
+        
     <div id="confTrajet" class="popup hidden">
       <div class="popup-content">
         <h2>Trajet enregistré avec succès !</h2>

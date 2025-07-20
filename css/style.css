@@ -18,6 +18,23 @@
 
 */
 
+/* CHOIX VEHICULE */
+
+.vehicule-card {
+  background : white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ajout-btn {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #007bff;
+  text-decoration: underline;
+}
+
 /* CLASSES */
 
 .about_us {
