@@ -7,6 +7,11 @@ $pass = 'q58gn7sukb56s3en';
 
 $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 try {
     $pdo = new PDO($dsn, $user, $pass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
