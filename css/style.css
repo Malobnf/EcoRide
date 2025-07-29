@@ -5,6 +5,7 @@
 * CSS GENERAL
 * DETAILS DU COVOITURAGE
 * FILTRES DE RECHERCHE
+* FORMULAIRE D'INSCRIPTION
 * HEADER
 * IDs
 * MENU DEROULANT
@@ -232,6 +233,41 @@ footer {
   background-color: #388e3c;
 }
 
+/* FORMULAIRE D'INSCRIPTION */
+
+#sign-in {
+}
+
+#log-input {
+  background-color: white;
+  margin: 5px;
+}
+
+#sign-in p {
+  margin: 10px;
+}
+
+#signin-btn, #back-to-login {
+  font-family: "Josefin Sans", sans-serif;
+  align-items: center;
+  text-align: center;
+  font-size: 15px;
+  margin-top: 10px;
+  padding: 10px;
+  width: auto;
+  border: none;
+  border-radius: 20px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#signin-btn:hover, #back-to-login:hover {
+  background-color: #2a3070;
+}
+
 /* HEADER */
 
 .marque {
@@ -420,6 +456,37 @@ nav a:hover {
 
 #sign-in {
   display: none;
+}
+
+#user-name, #password {
+  background-color: white;
+  margin:5px;
+  text-align: center;
+}
+
+#log-in p{
+  margin: 4px;
+}
+
+#login-btn, #sign-in-form{
+  font-family: "Josefin Sans", sans-serif;
+  align-items: center;
+  text-align: center;
+  font-size: 15px;
+  margin-top: 15px;
+  padding: 10px;
+  width: auto;
+  border: none;
+  border-radius: 20px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#login-btn:hover, #sign-in-form:hover {
+  background-color: #2a3070;
 }
 
 /* PAGE PROFIL */

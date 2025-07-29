@@ -9,54 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
   <script src="js/script.js"></script>
+  <script src="contact.js"></script>
   <title>EcoRide</title>
 </head>
-  <style>
-
-
-    /* MAIN PROFILE */
-    main {
-      padding: 40px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .profile-pic {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      background-color: #ccc;
-      background-image: url('https://via.placeholder.com/150');
-      background-size: cover;
-      background-position: center;
-      margin-bottom: 20px;
-    }
-
-    .rating {
-      margin-bottom: 10px;
-      font-size: 24px;
-      color: gold;
-    }
-
-    .reviews {
-      margin-bottom: 30px;
-      max-width: 600px;
-    }
-
-    .review {
-      background-color: white;
-      padding: 15px;
-      margin: 10px auto;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .user-info p {
-      margin: 5px 0;
-    }
-  </style>
 
 <body>
 
@@ -79,15 +34,22 @@
   </header>
 
   <main>
-    <div class="profile-pic"></div>
-
-    <div class="user-info">
-      <h3>Informations publiques</h3>
-      <p><strong>Nom :</strong> Jean Dupont</p>
-      <p><strong>Email :</strong> jean.dupont@email.com</p>
-      <p><strong>Téléphone :</strong> 06 12 34 56 78</p>
-      <p><strong>Véhicule :</strong> Peugeot 208, Bleu, 4 places</p>
-      <p><strong>À propos :</strong> Conducteur depuis 5 ans, j'adore partager mes trajets et rencontrer de nouvelles personnes.</p>
+    <div id="contact-form">
+      <p>Une question ? Une suggestion ? Un problème ? </br>Remplissez le formulaire ci-dessous et nous vous répondrons sous les meilleurs délais !</p>
+      <form id="form-contact" method="POST">
+        <label for="contact-mail" method="POST">Adresse mail de contact :</label>
+        <input id="form-input" type="email" name="email" placeholder="Adresse mail" required>
+        <label for="motif">Objet de la demande :</label>
+        <select id="mail-object" name="motif">
+          <option value="motif1">Signaler un problème</option>
+          <option value="motif2">Suggestion d'amélioration</option>
+          <option value="motif3">Contact professionnel</option>
+        </select>
+        </br>
+        <textarea id="mail-content" name="mail-object" rows="10" maxlength="1000" placeholder="Entrez votre message ici... (1000 caractères maximum)"></textarea>
+        </br>
+        <button id="contact-btn" type="submit">Envoyer</button>
+      </form>
     </div>
   </main>
 
