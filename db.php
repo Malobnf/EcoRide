@@ -1,11 +1,13 @@
 <?php
-$host = 'etdq12exrvdjisg6.cbetxkdyhwsb.us-east-1.rds.amazonaws.com';
-$port = '3306';
-$dbname = 'dbtihpk3ml0inl13';
-$user = 'hyig8y2kcbjlzzj4';
-$pass = 'q58gn7sukb56s3en';
+$url = getenv("JAWSDB_URL");
+$dbparts = parse_url($url);
 
-$dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
+$host = $dbparts['host'];
+$user = $dbparts['user'];
+$pass = $dbparts['pass'];
+$dbname = ltrim($dbparts['path'], '/');
+
+$dsn = "mysql:host=$host;port=3306;dbname=$dbname;charset=utf8mb4";
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
