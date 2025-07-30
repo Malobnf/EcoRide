@@ -1,5 +1,8 @@
 <?php
 session_start();
+require_once __DIR__ . '/db.php';
+$pdo = getPdo();
+
 if (!isset($_SESSION['utilisateur_id']) || $_SESSION['role'] !== 'admin') {
     header('Location: connexion.html');
     exit;
@@ -10,8 +13,6 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 }
 
 $id = (int) $_GET['id'];
-
-$pdo = new PDO('mysql:host=localhost;dbname=ecoride;charset=utf8', 'root', '');
 
 $stmt = $pdo->prepare("DELETE FROM utilisateurs WHERE id = ?");
 $stmt->execute([$id]);

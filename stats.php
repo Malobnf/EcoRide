@@ -1,10 +1,9 @@
 <?php
 header('Content-Type: application/json');
+require_once __DIR__ . '/db.php';
+$pdo = getPdo();
 
 try {
-  $pdo = new PDO('mysql:host=localhost;dbname=ecoride;charset=utf8', 'root', '');
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
   // Covoits par Jour
   $trajetsJour = $pdo->query("
     SELECT DATE(date_trajet) AS periode, COUNT(*) AS total

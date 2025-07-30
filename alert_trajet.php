@@ -1,7 +1,8 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require 'db.php'; // Connexion PDO
+require 'db.php';
+$pdo = getPdo();
 
 $input = json_decode(file_get_contents('php://input'), true);
 $userId = $_SESSION['utilisateur_id'] ?? null;

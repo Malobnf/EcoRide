@@ -1,6 +1,8 @@
 <?php
 session_start();
 header('Content-Type: application/json');
+require_once __DIR__ . '/db.php';
+$pdo = getPdo();
 
 if (!isset($_SESSION['utilisateur_id'])) {
   echo json_encode(['success' => false, 'message' => "Non connecté"]);
@@ -25,15 +27,6 @@ $heure = $_POST['heure'];
 $prix = intval($_POST['prix']);
 $places = intval($_POST['passagers']);
 $type = htmlspecialchars(trim($_POST['voiture']));
-
-// Connexion BDD
-try {
-  $pdo = new PDO('mysql:host=localhost;dbname=ecoride;charset=utf8', "root", "");
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-  echo json_encode(['success' => false, 'message' => 'Erreur de connexion BDD' . $e->getMessage()]);
-  exit;
-}
 
 // Insertion du trajet dans BDD
 

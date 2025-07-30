@@ -2,6 +2,10 @@
 session_start();
 header('Content-Type: application/json');
 
+// Connexion BDD
+require_once __DIR__ . '/db.php';
+$pdo = getPdo();
+
 // Récupération des données JSON 
 
 $data = json_decode(file_get_contents("php://input"), true);
@@ -10,15 +14,6 @@ $password = $data['password'] ?? '';
 
 if (empty($username) || empty($password)) {
   echo json_encode(['success' => false, 'message' => "Champs vides"]);
-  exit;
-}
-
-// Connexion BDD
-try {
-  $pdo = new PDO("mysql:host=localhost;dbname=ecoride", "root", "");
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-  echo json_encode(['success' => false, 'message' => "Erreur de connexion à la base de données"]);
   exit;
 }
 

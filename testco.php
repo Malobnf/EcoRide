@@ -1,10 +1,8 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+require_once 'db.php';
+$pdo = getPdo();
 
-try {
-  $pdo = new PDO("mysql:host=localhost", "root", "");
-  echo "Connexion réussie à MySQL et à la base ecoride ✅";
-} catch (PDOException $e) {
-  echo "Erreur de connexion MySQL : " . $e->getMessage();
-}
+$stmt = $pdo -> query("SHOW TABLES");
+$tables = $stmt -> fetchAll(PDO::FETCH_COLUMN);
+
+echo "tables :" . implode(',', $tables);

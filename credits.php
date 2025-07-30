@@ -2,6 +2,9 @@
 session_start();
 header('Content-Type: application/json');
 
+require_once __DIR__ . '/db.php';
+$pdo = getPdo();
+
 if (!isset($_SESSION['utilisateur_id'])) {
   echo json_encode(['success' => false, 'message' => "Non connecté"]);
   exit;
@@ -10,9 +13,6 @@ if (!isset($_SESSION['utilisateur_id'])) {
 $userId = $_SESSION['utilisateur_id'];
 
 try {
-  $pdo = new PDO("mysql:host=localhost;dbname=ecoride", "root", "");
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
   $stmt = $pdo->prepare("SELECT credits FROM utilisateurs WHERE id = ?");
   $stmt->execute([$userId]);
   $user = $stmt->fetch(PDO::FETCH_ASSOC);

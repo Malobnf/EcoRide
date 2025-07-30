@@ -3,6 +3,7 @@ session_start();
 
 // Inclure la configuration
 require_once 'db.php';
+$pdo = getPdo();
 
 // Logique de routage simple (optionnel)
 $page = $_GET['page'] ?? 'accueil';

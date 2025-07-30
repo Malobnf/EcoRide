@@ -4,14 +4,14 @@
 
 <?php
 session_start();
+require_once __DIR__ . '/db.php';
+$pdo = getPdo();
+
 // Vérifier que l'utilisateur est connecté
 if (!isset($_SESSION['utilisateur_id'])) {
     header('Location: connexion.html');
     exit;
 }
-
-// Connexion à la BDD
-$pdo = new PDO('mysql:host=localhost;dbname=ecoride;charset=utf8', 'root', '');
 
 // Récupérer les infos utilisateur
 $stmt = $pdo->prepare('SELECT nom, prenom, email, telephone, vehicule, description, credits, role FROM utilisateurs WHERE id = ?');

@@ -2,6 +2,7 @@
 header('Content-Type: application/json');
 session_start();
 require 'db.php'; 
+$pdo = getPdo();
 
 
 $utilisateur_id = $_SESSION['utilisateur_id'] ?? null;

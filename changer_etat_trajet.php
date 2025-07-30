@@ -2,6 +2,9 @@
 session_start();
 header('Content-Type: application/json');
 
+require_once __DIR__ . '/db.php';
+$pdo = getPdo();
+
 if (!isset($_SESSION['utilisateur_id'])) {
     echo json_encode(['success' => false, 'message' => 'Utilisateur non-connecté']);
     exit;
@@ -17,8 +20,6 @@ if (!$trajetId || !$etat) {
 }
 
 try {
-  $pdo = new PDO('mysql:host=localhost;dbname=ecoride;charset=utf8', 'root', '');
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
   // Maj de l'état du trajet
   $update = $pdo->prepare("UPDATE trajets SET etat = :etat WHERE id = :id");

@@ -2,6 +2,7 @@
 session_start();
 header('Content-Type: application/json');
 require 'db.php'; // Connexion PDO
+$pdo = getPdo();
 
 // Fonction simple d'envoi de mail
 function envoyer_mail($to, $subject, $message) {

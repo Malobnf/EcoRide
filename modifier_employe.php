@@ -1,11 +1,12 @@
 <?php
 session_start();
+require_once __DIR__ . '/db.php';
+$pdo = getPdo();
+
 if (!isset($_SESSION['utilisateur_id']) || $_SESSION['role'] !== 'admin') {
     header('Location: connexion.html');
     exit;
 }
-
-$pdo = new PDO('mysql:host=localhost;dbname=ecoride;charset=utf8', 'root', '');
 
 // Vérifie que l’ID est passé en GET
 if (!isset($_GET['id']) || empty($_GET['id'])) {

@@ -1,11 +1,12 @@
 <?php
 session_start();
+require_once __DIR__ . '/db.php';
+$pdo = getPdo();
+
 if (!isset($_SESSION['utilisateur_id']) || $_SESSION['role'] !== 'admin') {
     header('Location: connexion.html');
     exit;
 }
-
-$pdo = new PDO('mysql:host=localhost;dbname=ecoride;charset=utf8', 'root', '');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['nom']) && !empty($_POST['prenom']) && !empty($_POST['email']) && !empty($_POST['password'])) {

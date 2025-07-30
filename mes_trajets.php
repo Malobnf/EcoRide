@@ -1,6 +1,8 @@
 <?php
 session_start();
 header('Content-Type: application/json');
+require_once __DIR__ . '/db.php';
+$pdo = getPdo();
 
 if (!isset($_SESSION['utilisateur_id'])) {
   echo json_encode(['success' => false, 'message' => "Utilisateur non connecté."]);
@@ -10,10 +12,6 @@ if (!isset($_SESSION['utilisateur_id'])) {
 $idUtilisateur = $_SESSION['utilisateur_id'];
 
 try {
-    // Connexion BDD
-    $pdo = new PDO("mysql:host=localhost;dbname=ecoride;charset=utf8", "root", "");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Conducteur OU passager
     $stmt = $pdo->prepare("
     (

@@ -1,11 +1,9 @@
 <?php
 session_start();
-if (!isset($_SESSION['utilisateur_id']) || $_SESSION['role'] !== 'admin') {
-    header('Location: connexion.html');
-    exit;
-}
 
-$pdo = new PDO('mysql:host=localhost;dbname=ecoride;charset=utf8', 'root', '');
+// Connexion BDD
+require_once __DIR__ . '/db.php';
+$pdo = getPdo();
 
 // Gestion des requêtes POST pour création, modification, suppression ici
 
