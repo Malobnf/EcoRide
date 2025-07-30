@@ -1,7 +1,7 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require_once __DIR__ . '/db.php';
+require 'db.php';
 $pdo = getPdo();
 
 if (!isset($_SESSION['user_id'])) {

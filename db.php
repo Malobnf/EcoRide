@@ -22,9 +22,8 @@ function getPdo(): PDO {
         $pdo = new PDO($dsn, $user, $pass, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         ]);
-        echo "✅ Connexion réussie à JawsDB MySQL !";
     } catch (PDOException $e) {
-        die("❌ Erreur de connexion à la base JawsDB : " . $e->getMessage());
+        die($e->getMessage());
     }
 
     return $pdo;
