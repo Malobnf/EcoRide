@@ -1,21 +1,17 @@
 <?php
-session_start();
+// Affiche les erreurs
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// Inclure la configuration
-require_once __DIR__ . '/php/db.php';
-$pdo = getPdo();
-
-// Logique de routage simple (optionnel)
+// Routeur simple
 $page = $_GET['page'] ?? 'accueil';
+$page = basename($page);  // évite les chemins dangereux
+$file = __DIR__ . "/php/{$page}.php";
 
-switch ($page) {
-    case 'accueil':
-        require_once __DIR__ . '/html/accueil.html';
-        break;
-    case 'profil':
-        require_once __DIR__ . '/php/profil.php';
-        break;
-    default:
-        http_response_code(404);
-        echo "Page introuvable.";
+if (file_exists($file)) {
+    require $file;
+} else {
+    http_response_code(404);
+    echo "Page introuvable : $page";
 }
