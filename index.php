@@ -9,8 +9,8 @@ $page = $_GET['page'] ?? 'accueil';
 $page = basename($page);  // évite les chemins dangereux
 
 $paths = [
-    __DIR__ . "/php/{$page}.php";
-    __DIR__ . "/html/{$page}.html";
+    __DIR__ . "/php/{$page}.php",
+    __DIR__ . "/html/{$page}.html"
 ]
 
 foreach ($paths as $file) {
