@@ -33,7 +33,7 @@ if (!$user) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,17 +41,17 @@ if (!$user) {
   <script>
     const userRole = <?= json_encode($user['role']) ?>;
   </script>
-  <script src="profil.js" defer></script>
-  <script src="gestionCovoit.js" defer></script>
-  <script src="js/script.js" defer></script>
-  <script src="rechercheCovoit.js" defer></script>
+  <script src="../js/profil.js" defer></script>
+  <script src="../js/gestionCovoit.js" defer></script>
+  <script src="../js/script.js" defer></script>
+  <script src="../js/rechercheCovoit.js" defer></script>
   <title>EcoRide</title>
 </head>
 
 <body>
    <header>
     <div class="deroulant" onclick="toggleMenu()">☰</div>
-    <div class="marque"><a href="accueil.html">EcoRide</a></div>
+    <div class="marque"><a href="../html/accueil.html">EcoRide</a></div>
     <div class="profile-icone">
       <a href="profil.php" id="icone-profil" rel= "profil">
         <i class="fas fa-circle-user fa-2x"></i>
@@ -59,11 +59,11 @@ if (!$user) {
     </div>
 
     <nav class="side-menu" id="sideMenu">
-      <a href="accueil.html">Accueil</a>
-      <a href="covoit.html">Recherche</a>
-      <a href="creer-trajet.html">Proposer un trajet</a>
+      <a href="../html/accueil.html">Accueil</a>
+      <a href="../html/covoit.html">Recherche</a>
+      <a href="../html/creer-trajet.html">Proposer un trajet</a>
       <a class="current-page">Profil</a>
-      <a href="contact.html">Contact</a>
+      <a href="../html/contact.html">Contact</a>
     </nav>
   </header>
 
@@ -175,7 +175,7 @@ if (!$user) {
             <li>
               <?= htmlspecialchars($v['marque']) ?> <?= htmlspecialchars($v['modele']) ?>,
               <?= htmlspecialchars($v['couleur']) ?>
-              <a href="api/modifier_vehicule.php?id=<?=$v['id'] ?>" class="modifier-btn"></a>
+              <a href="../api/modifier_vehicule.php?id=<?=$v['id'] ?>" class="modifier-btn"></a>
             </li>
           <?php endforeach; ?>
         </ul>

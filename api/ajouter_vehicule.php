@@ -1,6 +1,7 @@
 <?php
 session_start();
-$pdo = new PDO('mysql:host=localhost;dbname=ecoride;charset=utf8', 'root', '');
+require_once '../php/db.php';
+$pdo = getPdo();
 
 $req = $pdo->prepare("INSERT INTO vehicules (marque, modele, plaque, couleur, utilisateur_id) VALUES (?, ?, ?, ?, ?)");
 $req->execute([

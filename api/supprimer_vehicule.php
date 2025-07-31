@@ -1,6 +1,7 @@
 <?php
 session_start();
-$pdo = new PDO('mysql:host=localhost;dbname=ecoride;charset=utf8', 'root', '');
+require_once '../php/db.php';
+$pdo = getPdo();
 
 $id = $_GET['id'] ?? null;
 

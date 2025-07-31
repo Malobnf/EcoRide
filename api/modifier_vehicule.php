@@ -2,6 +2,8 @@
 ob_start();
 
 session_start();
+require_once '../php/db.php';
+$pdo = getPdo();
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['utilisateur_id'])) {
@@ -10,8 +12,6 @@ if (!isset($_SESSION['utilisateur_id'])) {
   ob_end_flush();
   exit;
 }
-
-$pdo = new PDO('mysql:host=localhost;dbname=ecoride;charset=utf8', 'root', '');
 
 $data = $_POST;
 $id = $data['id'] ?? null;

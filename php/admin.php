@@ -17,7 +17,7 @@ $employes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,9 +26,9 @@ $employes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     const userRole = <?= json_encode($user['role']) ?>;
   </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="profil.js" defer></script>
-  <script src="js/script.js" defer></script>
-  <script src="stats.js" defer></script>
+  <script src="../js/profil.js" defer></script>
+  <script src="../js/script.js" defer></script>
+  <script src="../js/stats.js" defer></script>
   <title>Gestion Admin</title>
 </head>
 
@@ -37,7 +37,7 @@ $employes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
    <header>
     <div class="deroulant" onclick="toggleMenu()">☰</div>
-    <div class="marque"><a href="accueil.html">EcoRide</a></div>
+    <div class="marque"><a href="../html/accueil.html">EcoRide</a></div>
     <div class="profile-icone">
       <a href="profil.php" id="icone-profil" rel= "profil">
         <i class="fas fa-circle-user fa-2x"></i>
@@ -45,11 +45,11 @@ $employes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <nav class="side-menu" id="sideMenu">
-      <a href="accueil.html">Accueil</a>
-      <a href="covoit.html">Recherche</a>
-      <a href="creer-trajet.html">Proposer un trajet</a>
+      <a href="../html/accueil.html">Accueil</a>
+      <a href="../html/covoit.html">Recherche</a>
+      <a href="../html/creer-trajet.html">Proposer un trajet</a>
       <a class="current-page">Profil</a>
-      <a href="contact.html">Contact</a>
+      <a href="../html/contact.html">Contact</a>
     </nav>
   </header>
   
