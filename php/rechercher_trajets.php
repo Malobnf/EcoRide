@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 session_start();
-require '/db.php'; // Connexion PDO
+require_once(__DIR__ . '/db.php');
 $pdo = getPdo();
 
 $rawInput = file_get_contents('php://input');

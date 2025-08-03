@@ -2,7 +2,7 @@
 session_start();
 
 // Connexion BDD
-require_once __DIR__ . '/db.php';
+require_once(__DIR__ . '/db.php');
 $pdo = getPdo();
 
 // Gestion des requêtes POST pour création, modification, suppression ici

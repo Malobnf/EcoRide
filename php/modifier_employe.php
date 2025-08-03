@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/db.php';
+require_once(__DIR__ . '/db.php');
 $pdo = getPdo();
 
 if (!isset($_SESSION['utilisateur_id']) || $_SESSION['role'] !== 'admin') {

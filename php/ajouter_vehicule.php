@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '/db.php';
+require_once(__DIR__ . '/db.php');
 $pdo = getPdo();
 
 $req = $pdo->prepare("INSERT INTO vehicules (marque, modele, plaque, couleur, utilisateur_id) VALUES (?, ?, ?, ?, ?)");
