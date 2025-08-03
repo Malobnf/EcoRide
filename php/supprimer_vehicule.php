@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../php/db.php';
+require_once '/db.php';
 $pdo = getPdo();
 
 $id = $_GET['id'] ?? null;

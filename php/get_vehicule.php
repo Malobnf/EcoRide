@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../php/db.php';
+require '/db.php';
 
 if (!isset($_GET['id'])) {
   echo json_encode(['success' => false, 'message' => 'ID manquant']);

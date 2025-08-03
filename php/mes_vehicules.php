@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../php/db.php';
+require_once '/db.php';
 $pdo = getPdo();
 
 $req = $pdo->prepare("SELECT * FROM vehicules WHERE utilisateur_id = ?");
