@@ -1,5 +1,5 @@
 # Fichiers de configuration sensibles
-db.php
+# db.php
 .env
 config.php
 secrets.txt
