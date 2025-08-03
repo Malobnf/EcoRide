@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 $page = $_GET['page'] ?? 'accueil';
 $page = basename($page);  // évite les chemins dangereux
 
-$file = [
+$paths = [
     __DIR__ . "/php/{$page}.php",
     __DIR__ . "/html/{$page}.html"
 ];
