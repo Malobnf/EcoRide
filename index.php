@@ -13,11 +13,12 @@ $file = [
     __DIR__ . "/html/{$page}.html"
 ];
 
-if (file_exists($file)) {
-    require $file;
-    exit;
+foreach ($paths as $file) {
+    if (file_exists($file)) {
+        require $file;
+        exit;
+    }
 }
-
 
 http_response_code(404);
 echo "Page introuvable : $page";
