@@ -37,7 +37,7 @@ $employes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
    <header>
     <div class="deroulant" onclick="toggleMenu()">☰</div>
-    <div class="marque"><a href="../html/accueil.html">EcoRide</a></div>
+    <div class="marque"><a href="index.php?page=accueil">EcoRide</a></div>
     <div class="profile-icone">
       <a href="profil.php" id="icone-profil" rel= "profil">
         <i class="fas fa-circle-user fa-2x"></i>

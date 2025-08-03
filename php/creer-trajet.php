@@ -58,7 +58,7 @@ try {
 <body>
   <header>
     <div class="deroulant">☰</div>
-    <div class="marque"><a href="accueil.html">EcoRide</a></div>
+    <div class="marque"><a href="index.php?page=accueil">EcoRide</a></div>
     <div class="profile-icone">
       <a href="index.php?page=profil" id="icone-profil" rel= "profil">
         <i class="fas fa-circle-user fa-2x"></i>
