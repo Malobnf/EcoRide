@@ -28,7 +28,7 @@
       <a class="current-page">Recherche</a>
       <a href="index.php?page=creer-trajet_html">Proposer un trajet</a>
       <a href="index.php?page=profil">Profil</a>
-      <a index="index.php?page=accueil">Contact</a>
+      <a index="index.php?page=contact">Contact</a>
     </nav>
   </header>
 

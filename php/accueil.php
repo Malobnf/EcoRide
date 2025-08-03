@@ -19,8 +19,8 @@
 <div class="profile-icone">
   <a href="index.php?page=profil" id="icone-profil" rel= "profil">
         <i class="fas fa-circle-user fa-2x"></i>
-      </a>
-    </div>
+  </a>
+</div>
 
     <nav class="side-menu" id="sideMenu">
       <a class="current-page">Accueil</a>

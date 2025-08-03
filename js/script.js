@@ -114,7 +114,7 @@ function initRedirectionProfil() {
     const currentPage = window.location.pathname;
 
     if (loggedIn && !currentPage.includes('profil.php')) {
-      window.location.href = 'profil.php';
+      window.location.href = 'index.php?page=profil.php';
     } else if (!loggedIn && !currentPage.includes('connexion_html.php') ){
       window.location.href = 'connexion_html.php';
     }
@@ -168,7 +168,7 @@ function initLogin() {
       
       if (result.success) {
         localStorage.setItem('userLoggedIn', 'true');
-        window.location.href = 'profil.php'; 
+        window.location.href = 'index.php?page=profil.php'; 
       } else {
         alert(result.message || "Identifiants incorrects.")
       }
