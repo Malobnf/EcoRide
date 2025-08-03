@@ -5,7 +5,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/db.php';
-$pdo = getPdo();
+$pdo = getPdo();  
 
 // Vérifier que l'utilisateur est connecté
 if (!isset($_SESSION['utilisateur_id'])) {

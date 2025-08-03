@@ -1,7 +1,7 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require 'db.php'; 
+require '/db.php'; 
 $pdo = getPdo();
 
 

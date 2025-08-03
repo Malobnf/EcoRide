@@ -1,7 +1,7 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require 'db.php'; // Connexion PDO
+require '/db.php'; // Connexion PDO
 $pdo = getPdo();
 
 if (!isset($_SESSION['utilisateur_id'])) {
