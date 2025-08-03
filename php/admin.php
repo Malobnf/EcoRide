@@ -45,11 +45,11 @@ $employes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <nav class="side-menu" id="sideMenu">
-      <a href="../html/accueil.html">Accueil</a>
-      <a href="../html/covoit.html">Recherche</a>
-      <a href="../html/creer-trajet.html">Proposer un trajet</a>
+      <a href="index.php?page=accueil">Accueil</a>
+      <a href="index.php?page=trajet">Recherche</a>
+      <a href="index.php?page=creer-trajet_html">Proposer un trajet</a>
       <a class="current-page">Profil</a>
-      <a href="../html/contact.html">Contact</a>
+      <a href="index.php?page=contact">Contact</a>
     </nav>
   </header>
   

@@ -25,7 +25,7 @@
     <nav class="side-menu" id="sideMenu">
       <a class="current-page">Accueil</a>
       <a href="index.php?page=covoit">Recherche</a>
-      <a href="index.php?page=creer-trajet">Proposer un trajet</a>
+      <a href="index.php?page=creer-trajet_html">Proposer un trajet</a>
       <a href="index.php?page=profil">Profil</a>
       <a href="index.php?page=contact">Contact</a>
     </nav>
