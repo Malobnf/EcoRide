@@ -49,21 +49,21 @@ if (!$user) {
 </head>
 
 <body>
-   <header>
-    <div class="deroulant" onclick="toggleMenu()">☰</div>
-    <div class="marque"><a href="../html/accueil.html">EcoRide</a></div>
+  <header>
+    <div class="deroulant">☰</div>
+    <div class="marque"><a href="accueil.html">EcoRide</a></div>
     <div class="profile-icone">
-      <a href="profil.php" id="icone-profil" rel= "profil">
+      <a href="index.php?page=profil" id="icone-profil" rel= "profil">
         <i class="fas fa-circle-user fa-2x"></i>
       </a>
     </div>
 
     <nav class="side-menu" id="sideMenu">
-      <a href="../html/accueil.html">Accueil</a>
-      <a href="../html/covoit.html">Recherche</a>
-      <a href="../html/creer-trajet.html">Proposer un trajet</a>
+      <a href="index.php?page=accueil">Accueil</a>
+      <a href="index.php?page=covoit">Recherche</a>
+      <a href="index.php?page=trajet">Proposer un trajet</a>
       <a class="current-page">Profil</a>
-      <a href="../html/contact.html">Contact</a>
+      <a href="index.php?page=contact">Contact</a>
     </nav>
   </header>
 
@@ -258,7 +258,7 @@ if (!$user) {
         
       </main>
 
-      <button id="logoutBtn" onclick="window.location.href='deconnexion.php'">Déconnexion</button>
+      <button id="logoutBtn" onclick="window.location.href='index.php?page=deconnexion'">Déconnexion</button>
 
   </body>
 </html>
