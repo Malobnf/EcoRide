@@ -4,7 +4,7 @@
 
 <?php
 session_start();
-require_once __DIR__ . 'db.php';
+require_once __DIR__ . '/db.php';
 $pdo = getPdo();
 
 // Vérifier que l'utilisateur est connecté
@@ -61,7 +61,7 @@ if (!$user) {
     <nav class="side-menu" id="sideMenu">
       <a href="index.php?page=accueil">Accueil</a>
       <a href="index.php?page=covoit">Recherche</a>
-      <a href="index.php?page=trajet">Proposer un trajet</a>
+      <a href="index.php?page=creer-trajet">Proposer un trajet</a>
       <a class="current-page">Profil</a>
       <a href="index.php?page=contact">Contact</a>
     </nav>
