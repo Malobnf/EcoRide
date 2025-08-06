@@ -39,7 +39,7 @@ $employes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="deroulant" onclick="toggleMenu()">☰</div>
     <div class="marque"><a href="index.php?page=accueil">EcoRide</a></div>
     <div class="profile-icone">
-      <a href="profil.php" id="icone-profil" rel= "profil">
+      <a href="index.php?page=profil.php" id="icone-profil" rel= "profil">
         <i class="fas fa-circle-user fa-2x"></i>
       </a>
     </div>
@@ -65,15 +65,15 @@ $employes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <td><?= htmlspecialchars($emp['email']) ?></td>
         <td>
             <!-- Actions : modifier, supprimer (liens ou boutons) -->
-            <a class="action-admin" href="modifier_employe.php?id=<?= $emp['id'] ?>">Modifier</a> |
-            <a class="action-admin" href="supprimer_employe.php?id=<?= $emp['id'] ?>" onclick="return confirm('Supprimer cet employé ?')">Supprimer</a>
+            <a class="action-admin" href="index.php?page=modifier_employe.php?id=<?= $emp['id'] ?>">Modifier</a> |
+            <a class="action-admin" href="index.php?page=supprimer_employe.php?id=<?= $emp['id'] ?>" onclick="return confirm('Supprimer cet employé ?')">Supprimer</a>
         </td>
     </tr>
     <?php endforeach; ?>
 </table>
 
 <h2>Ajouter un nouvel employé</h2>
-<form method="post" action="creer_employe.php">
+<form method="post" action="index.php?page=creer_employe.php">
     <input type="text" name="nom" placeholder="Nom" required>
     <input type="text" name="prenom" placeholder="Prénom" required>
     <input type="email" name="email" placeholder="Email" required>

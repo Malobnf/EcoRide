@@ -18,13 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role) VALUES (?, ?, ?, ?, ?)');
         $stmt->execute([$nom, $prenom, $email, $passwordHash, 'employe']);
 
-        header('Location: admin.php?success=1');
+        header('Location: index.php?page=admin.php?success=1');
         exit;
     } else {
         echo "Tous les champs sont obligatoires.";
     }
 } else {
-    header('Location: admin.php');
+    header('Location: index.php?page=admin.php');
     exit;
 }
 ?>

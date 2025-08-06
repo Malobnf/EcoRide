@@ -2,7 +2,7 @@ let chartTrajets, chartCredits;
 
 async function chargerStats(periode) {
   try {
-    const res = await fetch('stats.php');
+    const res = await fetch('index.php?page=stats.php');
     const data = await res.json();
 
     const trajetsData = data.trajets[periode];

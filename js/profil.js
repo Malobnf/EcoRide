@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     formAjoutVehicule.addEventListener('submit', async (e) => {
       e.preventDefault();
       const data = new FormData(formAjoutVehicule);
-      const res = await fetch('api/ajouter_vehicule.php', {
+      const res = await fetch('index.php?page=ajouter_vehicule.php', {
         method: 'POST',
         body: data
       });
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const formData = new FormData(formModifVehicule);
 
       try {
-        const res = await fetch('api/modifier_vehicule.php', {
+        const res = await fetch('index.php?page=modifier_vehicule.php', {
           method: 'POST',
           body: formData
         });
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function chargerVehicules() {
     try {
-      const res = await fetch ('api/mes_vehicules.php');
+      const res = await fetch ('index.php?page=mes_vehicules.php');
       const vehicules = await res.json();
       listeVehicules.innerHTML = "";
 
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll(".supprimer-vehicule-btn").forEach(btn => {
       btn.addEventListener('click', async () => {
         if(confirm("Supprimer ce véhicule ?")) {
-          await fetch('api/supprimer_vehicule.php?id=' + btn.dataset.id);
+          await fetch('index.php?page=supprimer_vehicule.php?id=' + btn.dataset.id);
           chargerVehicules();
         }
       });
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll(".modifierVehiculeBtn").forEach(btn => {
       btn.addEventListener('click', async () => {
       const id = btn.dataset.id;
-      const res = await fetch('api/get_vehicule.php?id=' + id);
+      const res = await fetch('index.php?page=get_vehicule.php?id=' + id);
       const data = await res.json();
 
       if (data.success && data.vehicule) {
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // Charger préférences existantes
-  fetch('get_user_preferences.php')
+  fetch('index.php?page=get_user_preferences.php')
     .then(response => response.json())
     .then(data => {
       if (data.success) {
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .filter(cb => cb.checked)
       .map(cb => cb.value);
 
-    fetch('update_preferences.php', {
+    fetch('index.php?page=update_preferences.php', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({preferences: selected})
@@ -237,7 +237,7 @@ let reservationASupprimer = null;
 document.getElementById('confirmerAnnulation').addEventListener('click', async () => {
   if (!reservationASupprimer) return;
 
-  const res = await fetch('annuler_reservation.php', {
+  const res = await fetch('index.php?page=annuler_reservation.php', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({trajet_id: reservationASupprimer})
@@ -265,14 +265,14 @@ document.getElementById('confirmerAnnulation').addEventListener('click', async (
     if (adminBtn) {
       adminBtn.style.display = 'block';
       adminBtn.addEventListener('click', () => {
-        window.location.href = 'creer_employe.php';
+        window.location.href = 'index.php?page=creer_employe.php';
       });
     }
   }
 };
 
 async function chargerMesTrajets() {
-  const response = await fetch('mes_trajets.php');
+  const response = await fetch('index.php?page=mes_trajets.php');
   const data = await response.json();
 
   const futursContainers = document.getElementById('listeTrajetsFuturs');
@@ -341,7 +341,7 @@ async function chargerMesTrajets() {
     document.querySelectorAll('.demarrer-btn').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         const trajetId = e.target.dataset.id;
-        const res = await fetch('changer_etat_trajet.php', {
+        const res = await fetch('index.php?page=changer_etat_trajet.php', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({id: trajetId, etat: 'en cours'})
@@ -360,7 +360,7 @@ async function chargerMesTrajets() {
     document.querySelectorAll('.terminer-btn').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         const trajetId = e.target.dataset.id;
-        const res = await fetch('changer_etat_trajet.php', {
+        const res = await fetch('index.php?page=changer_etat_trajet.php', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({id: trajetId, etat: 'terminé'})
@@ -397,7 +397,7 @@ if(editForm) {
       const formData = new FormData(editForm);
       
       try {
-        const response = await fetch('modifier_profil.php', {
+        const response = await fetch('index.php?page=modifier_profil.php', {
           method: 'POST',
           body: formData
         });

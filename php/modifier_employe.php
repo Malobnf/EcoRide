@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare("UPDATE utilisateurs SET nom = ?, prenom = ?, email = ? WHERE id = ?");
     $stmt->execute([$nom, $prenom, $email, $id]);
 
-    header("Location: admin.php");
+    header("Location: index.php?page=admin.php");
     exit;
 }
 
@@ -52,6 +52,6 @@ if (!$employe) {
     <input type="email" name="email" value="<?= htmlspecialchars($employe['email']) ?>" required>
     <button type="submit">Enregistrer</button>
   </form>
-  <a href="admin.php">Retour à la gestion</a>
+  <a href="index.php?page=admin.php">Retour à la gestion</a>
 </body>
 </html>

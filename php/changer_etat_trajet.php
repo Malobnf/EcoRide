@@ -56,7 +56,7 @@ try {
   foreach ($passagers as $p) {
     $to = $p['email'];
     $subject = "Évaluez votre conducteur EcoRide !";
-    $message = "Bonjour {$p['nom']},\n\nMerci d’avoir voyagé avec Ecoride !\n\nVeuillez noter votre conducteur {$conducteur['nom']} :\nLien : http://localhost/ecoride/avis.php?trajet=$trajetId&vers=conducteur\n\nÀ bientôt sur Ecoride !";
+    $message = "Bonjour {$p['nom']},\n\nMerci d’avoir voyagé avec Ecoride !\n\nVeuillez noter votre conducteur {$conducteur['nom']} :\nLien : http://localhost/ecoride/index.php?page=avis.php?trajet=$trajetId&vers=conducteur\n\nÀ bientôt sur Ecoride !";
     mail($to, $subject, $message, "From: noreply@ecoride.com");
   }
   
@@ -64,7 +64,7 @@ try {
   foreach ($passagers as $p) {
     $to = $conducteur['email'];
     $subject = "Évaluez vos passagers EcoRide !";
-    $message = "Bonjour {$conducteur['nom']},\n\nMerci pour ce trajet !\n\nVeuillez noter vos passagers :\nLien : http://localhost/ecoride/avis.php?trajet=$trajetId&vers=conducteur\n\nÀ bientôt sur Ecoride !";
+    $message = "Bonjour {$conducteur['nom']},\n\nMerci pour ce trajet !\n\nVeuillez noter vos passagers :\nLien : http://localhost/ecoride/index.php?page=avis.php?trajet=$trajetId&vers=conducteur\n\nÀ bientôt sur Ecoride !";
     mail($to, $subject, $message, "From: noreply@ecoride.com"); 
   }
 }

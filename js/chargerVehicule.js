@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById('voitureChoix');
 
   try {
-    const res = await fetch("get_vehicules.php");
+    const res = await fetch("index.php?page=get_vehicules.php");
     const data = await res.json();
 
     if (!data.success) {
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (vehicules.length === 0) {
       container.innerHTML = `
       <p>Aucune voiture enregistrée.</p>
-      <a href="ajouter_vehicule.php" class="ajout-btn"Enregistrer une voiture</a>
+      <a href="index.php?page=ajouter_vehicule.php" class="ajout-btn"Enregistrer une voiture</a>
       `;
     } else if (vehicules.length === 1) {
       const v = vehicules[0];
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         ${v.marque} ${v.modele} - ${v.plaque}
       </label>
       <br>
-      <a href="ajouter_vehicule.php class="ajout-btn">Enregistrer un autre véhicule"</a>
+      <a href="index.php?page=ajouter_vehicule.php class="ajout-btn">Enregistrer un autre véhicule"</a>
       `;
     } else {
       container.innerHTML = vehicules.map(v => `
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           </label>
         </div>
       `).join('') + `
-        <a href="ajouter_vehicule.php" class="ajout-btn">Enregistrer un autre véhicule</a>
+        <a href="index.php?page=ajouter_vehicule.php" class="ajout-btn">Enregistrer un autre véhicule</a>
       `;
     }
 

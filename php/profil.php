@@ -175,7 +175,7 @@ if (!$user) {
             <li>
               <?= htmlspecialchars($v['marque']) ?> <?= htmlspecialchars($v['modele']) ?>,
               <?= htmlspecialchars($v['couleur']) ?>
-              <a href="../api/modifier_vehicule.php?id=<?=$v['id'] ?>" class="modifier-btn"></a>
+              <a href="index.php?page=modifier_vehicule.php?id=<?=$v['id'] ?>" class="modifier-btn"></a>
             </li>
           <?php endforeach; ?>
         </ul>

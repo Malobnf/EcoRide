@@ -54,6 +54,6 @@ $_SESSION['user'] = [
 $_SESSION['utilisateur_id'] = $_SESSION['user']['id'];
 
 // Redirection après inscritpion
-header("Location: profil.php");
+header("Location: index.php?page=profil.php");
 exit;
 }

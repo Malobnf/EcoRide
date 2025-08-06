@@ -113,9 +113,9 @@ function initRedirectionProfil() {
     const loggedIn = localStorage.getItem('userLoggedIn') === 'true';
     const currentPage = window.location.pathname;
 
-    if (loggedIn && !currentPage.includes('profil.php')) {
+    if (loggedIn && !currentPage.includes('index.php?page=profil.php')) {
       window.location.href = 'index.php?page=profil.php';
-    } else if (!loggedIn && !currentPage.includes('connexion_html.php') ){
+    } else if (!loggedIn && !currentPage.includes('index.php?page=connexion_html.php') ){
       window.location.href = 'index.php?page=connexion_html.php';
     }
   });
@@ -156,7 +156,7 @@ function initLogin() {
     }
 
     try {
-      const response = await fetch('connexion.php', {
+      const response = await fetch('index.php?page=connexion.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -228,7 +228,7 @@ function initReservation() {
 
   reserverBtn.addEventListener('click', async () => {
     try {
-      const response = await fetch('reserver.php', {
+      const response = await fetch('index.php?page=reserver.php', {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json'
@@ -265,7 +265,7 @@ function initCredits() {
   const creditSpan = document.getElementById('userCredits');
   if (!creditSpan) return;
 
-  fetch('credits.php', {
+  fetch('index.php?page=credits.php', {
     credentials: 'include'
   })
 
@@ -350,7 +350,7 @@ function initProposerTrajet() {
     formData.append('passagers', passagers);
     formData.append('voiture', voiture);
 
-    fetch('creer-trajet.php', {
+    fetch('index.php?page=creer-trajet.php', {
       method: 'POST',
       body: formData
     })
