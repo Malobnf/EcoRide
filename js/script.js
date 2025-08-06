@@ -116,7 +116,7 @@ function initRedirectionProfil() {
     if (loggedIn && !currentPage.includes('profil.php')) {
       window.location.href = 'index.php?page=profil.php';
     } else if (!loggedIn && !currentPage.includes('connexion_html.php') ){
-      window.location.href = 'connexion_html.php';
+      window.location.href = 'index.php?page=connexion_html.php';
     }
   });
 }
@@ -189,7 +189,7 @@ function initLogout() {
     localStorage.removeItem('userLoggedIn');
     localStorage.removeItem('userCredits')
     
-    window.location.href = 'deconnexion.php';
+    window.location.href = 'index.php?page=deconnexion.php';
   })
 }
 
