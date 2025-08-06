@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Charger les avis depuis API
   function loadAvis() {
-    fetch('index.php?page=lister_avis.php')
+    fetch('index.php?page=lister_avis')
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById('listeAvis');
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Modifier avis (valider/refuser)
   function modifierAvis(id, valide) {
-    fetch('index.php?page=modifier_avis.php', {
+    fetch('index.php?page=modifier_avis', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({id, valide})
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Charger les conflits
   function loadConflits() {
-    fetch('index.php?page=lister_conflits.php')
+    fetch('index.php?page=lister_conflits')
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById('listeConflits');
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Marquer conflit comme résolu
   function marquerConflit(id, etat) {
-    fetch('index.php?page=modifier_conflit.php', {
+    fetch('index.php?page=modifier_conflit', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({trajet_id: id, etat})
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const choix = prompt("Distribuer crédits à :\n1 - Les deux\n2 - Participant noté\n3 - Participant noteur\n4 - Aucun");
     if(!choix) return;
 
-    fetch('index.php?page=modifier_conflit.php', {
+    fetch('index.php?page=modifier_conflit', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({trajet_id, etat: 'non-resolu', distribution_credits: choix})
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Charger les avis depuis API
   function loadAvis() {
-    fetch('index.php?page=lister_avis.php')
+    fetch('index.php?page=lister_avis')
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById('listeAvis');
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Modifier avis (valider/refuser)
   function modifierAvis(id, valide) {
-    fetch('index.php?page=modifier_avis.php', {
+    fetch('index.php?page=modifier_avis', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({id, valide})
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Charger les conflits
   function loadConflits() {
-    fetch('index.php?page=lister_conflits.php')
+    fetch('index.php?page=lister_conflits')
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById('listeConflits');
@@ -321,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Marquer conflit comme résolu
   function marquerConflit(id, etat) {
-    fetch('index.php?page=modifier_conflit.php', {
+    fetch('index.php?page=modifier_conflit', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({trajet_id: id, etat})
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const choix = prompt("Distribuer crédits à :\n1 - Les deux\n2 - Participant noté\n3 - Participant noteur\n4 - Aucun");
     if(!choix) return;
 
-    fetch('index.php?page=modifier_conflit.php', {
+    fetch('index.php?page=modifier_conflit', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({trajet_id, etat: 'non-resolu', distribution_credits: choix})

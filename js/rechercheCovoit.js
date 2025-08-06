@@ -29,7 +29,7 @@ function initRechercheCovoitPage() {
 
     // Requête AJAX vers PHP
     try {
-      const response = await fetch('index.php?page=rechercher_trajets.php', {
+      const response = await fetch('index.php?page=rechercher_trajets', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({depart, arrivee, date})
@@ -87,7 +87,7 @@ function initRechercheCovoitPage() {
               if (!trajetSelectionne) return;
 
               try {
-              const response = await fetch('index.php?page=reserver.php', {
+              const response = await fetch('index.php?page=reserver', {
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
                 credentials: 'include',
@@ -112,7 +112,7 @@ function initRechercheCovoitPage() {
 
             alerteMsg.textContent = '';
             try {
-              const response = await fetch('index.php?page=alerte_trajet.php', {
+              const response = await fetch('index.php?page=alerte_trajet', {
                 method: 'POST',
                 headers: {'Content-Type' : 'application/x-www-form-urlencoded'}, // Type MIME (Multipurpose Internet Mail Extensions, permet d'assurer l'encodage des données sous un format compréhensible par le serveur)
                 body: `action=demander_alerte&trajet_id=${encodeURIComponent(trajetSelectionne.id)}`

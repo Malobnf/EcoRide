@@ -114,9 +114,9 @@ function initRedirectionProfil() {
     const currentPage = window.location.pathname;
 
     if (loggedIn && !currentPage.includes('index.php?page=profil.php')) {
-      window.location.href = 'index.php?page=profil.php';
+      window.location.href = 'index.php?page=profil';
     } else if (!loggedIn && !currentPage.includes('index.php?page=connexion_html.php') ){
-      window.location.href = 'index.php?page=connexion_html.php';
+      window.location.href = 'index.php?page=connexion_html';
     }
   });
 }
@@ -156,7 +156,7 @@ function initLogin() {
     }
 
     try {
-      const response = await fetch('index.php?page=connexion.php', {
+      const response = await fetch('index.php?page=connexion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -168,7 +168,7 @@ function initLogin() {
       
       if (result.success) {
         localStorage.setItem('userLoggedIn', 'true');
-        window.location.href = 'index.php?page=profil.php'; 
+        window.location.href = 'index.php?page=profil'; 
       } else {
         alert(result.message || "Identifiants incorrects.")
       }
@@ -189,7 +189,7 @@ function initLogout() {
     localStorage.removeItem('userLoggedIn');
     localStorage.removeItem('userCredits')
     
-    window.location.href = 'index.php?page=deconnexion.php';
+    window.location.href = 'index.php?page=deconnexion';
   })
 }
 
@@ -228,7 +228,7 @@ function initReservation() {
 
   reserverBtn.addEventListener('click', async () => {
     try {
-      const response = await fetch('index.php?page=reserver.php', {
+      const response = await fetch('index.php?page=reserver', {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json'
@@ -265,7 +265,7 @@ function initCredits() {
   const creditSpan = document.getElementById('userCredits');
   if (!creditSpan) return;
 
-  fetch('index.php?page=credits.php', {
+  fetch('index.php?page=credits', {
     credentials: 'include'
   })
 
@@ -350,7 +350,7 @@ function initProposerTrajet() {
     formData.append('passagers', passagers);
     formData.append('voiture', voiture);
 
-    fetch('index.php?page=creer-trajet.php', {
+    fetch('index.php?page=creer-trajet', {
       method: 'POST',
       body: formData
     })

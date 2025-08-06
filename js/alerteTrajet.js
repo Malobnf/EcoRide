@@ -1,7 +1,7 @@
 // alerteTrajet.js
 
 function reserverTrajet(trajetId, userId) {
-  fetch('index.php?page=alerte_trajet.php', {
+  fetch('index.php?page=alerte_trajet', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -31,7 +31,7 @@ function reserverTrajet(trajetId, userId) {
 }
 
 function envoyerAlertePlaceLiberee(trajetId, userId) {
-  fetch('index.php?page=alerte_trajet.php', {
+  fetch('index.php?page=alerte_trajet', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',

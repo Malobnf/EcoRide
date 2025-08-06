@@ -4,7 +4,7 @@ document.getElementById('ajoutVehiculeForm').addEventListener('submit', async (e
   const data = Object.fromEntries(formData.entries())
 
   try {
-    const response = await fetch('index.php?page=ajouter_vehicule.php', {
+    const response = await fetch('index.php?page=ajouter_vehicule.', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data)
