@@ -10,7 +10,6 @@ $page = basename($page);  // évite les chemins dangereux
 
 $paths = [
     __DIR__ . "/php/{$page}.php",
-    __DIR__ . "/html/{$page}.html"
 ];
 
 foreach ($paths as $file) {

@@ -4,7 +4,7 @@ require_once(__DIR__ . '/db.php');
 $pdo = getPdo();
 
 if (!isset($_SESSION['utilisateur_id']) || $_SESSION['role'] !== 'admin') {
-    header('Location: connexion.html');
+    header('Location: index.php?page=connexion_html.php');
     exit;
 }
 

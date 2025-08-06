@@ -9,7 +9,7 @@ $pdo = getPdo();
 
 // Vérifier que l'utilisateur est connecté
 if (!isset($_SESSION['utilisateur_id'])) {
-    header('Location: connexion.html');
+    header('Location: index.php?page=connexion_html.php');
     exit;
 }
 
