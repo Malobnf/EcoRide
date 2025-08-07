@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 // Routeur simple
 $page = $_GET['page'] ?? 'accueil';
 $page = basename($page);  // évite les chemins dangereux
-$file = __DIR__ . "/php/{$page}.php"
+$file = __DIR__ . "/php/{$page}.php";
 
 echo "<pre>Fichier recherché : $file</pre>";
 
