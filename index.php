@@ -7,20 +7,14 @@ error_reporting(E_ALL);
 // Routeur simple
 $page = $_GET['page'] ?? 'accueil';
 $page = basename($page);  // évite les chemins dangereux
-
-$paths = [
-    __DIR__ . "/php/{$page}.php",
-];
+$file = __DIR__ . "/php/{$page}.php"
 
 echo "<pre>Fichier recherché : $paths</pre>";
 
-foreach ($paths as $file) {
-    if (file_exists($file)) {
-        require $file;
-        exit;
-    }
+if (file_exists($file)) {
+    require $file;
+} else {
+    echo "<h1>404 - Page introuvable</h1>";
+    http_response_code(404);
 }
-
-http_response_code(404);
-echo "Page introuvable : $page";
 
