@@ -5,5 +5,5 @@ session_destroy();
 
 setcookie(session_name(), '', time() - 3600, '/');
 
-header('Location: index.php?page=accueil.php');
+header('Location: index.php?page=accueil');
 exit;
