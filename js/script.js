@@ -115,7 +115,7 @@ function initRedirectionProfil() {
 
     if (loggedIn && !currentPage.includes('index.php?page=profil.php')) {
       window.location.href = 'index.php?page=profil';
-    } else if (!loggedIn && !currentPage.includes('index.php?page=connexion_html.php') ){
+    } else if (!loggedIn && !currentPage.includes('index.php?page=connexion_html') ){
       window.location.href = 'index.php?page=connexion_html';
     }
   });
