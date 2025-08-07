@@ -9,7 +9,7 @@ $page = $_GET['page'] ?? 'accueil';
 $page = basename($page);  // évite les chemins dangereux
 $file = __DIR__ . "/php/{$page}.php"
 
-echo "<pre>Fichier recherché : $paths</pre>";
+echo "<pre>Fichier recherché : $file</pre>";
 
 if (file_exists($file)) {
     require $file;
