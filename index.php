@@ -8,11 +8,11 @@ error_reporting(E_ALL);
 $page = $_GET['page'] ?? 'accueil';
 $page = basename($page);  // évite les chemins dangereux
 
-echo "<pre>Fichier recherché : $file</pre>";
-
 $paths = [
     __DIR__ . "/php/{$page}.php",
 ];
+
+echo "<pre>Fichier recherché : $paths</pre>";
 
 foreach ($paths as $file) {
     if (file_exists($file)) {
