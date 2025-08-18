@@ -42,7 +42,7 @@ if (!$employe) {
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Modifier Employé</title>
+  <title>Modifier employé</title>
 </head>
 <body>
   <h1>Modifier Employé</h1>
