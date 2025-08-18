@@ -2,6 +2,14 @@
     "name": "malo/ecoride",
     "description": "Projet EcoRide pour déploiement sur Heroku",
     "require": {
-        "php": "^8.0"
+        "php": "^8.3",
+        "ext-pdo_mysql":"*",
+        "ext-mongodb":"*",
+        "mongodb/mongodb": "^1.19"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "php/"
+        }
     }
 }
