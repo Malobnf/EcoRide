@@ -158,14 +158,34 @@ function initLogin() {
 
     try {
       const res = await fetch('/index.php?page=connexion', {
+      const res = await fetch('/index.php?page=connexion', {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
         credentials: 'include',
         body: JSON.stringify({ username, password })
       });
+
+      const text = await res.text();
+      const ct = res.headers.get('content-type') || '';
+
+      if (!ct.includes('application/json')) {
+        throw new Error(`Réponse non JSON (${res.status}) : ${text.slice(0,200)}`);
+      }
+
+      const result = JSON.parse(text);
+      if(!res.ok || result.success === false) {
+        alert(result.message || `Erreur (${res.status})`);
+        return
+      }
+      
+      localStorage.setItem('userLoggedIn', 'true');
+      window.location.href = '/index.php?page=profil'; 
+      
 
       const text = await res.text();
       const ct = res.headers.get('content-type') || '';
