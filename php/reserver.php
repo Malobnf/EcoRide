@@ -55,6 +55,25 @@ try {
     ':tid' => $idTrajet
   ]);
 
+
+  require_once __DIR__ . '/mongo.php';
+
+$st = $pdo->prepare('SELECT places_disponibles FROM trajets WHERE id = ?');
+$st->execute([$trajetId]); $places = (int)$st->fetchColumn();
+
+$st = $pdo->prepare('SELECT COUNT(*) FROM reservations WHERE trajet_id = ?');
+$st->execute([$trajetId]); $resCt = (int)$st->fetchColumn();
+
+$trajetsRMCol->updateOne(
+  ['_id' => (int)$trajetId],
+  ['$set' => [
+    'reservations_count' => $resCt,
+    'places_restantes'   => max(0, $places - $resCt),
+    'updatedAt'          => new MongoDB\BSON\UTCDateTime(),
+  ]]
+);
+
+
 // Réduire places disponibleq
 $stmt = $pdo->prepare("UPDATE trajets SET places_disponibles = places_disponibles - 1 WHERE id = :id");
 $stmt->execute([':id' => $idTrajet]);

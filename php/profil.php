@@ -5,7 +5,12 @@
 <?php
 session_start();
 require_once(__DIR__ . '/db.php');
-$pdo = getPdo();  
+$pdo = getPdo();
+
+require_once __DIR__ . '/mongo.php';
+$profile = $userProfilesCol->findOne(['_id' => (int)$_SESSION['utilisateur_id']]) ?? [];
+$preferences = $profile['preferences'] ?? [];
+$descriptionMongo = $profile['description'] ?? null;
 
 // Vérifier que l'utilisateur est connecté
 if (!isset($_SESSION['utilisateur_id'])) {
@@ -183,25 +188,25 @@ if (!$user) {
       <?php else: ?>
         <p>Aucun véhicule enregistré.</p>
       <?php endif; ?>
-      <p><strong>À propos :</strong> <?= nl2br(htmlspecialchars($user['description'])) ?></p>
+      <p><strong>À propos :</strong> <?= nl2br(htmlspecialchars($descriptionMongo ?? $user['description'])) ?></p>
       <h4>Préférences :</h4>
         <form id="preferencesForm">
           <p>Choisissez vos préférences :</p>
 
           <label for="pref_non_fumeur">
-            <input type="checkbox" id="pref_non_fumeur" name="preferences[]" value="non_fumeur">Non-fumeur
+            <input type="checkbox" id="pref_non_fumeur" name="preferences[]" value="non_fumeur" <?= in_array('non_fumeur', $preferences ?? [], true) ? 'checked' : '' ?>>Non-fumeur
           </label><br>
 
           <label for="pref_animaux_ok">
-            <input type="checkbox" id="pref_animaux_ok" name="preferences[]" value="animaux_ok">J'aime les animaux !
+            <input type="checkbox" id="pref_animaux_ok" name="preferences[]" value="animaux_ok" <?= in_array('animaux_ok', $preferences ?? [], true) ? 'checked' : '' ?>>>J'aime les animaux !
           </label><br>
 
           <label for="pref_musique">
-            <input type="checkbox" id="pref_musique" name="preferences[]" value="musique">J'aime écouter de la musique !
+            <input type="checkbox" id="pref_musique" name="preferences[]" value="musique" <?= in_array('musique', $preferences ?? [], true) ? 'checked' : '' ?>>>J'aime écouter de la musique !
           </label><br>
 
           <label for="pref_discussion">
-            <input type="checkbox" id="pref_discussion" name="preferences[]" value="discussion">Je suis ouvert à la discussion !
+            <input type="checkbox" id="pref_discussion" name="preferences[]" value="discussion" <?= in_array('discussion', $preferences ?? [], true) ? 'checked' : '' ?>>>Je suis ouvert à la discussion !
           </label><br>
           
           <button type="submit">Enregistrer les préférences</button>

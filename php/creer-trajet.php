@@ -39,6 +39,26 @@ try {
   echo json_encode(['success' => false, 'message' => "Erreur d'enregistrement" . $e->getMessage()]);
 }
 
+require_once __DIR__ . '/mongo.php';
+$trajetsRMCol->replaceOne(
+  ['_id' => (int)$trajetId],
+  [
+    '_id' => (int)$trajetId,
+    'conducteur_id' => (int)$conducteurId,
+    'conducteur_nom'=> $conducteurNom ?? null,
+    'depart' => $villeDepart,
+    'arrivee'=> $villeArrivee,
+    'prix'   => (float)$prix,
+    'places_disponibles' => (int)$places,
+    'reservations_count' => 0,
+    'places_restantes'   => (int)$places,
+    'date_trajet'        => $dateTrajet,
+    'updatedAt'          => new MongoDB\BSON\UTCDateTime(),
+  ],
+  ['upsert' => true]
+);
+
+
 ?>
 
 <!DOCTYPE html>
