@@ -79,16 +79,43 @@
   </header>
 
   <main>
-    <div class="profile-pic"></div>
+    <h3>Contacter Ecoride</h3>
+    <p><strong>Formulaire de contact</p>
+    <form id="contact-form" action="#" method="POST" enctype="multipart/form-data">
+      <div class="row">
+        <label class="required" for="name">Votre nom :</label></br>
+        <input id="name" class="input" name="name" type="text" value=""/></br>
+        <span id="name_validation" class="error-message"></span>
+      </div>
 
-    <div class="user-info">
-      <h3>Informations publiques</h3>
-      <p><strong>Nom :</strong> Jean Dupont</p>
-      <p><strong>Email :</strong> jean.dupont@email.com</p>
-      <p><strong>Téléphone :</strong> 06 12 34 56 78</p>
-      <p><strong>Véhicule :</strong> Peugeot 208, Bleu, 4 places</p>
-      <p><strong>À propos :</strong> Conducteur depuis 5 ans, j'adore partager mes trajets et rencontrer de nouvelles personnes.</p>
-    </div>
+      <div class="row">
+        <label class="required" for="email">Adresse e-mail :</label></br>
+        <input id="email" class="input" name="email" type="text" value=""/></br>
+        <span id="email_validation" class="error-message"></span>          
+      </div>
+
+      <p>Motif du message : </p>
+
+      <nav>
+        <ul>
+          <li class="deroulant"><a href="#"></a>
+            <ul classe="sous">
+              <li><a href="#">Signaler un problème sur le site</a></li>
+              <li><a href="#">Signaler un problème lors d'un covoiturage</a></li>
+              <li><a href="#">Proposer une fonctionnalité/amélioration</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="row">
+        <label class="required" for="message">Votre message :</label></br>
+        <textara id="message" class="input" name="message" rows="7" cols="30"/></textarea></br>
+        <span id="message_validation" class="error-message"></span>          
+      </div>
+
+      <input id="submit-button" type="submit" value="Send email"/>
+    </form>
   </main>
 
 </body>

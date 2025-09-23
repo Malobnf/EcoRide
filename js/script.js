@@ -113,7 +113,7 @@ function initRedirectionProfil() {
     const loggedIn = localStorage.getItem('userLoggedIn') === 'true';
     const currentPage = window.location.pathname;
 
-    if (loggedIn && !currentPage.includes('index.php?page=profil.php')) {
+    if (loggedIn && !currentPage.includes('index.php?page=profil')) {
       window.location.href = 'index.php?page=profil';
     } else if (!loggedIn && !currentPage.includes('index.php?page=connexion_html') ){
       window.location.href = 'index.php?page=connexion_html';
@@ -181,7 +181,8 @@ function initLogin() {
       }
       
       localStorage.setItem('userLoggedIn', 'true');
-      window.location.href = '/index.php?page=profil'; 
+      if (result.role) localStorage.setItem('userRole', result.role);
+      window.location.href = result.redirect || '/index.php?page=profil'; 
       
     } catch (err) {
       console.error("Erreur de connexion : ", err);

@@ -90,7 +90,7 @@
       <a rel="mentions-legales" href="../mentions-legales.pdf" target="_blank">Mentions légales</a>
     </div>
     <div>
-      <a rel="contact" href="index.php?page=contact">Contact</a>
+      <a rel="contact" href="contact.php?page=contact">Contact</a>
     </div>
     <div>Signaler un bug</div>
   </footer>

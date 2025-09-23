@@ -99,7 +99,8 @@ if (!$user) {
       <span class="close-modal" id="closeTrajetsModal"><i class="fas fa-circle-xmark"></i></span>
 
       <div class="modal-tabs">
-        <button class="tab-button active" data-tab="futurs">Trajets à venir</button>
+        <button class="tab-button active" data-tab="futurs">Mes trajets</button>
+        <button class="tab-button" data-tab="reserves">Trajets réservés</button>
         <button class="tab-button" data-tab="passes">Trajets passés</button>
       </div>
 
@@ -119,7 +120,7 @@ if (!$user) {
       <h3>Mes véhicules</h3>
 
       <div id="listeVehicules"></div>
-      <button id="ajouterVehiculeBtn">Ajouter un véhicule</button>
+      <button class="tab-button" id="ajouterVehiculeBtn">Ajouter un véhicule</button>
       <form id="formModifVehicule" class="hidden">
         <input type="hidden" name="id" id="vehiculeInput" value="">
         <input type="text" name="marque">

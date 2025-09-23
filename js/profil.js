@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Afficher le premier onglet par défaut
   document.getElementById('futurs').style.display= 'block';
   document.getElementById('passes').style.display= 'none';
+  document.getElementById('reserves').style.display= 'none';
 
 
   // Onglet véhicules
@@ -311,8 +312,9 @@ async function chargerMesTrajets() {
           <p>${trajet.ville_depart} → ${trajet.ville_arrivee} (${trajet.date_trajet})</p>
           <p>Conducteur : ${trajet.conducteur} | Rôle : ${role} | Prix : ${trajet.prix ?? 'N/A'} crédits</p>
           
-          ${trajet.role === 'passager' && trajet.reservation_id ? 
-            `<button class="annuler-btn" data-id="${trajet.reservation_id}">Annuler</button>` : ''
+          ${trajet.role === 'passager' && trajet.reservation_id 
+            ? `<button class="annuler-btn" data-id="${trajet.reservation_id}">Annuler</button>` : ''
+            ? `<button class="annuler-btn" data-type="trajet" data-id="${trajet.trajet_id ?? trajet.id}">Annuler le trajet</button>` : ''
           }
 
           ${trajet.role === 'conducteur' && trajet.etat === 'à venir' ?
