@@ -43,6 +43,10 @@ if (empty($_SESSION['utilisateur_id']) || ($_SESSION['role'] ?? '') !== 'admin')
     .pill { display:inline-block; padding:.15rem .5rem; border-radius:999px; font-size:.8rem; background:#f1f5f9; }
     .kpi { font-size: 1.1rem; }
     .select { padding:.35rem .5rem; border:1px solid #cbd5e1; border-radius:.35rem; background:#fff; }
+    .chart-wrap { position: relative; width: 100%; height: 320px; }
+    @media (max-width: 600px){ .chart-wrap { height: 260px; } }
+    .chart-wrap > canvas { position: absolute; inset: 0; }
+    .card canvas { height: auto !important; }
   </style>
 </head>
 <body>
@@ -83,11 +87,11 @@ if (empty($_SESSION['utilisateur_id']) || ($_SESSION['role'] ?? '') !== 'admin')
       <div class="grid grid-2">
         <div class="card">
           <h3>Trajets</h3>
-          <canvas id="chartTrajets" height="160"></canvas>
+          <div class="chart-wrap"><canvas id="chartTrajets"></canvas></div>
         </div>
         <div class="card">
           <h3>Crédits</h3>
-          <canvas id="chartCredits" height="160"></canvas>
+          <div class="chart-wrap"><canvas id="chartCredits"></canvas></div>
         </div>
       </div>
     </section>
