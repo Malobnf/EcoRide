@@ -8,6 +8,12 @@ if (empty($_SESSION['utilisateur_id'])) {
     exit;
 }
 
+// Si connexion admin, redirection sur le tableau de bord
+if (!empty($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+  header('Location: index.php?page=admin');
+  exit;
+}
+
 require_once __DIR__ . '/db.php';
 $pdo = getPdo();
 
