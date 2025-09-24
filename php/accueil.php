@@ -63,27 +63,26 @@
   </div>
 
 </br>
-  <h3>Statistiques</h3>
-</br>
+<h3>Statistiques</h3>
+<br/>
 
-  <div class="statistics">
-    
-    <div id="trajets"><h4>Nombres de covoiturages depuis</h4>
-      <span id="item1"></span>
-      <span id="item2"><p>COMPARAISON</p></span>
-    </div>
-
-    <div id="co"><h4>CO2 économisé</h4>
-      <span id="item3"><p>STATISTIQUE</p></span>
-      <span id="item4"><p>COMPARAISON</p></span>
-    </div>
-
-    <div id="argent"><h4>Argent économisé par utilisateur</h4>
-      <span id="item5"><p>STATISTIQUE</p></span>
-      <span id="item6"><p>COMPARAISON</p></span>
-    </div>
-      
+<div class="statistics">
+  <div id="trajets">
+    <h4>Nombre de covoiturages depuis le <span id="sinceDate">01/01/2025</span></h4>
+    <span id="item1">…</span>
   </div>
+
+  <div id="co">
+    <h4>CO₂ économisé en moyenne</h4>
+    <span id="item3">…</span>
+  </div>
+
+  <div id="argent">
+    <h4>Argent économisé par utilisateur en moyenne</h4>
+    <span id="item5">…</span>
+  </div>
+</div>
+
 
   <footer>
     <div>
@@ -94,6 +93,60 @@
     </div>
     <div>Signaler un bug</div>
   </footer>
+
+<script>
+(async function(){
+  // Helper formatage
+  const fmtInt = (n) => new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(Math.round(n));
+  const fmtEur = (n) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+  const fmtCO2  = (kg) => {
+    if (kg >= 1000) return (kg/1000).toFixed(1).replace('.', ',') + ' t';
+    return fmtInt(kg) + ' kg';
+  };
+
+  // Animation
+  function animateCount(el, target, duration=800) {
+    const start = 0, delta = target - start;
+    const t0 = performance.now();
+    function tick(now){
+      const p = Math.min(1, (now - t0)/duration);
+      el.textContent = fmtInt(start + delta * p);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  try {
+    const res = await fetch('index.php?page=home_stats', { credentials:'include' });
+    const data = await res.json();
+    if (!data || data.success === false) throw new Error(data?.message || 'Erreur de stats');
+
+    // Date "depuis"
+    const since = data.since || '2025-01-01';
+    const [y,m,d] = since.split('-');
+    document.getElementById('sinceDate').textContent = `${d}/${m}/${y}`;
+
+    // Covoiturages
+    const item1 = document.getElementById('item1');
+    animateCount(item1, data.trips ?? 0);
+
+    // CO2 économisé
+    const item3 = document.getElementById('item3');
+    item3.textContent = fmtCO2(data.co2SavedKg ?? 0);
+
+    // Argent économisé par utilisateur (moyenne)
+    const item5 = document.getElementById('item5');
+    item5.textContent = fmtEur(data?.money?.perUserEur ?? 0);
+
+  } catch (e) {
+    console.error(e);
+    document.getElementById('item1').textContent = '—';
+    document.getElementById('item3').textContent = '—';
+    document.getElementById('item5').textContent = '—';
+  }
+})();
+</script>
+
 
 </body>
 </html>
