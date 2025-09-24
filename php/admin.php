@@ -16,9 +16,10 @@ if (empty($_SESSION['utilisateur_id']) || ($_SESSION['role'] ?? '') !== 'admin')
 
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    .container { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
     .tabs { display:flex; gap:.5rem; margin:1rem 0; flex-wrap:wrap; }
     .tabs button { padding:.5rem .9rem; border:1px solid #cbd5e1; background:#fff; cursor:pointer; border-radius:.5rem; }
     .tabs button.active { background:#0f766e; border-color:#0f766e; color:#fff; }
@@ -29,7 +30,7 @@ if (empty($_SESSION['utilisateur_id']) || ($_SESSION['role'] ?? '') !== 'admin')
     .subtabs button.active { background:#334155; border-color:#334155; color:#fff; }
     .grid { display:grid; gap:1rem; }
     .grid-2 { grid-template-columns: 1fr 1fr; }
-    @media (max-width: 900px){ .grid-2 { grid-template-columns: 1fr; } }
+    @media (max-width: 1000px){ .grid-2 { grid-template-columns: 1fr; } }
     .card { border:1px solid #e5e7eb; border-radius:.75rem; padding:1rem; background:#fff; }
     .row { display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; }
     .table { width:100%; border-collapse:collapse; }
@@ -40,7 +41,8 @@ if (empty($_SESSION['utilisateur_id']) || ($_SESSION['role'] ?? '') !== 'admin')
     .btn.small { font-size:.9rem; padding:.25rem .5rem; }
     .hidden { display:none; }
     .pill { display:inline-block; padding:.15rem .5rem; border-radius:999px; font-size:.8rem; background:#f1f5f9; }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; white-space:pre-wrap; }
+    .kpi { font-size: 1.1rem; }
+    .select { padding:.35rem .5rem; border:1px solid #cbd5e1; border-radius:.35rem; background:#fff; }
   </style>
 </head>
 <body>
@@ -64,22 +66,33 @@ if (empty($_SESSION['utilisateur_id']) || ($_SESSION['role'] ?? '') !== 'admin')
       <button class="tab-btn" data-tab="employes">Gestion des employés</button>
     </div>
 
-    <!-- Statistiques -->
+    <!-- Onglet "statistiques" -->
     <section id="tab-stats" class="tab-content active">
+      <div class="row" style="justify-content: space-between;">
+        <div class="row">
+          <label for="granularity" style="font-weight:600;">Granularité :</label>
+          <select id="granularity" class="select">
+            <option value="jour">Jour</option>
+            <option value="mois" selected>Mois</option>
+            <option value="annee">Année</option>
+          </select>
+        </div>
+        <div class="kpi">Total crédits : <strong id="totalCredits">…</strong></div>
+      </div>
+
       <div class="grid grid-2">
         <div class="card">
-          <h3>Trajets (jour / mois / année)</h3>
-          <div id="statsTrajets" class="mono">Chargement…</div>
+          <h3>Trajets</h3>
+          <canvas id="chartTrajets" height="160"></canvas>
         </div>
         <div class="card">
           <h3>Crédits</h3>
-          <div id="statsCredits" class="mono">Chargement…</div>
-          <p style="margin-top:.5rem">Total crédits: <strong id="totalCredits">…</strong></p>
+          <canvas id="chartCredits" height="160"></canvas>
         </div>
       </div>
     </section>
 
-    <!-- Gestion des covoirurages -->
+    <!-- Onglet "gestion des covoiturages" -->
     <section id="tab-covoit" class="tab-content">
       <div class="subtabs">
         <button class="subtab-btn active" data-subtab="avis">Avis</button>
@@ -95,7 +108,7 @@ if (empty($_SESSION['utilisateur_id']) || ($_SESSION['role'] ?? '') !== 'admin')
       </div>
     </section>
 
-    <!-- Gestion des employés -->
+    <!-- Onglet "gestion des employés" -->
     <section id="tab-employes" class="tab-content">
       <div class="card" style="margin-bottom:1rem">
         <h3>Créer un employé</h3>
@@ -157,24 +170,85 @@ if (empty($_SESSION['utilisateur_id']) || ($_SESSION['role'] ?? '') !== 'admin')
     }));
 
     // Statistiques
+    const $granularity = document.getElementById('granularity');
+    const $totalCredits = document.getElementById('totalCredits');
+    let charts = { trajets: null, credits: null };
+    let statsCache = null;
+
+    $granularity.addEventListener('change', () => { if (statsCache) renderCharts(statsCache, $granularity.value); });
+
     async function loadStats() {
       try {
         const res = await fetch('index.php?page=stats_json', { credentials:'include' });
         const data = await res.json();
-        const toLines = (arr) => (Array.isArray(arr) ? arr.map(x => `${x.periode}: ${x.total ?? x.credits}`).join('\\n') : '—');
-
-        document.getElementById('statsTrajets').textContent =
-          `Jour:\\n${toLines(data?.trajets?.jour)}\\n\\nMois:\\n${toLines(data?.trajets?.mois)}\\n\\nAnnée:\\n${toLines(data?.trajets?.annee)}`;
-
-        document.getElementById('statsCredits').textContent =
-          `Jour:\\n${toLines(data?.credits?.jour)}\\n\\nMois:\\n${toLines(data?.credits?.mois)}\\n\\nAnnée:\\n${toLines(data?.credits?.annee)}`;
-
-        document.getElementById('totalCredits').textContent = data?.totalCredits ?? 'N/A';
+        statsCache = data;
+        $totalCredits.textContent = data?.totalCredits ?? 'N/A';
+        renderCharts(data, $granularity.value);
       } catch (e) {
         console.error(e);
-        document.getElementById('statsTrajets').textContent = 'Erreur de chargement.';
-        document.getElementById('statsCredits').textContent = 'Erreur de chargement.';
+        $totalCredits.textContent = 'Erreur';
+        destroyCharts();
       }
+    }
+
+    function destroyCharts(){
+      if (charts.trajets) { charts.trajets.destroy(); charts.trajets = null; }
+      if (charts.credits) { charts.credits.destroy(); charts.credits = null; }
+    }
+
+    function buildSeries(arr, keyVal='total') {
+      if (!Array.isArray(arr)) return { labels: [], values: [] };
+      const copy = arr.slice();
+      copy.sort((a,b)=>{
+        const A=a.periode, B=b.periode;
+        return A.localeCompare(B);
+      });
+      const labels = copy.map(x => x.periode);
+      const values = copy.map(x => Number(x[keyVal] ?? 0));
+      return { labels, values };
+    }
+
+    function renderCharts(data, granularity) {
+      destroyCharts();
+      const ctxT = document.getElementById('chartTrajets').getContext('2d');
+      const ctxC = document.getElementById('chartCredits').getContext('2d');
+
+      const traj = buildSeries(data?.trajets?.[granularity] ?? [], 'total');
+      const cred = buildSeries(data?.credits?.[granularity] ?? [], 'credits');
+
+      charts.trajets = new Chart(ctxT, {
+        type: 'line',
+        data: {
+          labels: traj.labels,
+          datasets: [{ label: `Trajets par ${granularity}`, data: traj.values, tension: .25, fill: true }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { ticks: { autoSkip: true, maxTicksLimit: 12 } },
+            y: { beginAtZero: true, ticks: { precision:0 } }
+          },
+          plugins: { legend: { display: true } }
+        }
+      });
+
+      charts.credits = new Chart(ctxC, {
+        type: 'bar',
+        data: {
+          labels: cred.labels,
+          datasets: [{ label: `Crédits par ${granularity}`, data: cred.values }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { ticks: { autoSkip: true, maxTicksLimit: 12 } },
+            y: { beginAtZero: true, ticks: { precision:0 } }
+          },
+          plugins: { legend: { display: true } }
+        }
+      });
     }
 
     // Avis
@@ -196,8 +270,8 @@ if (empty($_SESSION['utilisateur_id']) || ($_SESSION['role'] ?? '') !== 'admin')
             <p><strong>Note :</strong> ${avis.note} ★</p>
             <p><strong>Avis :</strong> ${avis.commentaire}</p>
             <div class="row">
-              <button class="btn primary small" data-action="valider" data-id="\${avis.id}">Valider</button>
-              <button class="btn danger small"  data-action="refuser" data-id="\${avis.id}">Refuser</button>
+              <button class="btn primary small" data-action="valider" data-id="${avis.id}">Valider</button>
+              <button class="btn danger small"  data-action="refuser" data-id="${avis.id}">Refuser</button>
             </div>`;
           container.appendChild(div);
         });
@@ -243,8 +317,8 @@ if (empty($_SESSION['utilisateur_id']) || ($_SESSION['role'] ?? '') !== 'admin')
               <li>${c.utilisateur_noteur.nom} (${c.utilisateur_noteur.email}) - Note donnée: ${c.note_donnee} ★</li>
             </ul>
             <div class="row">
-              <button class="btn primary small" data-action="resolu"  data-id="\${c.trajet_id}">Résolu</button>
-              <button class="btn small"           data-action="nonres" data-id="\${c.trajet_id}">Non-résolu</button>
+              <button class="btn primary small" data-action="resolu"  data-id="${c.trajet_id}">Résolu</button>
+              <button class="btn small"           data-action="nonres" data-id="${c.trajet_id}">Non-résolu</button>
             </div>`;
           container.appendChild(div);
         });
