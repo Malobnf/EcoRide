@@ -1,8 +1,5 @@
 <?php
-// Affiche les erreurs (à retirer en prod (ou passer à 0))
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require __DIR__ . '/php/session_boot.php';
 
 // Routeur simple
 $page = $_GET['page'] ?? 'accueil';
