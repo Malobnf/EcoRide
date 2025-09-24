@@ -41,27 +41,6 @@ function initMenuToggle() {
   });
 }
 
-// Statistique incrémentale //
-
-function initScrollStats() {
-  const runCounter1 = function (m, n = 0) {
-    if (n < m) {
-      document.getElementById("item1").innerHTML = n;
-      window.setTimeout(() => runCounter1(m, ++n), 10);
-    }
-  };
-
-  const item = document.getElementById("item1");
-  if (!item) return;
-
-  window.addEventListener("scroll", function scrollHandler1() {
-    if (this.window.scrollY + this.window.screen.height > 1000) {
-      runCounter1(1000);
-      this.window.removeEventListener("scroll", scrollHandler1);
-    }
-  });
-}
-
 // Slider //
 
 function initSlider() {
