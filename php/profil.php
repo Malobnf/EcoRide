@@ -1,37 +1,59 @@
-<!-- Modification de profil.html en profil.php / tentative de page dynamique simplifiée (sans 1000 interactions entre différents fichiers) -->
-
-
-
 <?php
+declare(strict_types=1);
 session_start();
-require_once(__DIR__ . '/db.php');
-$pdo = getPdo();
 
-require_once __DIR__ . '/mongo.php';
-$profile = $userProfilesCol->findOne(['_id' => (int)$_SESSION['utilisateur_id']]) ?? [];
-$preferences = $profile['preferences'] ?? [];
-$descriptionMongo = $profile['description'] ?? null;
-
-// Vérifier que l'utilisateur est connecté
-if (!isset($_SESSION['utilisateur_id'])) {
+// Vérifier la session
+if (empty($_SESSION['utilisateur_id'])) {
     header('Location: index.php?page=connexion_html');
     exit;
 }
 
-// Récupérer les infos utilisateur
+require_once __DIR__ . '/db.php';
+$pdo = getPdo();
+
+$preferences = [];
+$descriptionMongo = null;
+$mongoAvailable = false;
+
+// Charger mongo.php uniquement si la lib MongoDB PHP est disponible ET que l'URI existe
+// sinon, rester en lecture MySQL
+if (class_exists('MongoDB\\Client') && getenv('MONGODB_URI')) {
+    require_once __DIR__ . '/mongo.php';
+    if (isset($userProfilesCol)) {
+        $mongoAvailable = true;
+        try {
+            $profileDoc = $userProfilesCol->findOne(
+                ['_id' => (int)$_SESSION['utilisateur_id']],
+                ['projection' => ['preferences' => 1, 'description' => 1]]
+            );
+            if ($profileDoc) {
+                if (!empty($profileDoc['preferences']) && is_array($profileDoc['preferences'])) {
+                    $preferences = $profileDoc['preferences'];
+                }
+                if (!empty($profileDoc['description'])) {
+                    $descriptionMongo = (string)$profileDoc['description'];
+                }
+            }
+        } catch (Throwable $e) {
+            error_log('[profil] Mongo read error: ' . $e->getMessage());
+            $mongoAvailable = false;
+        }
+    }
+}
+
 $stmt = $pdo->prepare('SELECT nom, prenom, email, telephone, vehicule, description, credits, role FROM utilisateurs WHERE id = ?');
 $stmt->execute([$_SESSION['utilisateur_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-$stmtVehicules = $pdo->prepare('SELECT id, marque, modele, couleur, places FROM vehicules WHERE utilisateur_id = ?');
-$stmtVehicules->execute([$_SESSION['utilisateur_id']]);
-$vehicules = $stmtVehicules->fetchAll(PDO::FETCH_ASSOC);
 
 if (!$user) {
     echo "Utilisateur non trouvé.";
     exit;
 }
+
+// Afficher si Mongo est dispo sinon MySQL
+$descriptionPublic = $descriptionMongo ?? ($user['description'] ?? '');
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -188,7 +210,7 @@ if (!$user) {
       <?php else: ?>
         <p>Aucun véhicule enregistré.</p>
       <?php endif; ?>
-      <p><strong>À propos :</strong> <?= nl2br(htmlspecialchars($descriptionMongo ?? $user['description'])) ?></p>
+      <p><strong>À propos :</strong> <?= nl2br(htmlspecialchars($descriptionPublic)) ?></p>
       <h4>Préférences :</h4>
         <form id="preferencesForm">
           <p>Choisissez vos préférences :</p>
@@ -198,15 +220,15 @@ if (!$user) {
           </label><br>
 
           <label for="pref_animaux_ok">
-            <input type="checkbox" id="pref_animaux_ok" name="preferences[]" value="animaux_ok" <?= in_array('animaux_ok', $preferences ?? [], true) ? 'checked' : '' ?>>>J'aime les animaux !
+            <input type="checkbox" id="pref_animaux_ok" name="preferences[]" value="animaux_ok" <?= in_array('animaux_ok', $preferences ?? [], true) ? 'checked' : '' ?>>J'aime les animaux !
           </label><br>
 
           <label for="pref_musique">
-            <input type="checkbox" id="pref_musique" name="preferences[]" value="musique" <?= in_array('musique', $preferences ?? [], true) ? 'checked' : '' ?>>>J'aime écouter de la musique !
+            <input type="checkbox" id="pref_musique" name="preferences[]" value="musique" <?= in_array('musique', $preferences ?? [], true) ? 'checked' : '' ?>>J'aime écouter de la musique !
           </label><br>
 
           <label for="pref_discussion">
-            <input type="checkbox" id="pref_discussion" name="preferences[]" value="discussion" <?= in_array('discussion', $preferences ?? [], true) ? 'checked' : '' ?>>>Je suis ouvert à la discussion !
+            <input type="checkbox" id="pref_discussion" name="preferences[]" value="discussion" <?= in_array('discussion', $preferences ?? [], true) ? 'checked' : '' ?>>Je suis ouvert à la discussion !
           </label><br>
           
           <button type="submit">Enregistrer les préférences</button>
