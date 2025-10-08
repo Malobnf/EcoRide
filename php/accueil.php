@@ -33,8 +33,8 @@
 
   <div class="container">
     <p>On va où ?</p>
-    <a id="searchBtn" class="searchBtn" href="index.php?page=covoit">Rechercher un trajet </a><i class="fas fa-arrow-right"></i>
   </div>
+  <button id="searchBtn" class="searchBtn search-btn-trans" href="index.php?page=covoit">Rechercher un trajet </button><i class="fas fa-arrow-right"></i>
 
   <div class="about_us">
     <h3>EcoRide</h3>
