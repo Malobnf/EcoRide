@@ -94,6 +94,7 @@ div {
 html, body {
   margin: 0;
   border: 0;
+  overflow-x: clip;
 }
 
 a {
@@ -123,7 +124,7 @@ h3 {
 
 footer {
   display: grid;
-  grid-template-columns: 33% 33% 33%;
+  grid-template-columns: 50% 50%;
   padding: 30px;
   background-color: #38b000;
   text-align: center;
@@ -132,6 +133,11 @@ footer {
 
 .hidden {
   display: none !important;
+}
+
+.presentation {
+  text-justify: auto;
+  text-align: center;
 }
 
 /* DETAILS DU COVOITURAGE */
@@ -513,7 +519,8 @@ nav a:hover {
   text-align: center;
   margin: 0px;
   align-items: center;
-  background-image: url("../Images/bg-img.jpg");
+  background-image: url("../Images/bg-img2.jpg");
+  background-size:cover;
 }
 
 .container input { /* Input de recherche de trajet */
@@ -528,15 +535,17 @@ nav a:hover {
 
 .searchBtn {
   font-family: "Josefin Sans", sans-serif;
-  font-size: 22px;
+  font-size: 30px;
   margin: 10px;
   padding: 10px 20px;
-  border: none;
+  border: 2px solid #38b000;
   border-radius: 50px;
-  background-color: #38b000;
-  color: white;
+  background: transparent;
+  color: #70e000;
   font-weight: bold;
   cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
   transition: all 0.3s ease;
 }
 
@@ -560,11 +569,14 @@ nav a:hover {
   border: 2px solid #70e000;
   position: relative;
   border-radius: 50px;
+  overflow: relative;
+  isolation: isolate;
 }
 
 .search-btn-trans::after {
   content: "";
   position: absolute;
+  inset: 2px;
   width: 0;
   height: 100%;
   top: 0;
@@ -573,10 +585,12 @@ nav a:hover {
   transition: width 0.3s ease-in-out;
   z-index: -1;
   border-radius: 50px;
+  pointer-events: none;
 }
 
 .search-btn-trans:hover::after {
   width: 100%;
+  pointer-events: none;
 }
 
 .search-btn-trans:hover {

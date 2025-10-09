@@ -1,0 +1,40 @@
+services:
+  app:
+    build: .
+    container_name: webapp
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: mysqldb
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT}
+    ports:
+      - "3307:3306"         # MySQL accessible sur localhost:3307 (outil externe)
+    volumes:
+      - dbdata:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: pma
+    environment:
+      - PMA_HOST=db         # se connecte au service "db"
+    ports:
+      - "8081:80"           # http://localhost:8081
+
+volumes:
+  dbdata:

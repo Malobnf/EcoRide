@@ -33,13 +33,17 @@
 
   <div class="container">
     <p>On va où ?</p>
+</br>
+    <a class="searchBtn search-btn-trans" href="index.php?page=covoit">
+      <span>Rechercher un trajet</span>
+    </a>
+    <!-- <button id="searchBtn" class="searchBtn search-btn-trans" href=>Rechercher un trajet </button> <i class="fas fa-arrow-right"></i> -->
   </div>
-  <button id="searchBtn" class="searchBtn search-btn-trans" href="index.php?page=covoit">Rechercher un trajet </button><i class="fas fa-arrow-right"></i>
 
   <div class="about_us">
     <h3>EcoRide</h3>
   </br>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="presentation">EcoRide est LE nouveau site de covoiturage éco-friendly. Chez EcoRide, nous prenons soin de pouvoir vous proposer des alternatives soucieuses de l'environnement et permettre ainsi à chacun de pouvoir agir à son échelle pour soutenir la nature. Choisissez votre mode de transport, vos trajets et vos horaires et restez informés de votre empreinte carbone et de votre impact direct pour la sauvegarde de notre planète. Tout ça en réalisant en plus des économies !</br> N'attendez plus et réservez votre trajet dès maintenant ! </p>
   </div>
 
     <h3>L'équipe</h3>
@@ -91,7 +95,6 @@
     <div>
       <a rel="contact" href="contact.php?page=contact">Contact</a>
     </div>
-    <div>Signaler un bug</div>
   </footer>
 
 <script>
