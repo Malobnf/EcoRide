@@ -1,4 +1,4 @@
-# Dockerfile
+# Dockerfile (permet de décrire les outils nécessaires)
 FROM php:8.3-apache
 
 # Extensions PHP nécessaires

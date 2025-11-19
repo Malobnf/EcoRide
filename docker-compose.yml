@@ -9,9 +9,9 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=3306
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASS=${DB_PASS}
+      - DB_NAME=ecoride
+      - DB_USER=ecoride
+      - DB_PASS=ecoride
     depends_on:
       - db
 
@@ -19,12 +19,12 @@ services:
     image: mysql:8.0
     container_name: mysqldb
     environment:
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASS}
-      - MYSQL_ROOT_PASSWORD=${DB_ROOT}
+      - MYSQL_DATABASE=ecoride
+      - MYSQL_USER=ecoride
+      - MYSQL_PASSWORD=ecoride
+      - MYSQL_ROOT_PASSWORD=rootpassword
     ports:
-      - "3307:3306"         # MySQL accessible sur localhost:3307 (outil externe)
+      - "3307:3306"
     volumes:
       - dbdata:/var/lib/mysql
 
@@ -32,9 +32,9 @@ services:
     image: phpmyadmin:5
     container_name: pma
     environment:
-      - PMA_HOST=db         # se connecte au service "db"
+      - PMA_HOST=db
     ports:
-      - "8081:80"           # http://localhost:8081
+      - "8081:80"
 
 volumes:
   dbdata:

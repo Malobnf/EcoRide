@@ -31,3 +31,9 @@ https://www.figma.com/design/VnJZ6HkcJZLh6RYoAyiRCs/EcoRide?node-id=0-1&t=qDRVPm
 BDD : 
 Site (admin) :
 Site (employé) :
+
+
+DB_NAME=ecoride
+DB_USER=ecoride_user
+DB_PASS=motdepasse
+DB_ROOT=rootpassword
