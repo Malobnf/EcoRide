@@ -1368,3 +1368,10 @@ nav a:hover {
 .btn-proposer i {
   font-size: 1.2rem;
 }
+
+
+.searchBtn {
+  display: inline-block;
+  width: auto;
+  white-space: nowrap;
+}
