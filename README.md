@@ -28,6 +28,10 @@ https://www.figma.com/design/VnJZ6HkcJZLh6RYoAyiRCs/EcoRide?node-id=0-1&t=qDRVPm
 
 ## Connexion
 
+JAWSDB_URL : mysql://hyig8y2kcbjlzzj4:q58gn7sukb56s3en@etdq12exrvdjisg6.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/dbtihpk3ml0inl13
+
+connexion phpmyadmin (docker) root // rootpassword
+
 BDD : 
 Site (admin) :
 Site (employé) :
@@ -37,3 +41,7 @@ DB_NAME=ecoride
 DB_USER=ecoride_user
 DB_PASS=motdepasse
 DB_ROOT=rootpassword
+
+
+utilisateur => utilisateur
+admin => admin

@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
-session_start();
 
 if (empty($_SESSION['utilisateur_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
   header('Location: index.php?page=connexion_html');
   exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

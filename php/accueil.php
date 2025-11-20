@@ -28,6 +28,7 @@
       <a href="index.php?page=creer-trajet_html">Proposer un trajet</a>
       <a href="index.php?page=profil">Profil</a>
       <a href="index.php?page=contact">Contact</a>
+      <a href="index.php?page=deconnexion">Déconnexion</a>
     </nav>
   </header>
 
@@ -93,7 +94,7 @@
       <a rel="mentions-legales" href="../mentions-legales.pdf" target="_blank">Mentions légales</a>
     </div>
     <div>
-      <a rel="contact" href="contact.php?page=contact">Contact</a>
+      <a rel="contact" href="index.php?page=contact">Contact</a>
     </div>
   </footer>
 

@@ -433,13 +433,7 @@ nav a:hover {
 }
 /* PAGE PROFIL */
 
-.profil-main {
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
+
 
 #icone-profil {
   cursor: pointer;
@@ -456,11 +450,7 @@ nav a:hover {
   margin-bottom: 20px;
 }
 
-.rating {
-  margin-bottom: 10px;
-  font-size: 24px;
-  color: gold;
-}
+
 
 .reviews {
   margin-bottom: 30px;
@@ -474,6 +464,13 @@ nav a:hover {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+.user-info {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
+
 
 .user-info p {
   margin: 5px 0;
@@ -489,16 +486,6 @@ nav a:hover {
 
 .mod-info {
   display: none;
-}
-
-#profilBtn, #logoutBtn {
-  margin-top: 15px;
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
 }
 
 /* RECHERCHE DE TRAJET */
@@ -708,4 +695,357 @@ nav a:hover {
 
 .statistics p {
   font-size: 20px;
+}
+
+
+/* Style actions profil */
+
+
+.profil-main {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+
+.profil-main div {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.profile-pic {
+  margin: 0 auto 20px;
+}
+
+.user-full-name,
+.rating {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reviews {
+  margin: 0 auto 30px;
+  max-width: 600px;
+}
+
+.review {
+  margin: 10px auto;
+}
+
+.profil-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.5rem 0 2rem;
+}
+
+/* Bouton de base */
+.btn-primary,
+.btn-secondary,
+.btn-ghost,
+.btn-link {
+  font-family: inherit;
+  font-size: 0.95rem;
+  border-radius: 999px;
+  padding: 0.6rem 1.4rem;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.1s ease;
+}
+
+/* Bouton principal */
+.btn-primary {
+  background: #2e7d32;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(46, 125, 50, 0.35);
+}
+
+.btn-primary:hover {
+  background: #1b5e20;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(27, 94, 32, 0.45);
+}
+
+/* Mes véhicules */
+.btn-primary.btn-outline {
+  background: transparent;
+  color: #2e7d32;
+  border: 1px solid #2e7d32;
+  box-shadow: none;
+}
+
+.btn-primary.btn-outline:hover {
+  background: rgba(46, 125, 50, 0.08);
+}
+
+/* Boutons secondaires (admin/gestion) */
+.btn-secondary {
+  background: #eeeeee;
+  color: #333333;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+/* Déconnexion */
+.btn-ghost {
+  margin-top: 1.5rem;
+  background: transparent;
+  color: #c62828;
+  border: 1px solid #c62828;
+}
+
+.btn-ghost:hover {
+  background: rgba(198, 40, 40, 0.06);
+}
+
+/* Modifier le profil */
+.btn-link {
+  background: none;
+  border: none;
+  color: #2e7d32;
+  padding: 0;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.btn-link:hover {
+  color: #1b5e20;
+}
+
+/* Responsive : placer les boutons en colonne sur mobile */
+@media (max-width: 600px) {
+  .profil-main {
+    margin: 1rem;
+    padding: 1.25rem;
+  }
+
+  .profil-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .profil-actions button {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+
+
+/* ---------- Formulaire d'ajout de véhicule ---------- */
+
+.vehicule-form {
+  margin-top: 1.5rem;
+  padding: 1.5rem 1.75rem;
+  background: #f9fdf8;
+  border-radius: 16px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.04);
+}
+
+.vehicule-form-title {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #2e7d32;
+  text-align: left;
+}
+
+.vehicule-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.vehicule-field {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.vehicule-field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+.vehicule-field input,
+.vehicule-field select {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid #cfd8dc;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  background-color: #ffffff;
+}
+
+.vehicule-field input:focus,
+.vehicule-field select:focus {
+  border-color: #38b000;
+  box-shadow: 0 0 0 3px rgba(56, 176, 0, 0.15);
+  background-color: #ffffff;
+}
+
+.vehicule-form-actions {
+  margin-top: 0.5rem;
+  text-align: right;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .vehicule-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .vehicule-form-actions {
+    text-align: center;
+  }
+
+  .vehicule-form-actions .btn-primary {
+    width: 100%;
+  }
+}
+
+
+
+/* Barre supérieure (crédits + boutons) */
+.profil-top-bar {
+  max-width: 900px;
+  margin: 1.5rem auto 0 auto;
+  padding: 0 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profil-credits {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.profil-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Responsive : empiler sur mobile */
+@media (max-width: 600px) {
+  .profil-top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
+
+/* ---- Correction mise en page du profil ---- */
+
+/* Container principal du profil */
+.profil-main {
+  max-width: 900px;
+  margin: 2rem auto !important;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+
+.profil-main div {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+
+.profil-main .profile-pic {
+  margin: 0 auto 20px !important;
+}
+
+
+.profil-main .user-full-name,
+.profil-main .rating {
+  text-align: center;
+  margin-top: 5px;
+}
+
+.profil-main .reviews {
+  max-width: 600px;
+  margin: 0 auto 30px !important;
+}
+
+
+.profil-main .review {
+  margin: 10px auto !important;
+}
+
+
+.profil-main .user-info {
+  max-width: 600px;
+  margin: 0 auto 20px !important;
+  text-align: left;
+}
+
+
+
+/* ---- Sections "Informations publiques" et "Préférences" ---- */
+
+.profil-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem auto;
+  max-width: 650px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.profil-section-title {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.profil-section-content p,
+.profil-section-content label {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.vehicule-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 5px;
+}
+
+.vehicule-list li {
+  background: #f3f3f3;
+  padding: 8px 12px;
+  margin: 5px 0;
+  border-radius: 6px;
+}
+
+
+.profil-main .profil-section {
+  margin-left: auto !important;
+  margin-right: auto !important;
 }

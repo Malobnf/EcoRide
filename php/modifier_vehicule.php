@@ -1,7 +1,5 @@
 <?php
 ob_start();
-
-session_start();
 require_once(__DIR__ . '/db.php');
 $pdo = getPdo();
 header('Content-Type: application/json');
