@@ -46,6 +46,18 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('passes').style.display= 'none';
   document.getElementById('reserves').style.display= 'none';
 
+  // Menu déroulant pour l'année d'immat
+(function remplirAnnees() {
+  const select = document.getElementById('annee_immat');
+  if (!select) return;
+
+  for (let an = 2025; an >= 1960; an--) {
+    const option = document.createElement('option');
+    option.value = an;
+    option.textContent = an;
+    select.appendChild(option);
+  }
+})();
 
   // Onglet véhicules
   const vehiculeBtn = document.getElementById("vehiculeBtn");
@@ -56,44 +68,68 @@ document.addEventListener('DOMContentLoaded', () => {
   const ajouterVehiculeBtn = document.getElementById("ajouterVehiculeBtn");
   const formModifVehicule = document.getElementById("formModifVehicule");
 
-  if (vehiculeBtn) {
+  if (!vehiculeBtn || !vehiculeModal) {
+    console.warn("Bouton ou modal véhicules manquant.");
+  } else {
     vehiculeBtn.addEventListener('click', () => {
-    vehiculeModal.classList.remove('hidden');
-    chargerVehicules();
-  });
-    } else {
-      console.warn("vehiculeBtn non trouvé");
-    }
+      console.log("[Profil] Clic sur Mes véhicules");
+      vehiculeModal.classList.remove('hidden');
+      chargerVehicules();
+    });
+  }
 
-  if (closeVehiculeModal) {
+  if (closeVehiculeModal && vehiculeModal) {
     closeVehiculeModal.addEventListener('click', () => {
       vehiculeModal.classList.add('hidden');
-  });
-    } else {
-      console.warn("closeVehiculeModal non trouvé");
-    }
+    });
 
-  if (ajouterVehiculeBtn) {
+    // fermer en cliquant sur le fond
+    vehiculeModal.addEventListener('click', (e) => {
+      if (e.target === vehiculeModal) {
+        vehiculeModal.classList.add('hidden');
+      }
+    });
+  }
+
+  if (ajouterVehiculeBtn && formAjoutVehicule) {
     ajouterVehiculeBtn.addEventListener('click', () => {
       formAjoutVehicule.classList.toggle('hidden');
-  });
-    } else {
-      console.warn("ajouterVehiculeBtn non trouvé");
-    }
+    });
+  }
 
   if (formAjoutVehicule) {
     formAjoutVehicule.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const data = new FormData(formAjoutVehicule);
-      const res = await fetch('index.php?page=ajouter_vehicule', {
-        method: 'POST',
-        body: data
-      });
 
-      if (res.ok) {
-        formAjoutVehicule.reset();
-        formAjoutVehicule.classList.add('hidden');
-        chargerVehicules();
+      const data = new FormData(formAjoutVehicule);
+      try {
+        const res = await fetch('index.php?page=ajouter_vehicule', {
+          method: 'POST',
+          body: data
+        });
+
+        const text = await res.text();
+        console.log("[Profil] Réponse ajout véhicule brute :", text);
+
+        let result;
+        try {
+          result = JSON.parse(text);
+        } catch (err) {
+          console.error("Réponse ajout véhicule non JSON :", text);
+          alert("Erreur serveur lors de l'ajout du véhicule.");
+          return;
+        }
+
+        if (result.success) {
+          formAjoutVehicule.reset();
+          formAjoutVehicule.classList.add('hidden');
+          chargerVehicules();
+        } else {
+          alert(result.message || "Erreur lors de l'ajout du véhicule.");
+        }
+      } catch (error) {
+        console.error("Erreur réseau ajout véhicule :", error);
+        alert("Erreur réseau lors de l'ajout du véhicule.");
       }
     });
   } else {
@@ -112,34 +148,60 @@ document.addEventListener('DOMContentLoaded', () => {
           body: formData
         });
 
-
         const text = await res.text();
-        console.log("Réponse brute reçue :", text);
+        console.log("Réponse brute reçue (modifier_vehicule) :", text);
 
-        const result = JSON.parse(text);
+        let result;
+        try {
+          result = JSON.parse(text);
+        } catch (err) {
+          console.error("Réponse non JSON (modifier_vehicule) :", text);
+          alert("Erreur serveur lors de la modification du véhicule.");
+          return;
+        }
 
         if (result.success) {
           alert("Modifications enregistrées.");
-          console.log("Masquage du formulaire de modification...");
           formModifVehicule.classList.add("hidden");
           formModifVehicule.reset();
-          chargerVehicules(); // Rafraîchir la liste des véhicules
+          chargerVehicules();
         } else {
           alert(result.message || "Erreur lors de la modification");
         }
 
       } catch (error) {
-        console.error("Erreur attrapée lors du fetch:", error);
+        console.error("Erreur attrapée lors du fetch modifier_vehicule:", error);
         alert("Erreur réseau");      
       }
     });
   }
 
   async function chargerVehicules() {
+    if (!listeVehicules) {
+      console.warn("listeVehicules manquant");
+      return;
+    }
+
     try {
-      const res = await fetch ('index.php?page=mes_vehicules');
-      const vehicules = await res.json();
+      const res = await fetch('index.php?page=mes_vehicules');
+      const text = await res.text();
+      console.log("[Profil] Réponse mes_vehicules brute :", text);
+
+      let vehicules;
+      try {
+        vehicules = JSON.parse(text);
+      } catch (err) {
+        console.error("Réponse non JSON (mes_vehicules) :", text);
+        listeVehicules.innerHTML = '<p>Erreur serveur.</p>';
+        return;
+      }
+
       listeVehicules.innerHTML = "";
+
+      if (!Array.isArray(vehicules) || vehicules.length === 0) {
+        listeVehicules.innerHTML = '<p>Aucun véhicule enregistré.</p>';
+        return;
+      }
 
       vehicules.forEach(v => {
         const div = document.createElement("div");
@@ -151,86 +213,89 @@ document.addEventListener('DOMContentLoaded', () => {
         listeVehicules.appendChild(div);
       });
 
-    // Supprimer véhicule
-    document.querySelectorAll(".supprimer-vehicule-btn").forEach(btn => {
-      btn.addEventListener('click', async () => {
-        if(confirm("Supprimer ce véhicule ?")) {
-          await fetch('index.php?page=supprimer_vehicule?id=' + btn.dataset.id);
-          chargerVehicules();
-        }
+      // Supprimer véhicule
+      document.querySelectorAll(".supprimer-vehicule-btn").forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if (confirm("Supprimer ce véhicule ?")) {
+            await fetch('index.php?page=supprimer_vehicule&id=' + btn.dataset.id);
+            chargerVehicules();
+          }
+        });
       });
-    });
 
-    // Modifier véhicule
-    document.querySelectorAll(".modifierVehiculeBtn").forEach(btn => {
-      btn.addEventListener('click', async () => {
-      const id = btn.dataset.id;
-      const res = await fetch('index.php?page=get_vehicule?id=' + id);
-      const data = await res.json();
+      // Modifier véhicule
+      document.querySelectorAll(".modifierVehiculeBtn").forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.dataset.id;
+          const res = await fetch('index.php?page=get_vehicule&id=' + id);
+          const data = await res.json();
 
-      if (data.success && data.vehicule) {
-        if (formModifVehicule) {
-          formModifVehicule.querySelector('[name="id"]').value = data.vehicule.id;
-          formModifVehicule.querySelector('[name="marque"]').value = data.vehicule.marque;
-          formModifVehicule.querySelector('[name="modele"]').value = data.vehicule.modele;
-          formModifVehicule.querySelector('[name="plaque"]').value = data.vehicule.plaque;
-          formModifVehicule.querySelector('[name="couleur"]').value = data.vehicule.couleur;
-          formModifVehicule.classList.remove('hidden');
-          formModifVehicule.scrollIntoView({behavior: 'smooth'});
-        }
-    } else {
-      alert("Erreur : " + (data.message || "Impossible de charger le véhicule."));
+          if (data.success && data.vehicule && formModifVehicule) {
+            formModifVehicule.querySelector('[name="id"]').value      = data.vehicule.id;
+            formModifVehicule.querySelector('[name="marque"]').value  = data.vehicule.marque;
+            formModifVehicule.querySelector('[name="modele"]').value  = data.vehicule.modele;
+            formModifVehicule.querySelector('[name="plaque"]').value  = data.vehicule.plaque;
+            formModifVehicule.querySelector('[name="couleur"]').value = data.vehicule.couleur;
+
+            formModifVehicule.classList.remove('hidden');
+            formModifVehicule.scrollIntoView({behavior: 'smooth'});
+          } else {
+            alert("Erreur : " + (data.message || "Impossible de charger le véhicule."));
+          }
+        });
+      });
+    } catch (error) {
+      console.error(error);
+      listeVehicules.innerHTML = '<p>Impossible de charger les véhicules.</p>';
     }
-  });
-});
-
-  } catch (error) {
-    console.error(error);
-    listeVehicules.innerHTML = '<p>Impossible de charger les véhicules.</p>';
   }
+
 
   // Préférences utilisateur
   const form = document.getElementById('preferencesForm');
-  const checkboxes = form.querySelectorAll('input[type="checkbox"]');
   const messageDiv = document.getElementById('prefMessage');
 
+  if (form && messageDiv) {
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
 
-  // Charger préférences existantes
-  fetch('index.php?page=get_user_preferences')
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        const prefs = data.preferences || [];
-        checkboxes.forEach(cb => {
-          cb.checked = prefs.includes(cb.value);
-        });
-      } else {
-        messageDiv.textContent = "Erreur de chargement des préférences";
-      }
-    })
-    .catch(() => {
-      messageDiv.textContent = "Erreur réseau";
+    // Charger préférences existantes
+    fetch('index.php?page=get_user_preferences')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          const prefs = data.preferences || [];
+          checkboxes.forEach(cb => {
+            cb.checked = prefs.includes(cb.value);
+          });
+        } else {
+          messageDiv.textContent = "Erreur de chargement des préférences";
+        }
+      })
+      .catch(() => {
+        messageDiv.textContent = "Erreur réseau";
+      });
+
+    // Envoyer la maj des préférences au serveur
+    form.addEventListener('change', () => {
+      const selected = Array.from(checkboxes)
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
+
+      fetch('index.php?page=update_preferences', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({preferences: selected})
+      })
+      .then(response => response.json())
+      .then(data => {
+        messageDiv.textContent = data.message || '';
+      })
+      .catch(() => {
+        messageDiv.textContent = "Erreur lors de la mise à jour des préférences";
+      });
     });
+  }
 
-  // Envoyer la maj des préférences au serveur
-  form.addEventListener('change', () => {
-    const selected = Array.from(checkboxes)
-      .filter(cb => cb.checked)
-      .map(cb => cb.value);
-
-    fetch('index.php?page=update_preferences', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({preferences: selected})
-    })
-    .then(response => response.json())
-    .then(data => {
-      messageDiv.textContent = data.message || '';
-    })
-    .catch(() => {
-      messageDiv.textContent = "Erreur lors de la mise à jour des préférences";
-    });
-  });
 
 // Supprimer réservation
 let reservationASupprimer = null;
@@ -270,7 +335,6 @@ document.getElementById('confirmerAnnulation').addEventListener('click', async (
       });
     }
   }
-};
 
 async function chargerMesTrajets() {
   const response = await fetch('index.php?page=mes_trajets');
