@@ -14,6 +14,7 @@ if (empty($_SESSION['utilisateur_id'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="../js/script.js" defer></script>
 </head>
 <body>
 <header>
@@ -32,6 +33,7 @@ if (empty($_SESSION['utilisateur_id'])) {
     <a href="index.php?page=profil">Profil</a>
     <a class="current-page">Mes trajets</a>
     <a href="index.php?page=contact">Contact</a>
+    <a href="index.php?page=deconnexion">Déconnexion</a>
   </nav>
 </header>
 

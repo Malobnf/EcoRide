@@ -1049,3 +1049,322 @@ nav a:hover {
   margin-left: auto !important;
   margin-right: auto !important;
 }
+
+
+/* Corriger le bouton "Rechercher un trajet" sur téléphone */
+@media (max-width: 600px) {
+  .searchBtn {
+    font-size: 18px;         /* texte plus petit */
+    padding: 8px 16px;
+    line-height: 1.3;
+    display: inline-block;
+    text-align: center;
+    white-space: normal;     /* autorise retour à la ligne propre */
+  }
+}
+
+
+
+/* ---- PAGE RECHERCHE COVOITURAGE ---- */
+
+.search-page {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem 3rem;
+}
+
+/* Carte principale : recherche + filtres */
+.search-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.5rem;
+}
+
+.search-card h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #2e7d32;
+}
+
+.search-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Colonne champs principaux */
+.search-fields {
+  flex: 2;
+  min-width: 260px;
+}
+
+.single-field {
+  margin-bottom: 1rem;
+}
+
+/* Labels plus propres */
+.search-fields label,
+.filters-card label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+/* Inputs dans cette page : plein largeur, arrondis */
+.search-page .input,
+.search-page select,
+.search-page input[type="number"],
+.search-page input[type="date"] {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.search-page .input:focus,
+.search-page select:focus,
+.search-page input[type="number"]:focus,
+.search-page input[type="date"]:focus {
+  border-color: #38b000;
+  box-shadow: 0 0 0 2px rgba(56, 176, 0, 0.15);
+}
+
+/* Bouton de recherche */
+.searchBtn {
+  width: 100%;
+  margin-top: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Carte filtres */
+.filters-card {
+  flex: 1;
+  min-width: 240px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+/* Carte des résultats */
+.results-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+.results-card #message {
+  margin-bottom: 1rem;
+}
+
+/* Responsive : mobile */
+@media (max-width: 768px) {
+  .search-card {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .search-main {
+    flex-direction: column;
+  }
+
+  .filters-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .searchBtn {
+    font-size: 0.95rem;
+    padding: 0.6rem 1rem;
+  }
+}
+
+
+
+/* ---- PAGE PROPOSER UN TRAJET ---- */
+
+.create-trip-page {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem 3rem;
+}
+
+.create-trip-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+.create-trip-card h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #2e7d32;
+}
+
+.create-trip-grid {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Colonne gauche : infos de base */
+.trip-fields {
+  flex: 2;
+  min-width: 260px;
+}
+
+/* Colonne droite : voiture/passagers/prix */
+.trip-extra {
+  flex: 1.4;
+  min-width: 260px;
+}
+
+.field-group {
+  margin-bottom: 1rem;
+}
+
+.field-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.field-group .hint {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.35rem;
+}
+
+/* Deux colonnes pour date & heure */
+.field-group.two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+/* Inputs dans cette page : plein largeur, arrondis */
+.create-trip-page .input,
+.create-trip-page select,
+.create-trip-page input[type="number"] {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.create-trip-page .input:focus,
+.create-trip-page select:focus,
+.create-trip-page input[type="number"]:focus {
+  border-color: #38b000;
+  box-shadow: 0 0 0 2px rgba(56, 176, 0, 0.15);
+}
+
+/* Bloc voiture / passagers / prix */
+.section-vehicule {
+  background: #f9f9f9;
+  border-radius: 14px;
+  padding: 1.5rem 1.5rem 1.75rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.section-vehicule h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #2e7d32;
+}
+
+/* Choix de voiture : liste verticale */
+.voiture-choix {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e0e0e0;
+}
+
+/* Bouton confirmer */
+.confBtn {
+  margin-top: 1rem;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .create-trip-card {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .create-trip-grid {
+    flex-direction: column;
+  }
+
+  .field-group.two-cols {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* -------- BOUTON PROPOSER UN TRAJET -------- */
+
+.btn-proposer {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  background: #38b000;
+  color: white;
+
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 1.3rem;
+  font-weight: bold;
+
+  padding: 14px 28px;
+  margin-top: 20px;
+
+  border: none;
+  border-radius: 50px;
+
+  cursor: pointer;
+  transition: 
+    background-color 0.25s ease,
+    transform 0.15s ease,
+    box-shadow 0.25s ease;
+  
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn-proposer:hover {
+  background: #2d9300;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+}
+
+.btn-proposer:active {
+  transform: translateY(0px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-proposer i {
+  font-size: 1.2rem;
+}

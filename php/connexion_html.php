@@ -27,6 +27,7 @@
       <a href="index.php?page=creer-trajet_html">Proposer un trajet</a>
       <a href="index.php?page=profil">Profil</a>
       <a href="index.php?page=contact">Contact</a>
+      <a href="index.php?page=deconnexion">Déconnexion</a>
     </nav>
   </header>
 
@@ -64,7 +65,6 @@
     <div>
       <a rel="contact" href="index.php?page=contact">Contact</a>
     </div>
-    <div>Signaler un bug</div>
   </footer>
 
 </body>

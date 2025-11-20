@@ -17,6 +17,7 @@ if (empty($_SESSION['utilisateur_id']) || ($_SESSION['role'] ?? '') !== 'admin')
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/script.js"></script>
 
   <style>
     .container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
@@ -58,6 +59,7 @@ if (empty($_SESSION['utilisateur_id']) || ($_SESSION['role'] ?? '') !== 'admin')
       <a class="current-page">Dashboard</a>
       <a href="index.php?page=profil">Profil</a>
       <a href="index.php?page=contact">Contact</a>
+      <a href="index.php?page=deconnexion">Déconnexion</a>
     </nav>
   </header>
 

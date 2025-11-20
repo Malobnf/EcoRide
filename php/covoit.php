@@ -28,60 +28,75 @@
       <a class="current-page">Recherche</a>
       <a href="index.php?page=creer-trajet_html">Proposer un trajet</a>
       <a href="index.php?page=profil">Profil</a>
-      <a index="index.php?page=contact">Contact</a>
+      <a href="index.php?page=contact">Contact</a>
+      <a href="index.php?page=deconnexion">Déconnexion</a>
     </nav>
   </header>
 
-  <div class="container">
-    <h2 id="input-recherche"></h2>
-    <div class="search-bar" id="searchDepart">
-      <p>Ville de départ :</p>
-      <input class="input" type="text" name="depart" id="departVille" required placeholder="Départ...">
-    </div>
-      
-    <div class="search-bar" id="searchArrivee">
-      <p>Ville d'arrivée :</p>
-      <input class="input" type="text" name="arrivee" id="arriveeVille" placeholder="Destination...">
-    </div>
+   <main class="search-page">
+    <section class="search-card">
+      <h1>Rechercher un trajet</h1>
 
-    <p>Date :</p>
-      <div class="search-bar">
-        <input class="input" type="date" name="date" id="departDate" required>
+      <div class="search-main">
+        <!-- Colonne champs principaux -->
+        <div class="search-fields">
+          <div class="single-field">
+            <label for="departVille">Ville de départ</label>
+            <input class="input" type="text" name="depart" id="departVille" required placeholder="Ex : Lyon">
+          </div>
+
+          <div class="single-field">
+            <label for="arriveeVille">Ville d'arrivée</label>
+            <input class="input" type="text" name="arrivee" id="arriveeVille" placeholder="Ex : Grenoble">
+          </div>
+
+          <div class="single-field">
+            <label for="departDate">Date</label>
+            <input class="input" type="date" name="date" id="departDate" required>
+          </div>
+
+          <button id="searchBtn" class="searchBtn" type="button">
+            <span>Rechercher un trajet</span>
+            <i class="fa fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Colonne filtres -->
+        <form id="filtre" class="filtre filters-card">
+          <h3>Filtres</h3>
+
+          <!-- Type de véhicule -->
+          <label for="voiture">Propulsion</label>
+          <select id="voiture" name="voiture">
+            <option value="">Tous</option>
+            <option value="electrique">Électrique</option>
+            <option value="essence">Essence</option>
+          </select>
+
+          <!-- Prix -->
+          <label for="prix">Prix maximum (€)</label>
+          <input type="number" id="prix" name="prix" min="0" placeholder="Entrez un prix maximum">
+
+          <!-- Durée -->
+          <label for="duree">Durée maximum (heures)</label>
+          <input type="number" id="duree" name="duree" min="0" placeholder="Entrez une durée maximum">
+
+          <!-- Note -->
+          <label for="note">Note minimum du conducteur</label>
+          <input type="number" id="note" name="note" min="0" max="4" step="0.5" placeholder="Entrez une note minimum">
+
+          <button type="submit" class="filtreBtn">Appliquer les filtres</button>
+        </form>
       </div>
+    </section>
 
-    <button id="searchBtn" class="searchBtn" type="button"><i class="fa fa-arrow-right"></i></button>
-
-<!-- Filtres de recherche -->      
-      <form id="filtre" class="filtre">
-        <h3>Filtres</h3>
-
-<!-- Type de véhicule -->
-        <label for="voiture">Propulsion : </label>
-        <select id="voiture" name="voiture">
-          <option value="">Tous</option>
-          <option value="electrique">Electrique</option>
-          <option value="essence">Essence</option>
-        </select>
-
-<!-- Prix -->        
-        <label for="prix">Prix maximum : €</label>
-        <input type="number" id="prix" name="prix" min="0" placeholder="Entrez un prix maximum...">
-        
-<!-- Durée du voyage -->
-        <label for="duree">Durée maximum : H.</label>
-        <input type="number" id="duree" name="duree" min="0" placeholder="Entrez une durée maximum...">
-
-<!-- Note conducteur -->
-        <label for="note">Note minimum du conducteur : </label>
-        <input type="number" id="note" name="note" min="0" max="4" step="0.5" placeholder="Entrez une note minimum...">
-        
-        <button type="submit" class="filtreBtn">Appliquer les filtres</button>
-      </form>
-
-<!-- Résultats de la recherche -->
+    <!-- Résultats -->
+    <section class="results-card">
       <div id="message"></div>
       <div class="hidden" id="resultats"></div>
-  </div>
+    </section>
+  </main>
+
 
   <div id="trajetModal" class="modal hidden">
     <div class="modal-content">
@@ -113,7 +128,6 @@
     <div>
       <a rel="contact" href="index.php?page=contact">Contact</a>
     </div>
-    <div>Signaler un bug</div>
   </footer>
 
   </body>
