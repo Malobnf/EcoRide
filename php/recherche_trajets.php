@@ -7,7 +7,7 @@ require_once __DIR__ . '/mongo.php';
 // Filtres simples
 $depart  = trim($_GET['depart']  ?? '');
 $arrivee = trim($_GET['arrivee'] ?? '');
-$dateMin = trim($_GET['date']    ?? ''); // yyyy-mm-dd
+$dateMin = trim($_GET['date']    ?? '');
 
 $filter = [];
 if ($depart  !== '')  $filter['depart']  = $depart;

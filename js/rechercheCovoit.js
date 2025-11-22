@@ -176,3 +176,32 @@ function initResultatsCovoit() {
     }
   }
 }
+
+function initFiltrePropulsion() {
+  const select = document.getElementById('voiture');
+  if (!select) return;
+
+  // Option par défaut
+  select.innerHTML = '<option value="">Tous</option>';
+
+  fetch('index.php?page=get_propulsions', {
+    credentials: 'include'
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (!data.success || !Array.isArray(data.propulsions)) {
+        console.warn('[Filtres] Impossible de charger les propulsions');
+        return;
+      }
+
+      data.propulsions.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p;
+        opt.textContent = p.charAt(0).toUpperCase() + p.slice(1);
+        select.appendChild(opt);
+      });
+    })
+    .catch(err => {
+      console.error('[Filtres] Erreur chargement propulsions :', err);
+    });
+}

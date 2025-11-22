@@ -70,7 +70,6 @@
               <label for="voitureChoix">Quelle voiture utiliser ?</label>
               <p class="hint">Choisissez un véhicule parmi ceux enregistrés dans votre profil.</p>
               <div class="voiture-choix" id="voitureChoix">
-                <!-- Rempli dynamiquement en JS -->
                 <p class="hint">Chargement de vos véhicules...</p>
               </div>
             </div>

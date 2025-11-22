@@ -77,10 +77,6 @@
           <label for="prix">Prix maximum (€)</label>
           <input type="number" id="prix" name="prix" min="0" placeholder="Entrez un prix maximum">
 
-          <!-- Durée -->
-          <label for="duree">Durée maximum (heures)</label>
-          <input type="number" id="duree" name="duree" min="0" placeholder="Entrez une durée maximum">
-
           <!-- Note -->
           <label for="note">Note minimum du conducteur</label>
           <input type="number" id="note" name="note" min="0" max="4" step="0.5" placeholder="Entrez une note minimum">

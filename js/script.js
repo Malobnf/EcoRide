@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initLogout();
   initCredits();
   initDepartTime();
+  initChoixVehiculeTrajet();
   initProposerTrajet();
 })
 
@@ -389,3 +390,50 @@ function initProposerTrajet() {
       }
     });
   })};
+
+function initChoixVehiculeTrajet() {
+  const container = document.getElementById('voitureChoix');
+  if (!container) return; // on n'est pas sur la page de création
+
+  // Option de base
+  container.innerHTML = '<p class="hint">Chargement de vos véhicules...</p>';
+
+  fetch('index.php?page=mes_vehicules', {
+    credentials: 'include'
+  })
+    .then(res => res.json())
+    .then(vehicules => {
+      container.innerHTML = '';
+
+      if (!Array.isArray(vehicules) || vehicules.length === 0) {
+        container.innerHTML = `
+          <p class="hint">
+            Aucun véhicule enregistré pour le moment.<br>
+            Vous pouvez en ajouter dans la page "Mes véhicules".
+          </p>`;
+        return;
+      }
+
+      vehicules.forEach(v => {
+        const label = document.createElement('label');
+        label.className = 'vehicule-option';
+
+        label.innerHTML = `
+          <input type="radio" name="voiture" value="${v.id}" required>
+          <span>
+            ${v.marque} ${v.modele} – ${v.couleur}<br>
+            <small>Immatriculation : ${v.plaque} • ${v.places} places</small>
+          </span>
+        `;
+
+        container.appendChild(label);
+      });
+    })
+    .catch(err => {
+      console.error('[create-trip] Erreur chargement véhicules :', err);
+      container.innerHTML = `
+        <p class="hint">
+          Impossible de charger vos véhicules pour le moment.
+        </p>`;
+    });
+}

@@ -26,8 +26,9 @@ try {
     $anneeImmat = trim($_POST['annee_immat'] ?? '');
     $couleur = trim($_POST['couleur'] ?? '');
     $places = trim($_POST['places'] ?? '');
+    $propulsion = trim($_POST['propulsion'] ?? '');
 
-    if ($marque === '' || $modele === '' || $plaque === '' || $anneeImmat === '' || $couleur === '' || $places === '') {
+    if ($marque === '' || $modele === '' || $plaque === '' || $anneeImmat === '' || $couleur === '' || $places === '' || $propulsion === '') {
       http_response_code(400);
       echo json_encode([
         'success' => false,
@@ -57,8 +58,8 @@ try {
     }
 
     $sql = "
-        INSERT INTO vehicules (utilisateur_id, marque, modele, plaque, annee_immat, couleur, places)
-        VALUES (:uid, :marque, :modele, :plaque, :annee_immat, :couleur, :places)
+        INSERT INTO vehicules (utilisateur_id, marque, modele, plaque, annee_immat, couleur, places, propulsion)
+        VALUES (:uid, :marque, :modele, :plaque, :annee_immat, :couleur, :places, :propulsion)
     ";
 
     $stmt = $pdo->prepare($sql);
@@ -70,6 +71,7 @@ try {
       ':annee_immat' => $annee,
       ':couleur' => $couleur,
       ':places' => $placesInt,
+      ':propulsion' => $propulsion
     ]);
 
     echo json_encode([
